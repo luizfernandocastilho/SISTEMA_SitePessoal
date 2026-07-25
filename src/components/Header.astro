@@ -22,11 +22,7 @@ const { locale, strings, fallback, sections } = Astro.props;
     <a class="brand" href="#main">◆</a>
     <nav aria-label="Seções" class="nav">
       {/* Renderiza âncoras apenas para seções presentes na página (evita links quebrados). */}
-      {
-        sections.map((s) => (
-          <a href={`#${s.id}`}>{s.label}</a>
-        ))
-      }
+      {sections.map((s) => <a href={`#${s.id}`}>{s.label}</a>)}
     </nav>
     <LanguageToggle locale={locale} strings={strings} fallback={fallback} />
   </div>

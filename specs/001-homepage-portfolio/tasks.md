@@ -1,6 +1,5 @@
 ---
-
-description: "Task list for Página Inicial — Portfólio Pessoal"
+description: 'Task list for Página Inicial — Portfólio Pessoal'
 ---
 
 # Tasks: Página Inicial — Portfólio Pessoal
@@ -31,14 +30,14 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Purpose**: Inicialização do projeto Astro e ferramentas.
 
-- [X] T001 Inicializar projeto Astro na raiz: `package.json`, `astro.config.mjs` (i18n
-  `defaultLocale: "pt"`, `locales: ["pt","en"]`; integração `@astrojs/sitemap`; `site` URL),
-  `tsconfig.json`
-- [X] T002 [P] Criar estrutura de diretórios: `src/{content,components,layouts,pages,lib,data,styles}`,
-  `public/{articles,images}`, `tests/unit`
-- [X] T003 [P] Configurar ESLint + Prettier na raiz (`.eslintrc`, `.prettierrc`) e scripts `lint`/`format` no `package.json`
-- [X] T004 [P] Configurar Vitest (`vitest.config.ts`) e script `test` no `package.json`
-- [X] T005 [P] Criar `.env.example` (`YOUTUBE_API_KEY`, `CHANNEL_ID`, `MAX_VIDEOS`) e atualizar `.gitignore` (`.env`, `dist/`, `node_modules/`)
+- [x] T001 Inicializar projeto Astro na raiz: `package.json`, `astro.config.mjs` (i18n
+      `defaultLocale: "pt"`, `locales: ["pt","en"]`; integração `@astrojs/sitemap`; `site` URL),
+      `tsconfig.json`
+- [x] T002 [P] Criar estrutura de diretórios: `src/{content,components,layouts,pages,lib,data,styles}`,
+      `public/{articles,images}`, `tests/unit`
+- [x] T003 [P] Configurar ESLint + Prettier na raiz (`.eslintrc`, `.prettierrc`) e scripts `lint`/`format` no `package.json`
+- [x] T004 [P] Configurar Vitest (`vitest.config.ts`) e script `test` no `package.json`
+- [x] T005 [P] Criar `.env.example` (`YOUTUBE_API_KEY`, `CHANNEL_ID`, `MAX_VIDEOS`) e atualizar `.gitignore` (`.env`, `dist/`, `node_modules/`)
 
 **Checkpoint**: Projeto instala (`npm install`) e `npm run dev` sobe uma página vazia.
 
@@ -50,16 +49,16 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [X] T006 Definir schemas das content collections em `src/content.config.ts` (`profile`,
-  `certifications`, `articles`, `ui`) com Zod, conforme [contracts/content-collections.md](./contracts/content-collections.md)
-- [X] T007 [P] Criar estilos globais e tokens em `src/styles/global.css` (responsivo, sem rolagem horizontal, contraste WCAG AA)
-- [X] T008 [P] Criar strings de UI em `src/content/ui/pt.json` e `src/content/ui/en.json` (rótulos de seções, toggle, textos de fallback — mesmas chaves nos dois)
-- [X] T009 [P] [tests] Escrever teste unitário dos helpers de i18n em `tests/unit/i18n.test.ts` (deve FALHAR antes da implementação)
-- [X] T010 Implementar helpers de i18n em `src/lib/i18n.ts` (resolução de locale/rota, lookup de strings, fallback ao outro idioma) — fazer T009 passar
-- [X] T011 Criar layout base em `src/layouts/BaseLayout.astro` (HTML semântico, `<html lang>`, meta/OG, skip-link de acessibilidade, slot de conteúdo)
-- [X] T012 [P] Criar componente `src/components/LanguageToggle.astro` (link entre `/pt` e `/en` equivalentes, sem JS)
-- [X] T013 [P] Criar componente `src/components/Header.astro` (LanguageToggle + navegação por âncoras que renderiza **apenas as seções presentes** na página, evitando âncoras para seções ainda não implementadas — ex.: no MVP só US1)
-- [X] T014 Criar shell das páginas: `src/pages/index.astro` (redireciona para `/pt`), `src/pages/pt/index.astro` e `src/pages/en/index.astro` (usam BaseLayout + Header, com `<main>` e âncoras de seção vazias)
+- [x] T006 Definir schemas das content collections em `src/content.config.ts` (`profile`,
+      `certifications`, `articles`, `ui`) com Zod, conforme [contracts/content-collections.md](./contracts/content-collections.md)
+- [x] T007 [P] Criar estilos globais e tokens em `src/styles/global.css` (responsivo, sem rolagem horizontal, contraste WCAG AA)
+- [x] T008 [P] Criar strings de UI em `src/content/ui/pt.json` e `src/content/ui/en.json` (rótulos de seções, toggle, textos de fallback — mesmas chaves nos dois)
+- [x] T009 [P] [tests] Escrever teste unitário dos helpers de i18n em `tests/unit/i18n.test.ts` (deve FALHAR antes da implementação)
+- [x] T010 Implementar helpers de i18n em `src/lib/i18n.ts` (resolução de locale/rota, lookup de strings, fallback ao outro idioma) — fazer T009 passar
+- [x] T011 Criar layout base em `src/layouts/BaseLayout.astro` (HTML semântico, `<html lang>`, meta/OG, skip-link de acessibilidade, slot de conteúdo)
+- [x] T012 [P] Criar componente `src/components/LanguageToggle.astro` (link entre `/pt` e `/en` equivalentes, sem JS)
+- [x] T013 [P] Criar componente `src/components/Header.astro` (LanguageToggle + navegação por âncoras que renderiza **apenas as seções presentes** na página, evitando âncoras para seções ainda não implementadas — ex.: no MVP só US1)
+- [x] T014 Criar shell das páginas: `src/pages/index.astro` (redireciona para `/pt`), `src/pages/pt/index.astro` e `src/pages/en/index.astro` (usam BaseLayout + Header, com `<main>` e âncoras de seção vazias)
 
 **Checkpoint**: `/pt` e `/en` renderizam com header, toggle funcional e main vazio; `npm test` passa.
 
@@ -71,10 +70,10 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Abrir `/pt` e `/en` e confirmar nome, headline e links de contato visíveis na primeira dobra, sem rolagem horizontal (SC-001/SC-002).
 
-- [X] T015 [P] [US1] Criar conteúdo de perfil em `src/content/profile/` (nome, `headline_pt/en`, `email`, `socialLinks`, `photo`+alt opcional) conforme schema `profile`
-- [X] T016 [P] [US1] Adicionar imagens de perfil/OG em `public/images/` (com dimensões otimizadas)
-- [X] T017 [US1] Criar componente `src/components/Hero.astro` (renderiza perfil no idioma ativo: nome, headline, `mailto:` e redes abrindo em nova aba — FR-001/FR-012)
-- [X] T018 [US1] Incluir `<Hero />` no `<main>` de `src/pages/pt/index.astro` e `src/pages/en/index.astro`
+- [x] T015 [P] [US1] Criar conteúdo de perfil em `src/content/profile/` (nome, `headline_pt/en`, `email`, `socialLinks`, `photo`+alt opcional) conforme schema `profile`
+- [x] T016 [P] [US1] Adicionar imagens de perfil/OG em `public/images/` (com dimensões otimizadas)
+- [x] T017 [US1] Criar componente `src/components/Hero.astro` (renderiza perfil no idioma ativo: nome, headline, `mailto:` e redes abrindo em nova aba — FR-001/FR-012)
+- [x] T018 [US1] Incluir `<Hero />` no `<main>` de `src/pages/pt/index.astro` e `src/pages/en/index.astro`
 
 **Checkpoint**: US1 completa e testável — MVP publicável apenas com a apresentação.
 
@@ -86,9 +85,9 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Adicionar um item em `certifications`; após build, aparece na seção; item com `verifyUrl` abre verificação em nova aba, item sem link aparece sem ele (FR-003).
 
-- [X] T019 [P] [US2] Criar itens de conteúdo em `src/content/certifications/` (exemplos reais) conforme schema `certifications`
-- [X] T020 [US2] Criar componente `src/components/Certifications.astro` (lista ordenada por ano desc; link de verificação opcional em nova aba; estado vazio omite a seção — FR-011)
-- [X] T021 [US2] Incluir `<Certifications />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
+- [x] T019 [P] [US2] Criar itens de conteúdo em `src/content/certifications/` (exemplos reais) conforme schema `certifications`
+- [x] T020 [US2] Criar componente `src/components/Certifications.astro` (lista ordenada por ano desc; link de verificação opcional em nova aba; estado vazio omite a seção — FR-011)
+- [x] T021 [US2] Incluir `<Certifications />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
 
 **Checkpoint**: US1 e US2 funcionam de forma independente.
 
@@ -100,10 +99,10 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Colocar um PDF em `public/articles/` + metadado em `articles`; após build, o item lista os dados e o download entrega o PDF (FR-004).
 
-- [X] T022 [P] [US3] Adicionar PDFs de exemplo em `public/articles/`
-- [X] T023 [P] [US3] Criar metadados em `src/content/articles/` (`title_pt/en`, `publishedAt`, `venue`, `pdf`) conforme schema `articles`
-- [X] T024 [US3] Criar componente `src/components/Articles.astro` (lista ordenada por data desc; link de download do PDF; degrada se PDF ausente — edge case)
-- [X] T025 [US3] Incluir `<Articles />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
+- [x] T022 [P] [US3] Adicionar PDFs de exemplo em `public/articles/`
+- [x] T023 [P] [US3] Criar metadados em `src/content/articles/` (`title_pt/en`, `publishedAt`, `venue`, `pdf`) conforme schema `articles`
+- [x] T024 [US3] Criar componente `src/components/Articles.astro` (lista ordenada por data desc; link de download do PDF; degrada se PDF ausente — edge case)
+- [x] T025 [US3] Incluir `<Articles />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
 
 **Checkpoint**: US1–US3 funcionam de forma independente.
 
@@ -115,11 +114,11 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Com chave válida, build popula a seção e atualiza o cache; sem chave/erro de API, build conclui usando cache ou omite a seção (FR-005/FR-006/FR-011).
 
-- [X] T026 [P] [US4] [tests] Escrever testes unitários de `src/lib/youtube.ts` em `tests/unit/youtube.test.ts` cobrindo todos os casos de [contracts/youtube-fetch.md](./contracts/youtube-fetch.md) (deve FALHAR antes da implementação)
-- [X] T027 [US4] Implementar `src/lib/youtube.ts` (`getChannelVideos`: fetch da uploads playlist, normalização, limite/ordenar, grava cache; fallbacks sem-chave/erro; nunca lança) — fazer T026 passar
-- [X] T028 [P] [US4] Criar `src/data/youtube-cache.json` inicial (seed vazio/`[]` versionado como fallback)
-- [X] T029 [US4] Criar componente `src/components/Videos.astro` que recebe os vídeos obtidos em build (título, miniatura com alt, link do vídeo e do canal em nova aba; omite seção se lista vazia — FR-005/FR-011)
-- [X] T030 [US4] Ligar o fetch de vídeos no carregamento das páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro` (ler `CHANNEL_ID`/`MAX_VIDEOS` do ambiente) e incluir `<Videos />`
+- [x] T026 [P] [US4] [tests] Escrever testes unitários de `src/lib/youtube.ts` em `tests/unit/youtube.test.ts` cobrindo todos os casos de [contracts/youtube-fetch.md](./contracts/youtube-fetch.md) (deve FALHAR antes da implementação)
+- [x] T027 [US4] Implementar `src/lib/youtube.ts` (`getChannelVideos`: fetch da uploads playlist, normalização, limite/ordenar, grava cache; fallbacks sem-chave/erro; nunca lança) — fazer T026 passar
+- [x] T028 [P] [US4] Criar `src/data/youtube-cache.json` inicial (seed vazio/`[]` versionado como fallback)
+- [x] T029 [US4] Criar componente `src/components/Videos.astro` que recebe os vídeos obtidos em build (título, miniatura com alt, link do vídeo e do canal em nova aba; omite seção se lista vazia — FR-005/FR-011)
+- [x] T030 [US4] Ligar o fetch de vídeos no carregamento das páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro` (ler `CHANNEL_ID`/`MAX_VIDEOS` do ambiente) e incluir `<Videos />`
 
 **Checkpoint**: Todas as quatro user stories funcionam de forma independente.
 
@@ -129,11 +128,11 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Purpose**: Deploy, gates de qualidade e validação final (afetam todas as stories).
 
-- [ ] T031 [P] Criar workflow `.github/workflows/deploy.yml` (build com secret `YOUTUBE_API_KEY` + deploy no GitHub Pages)
-- [ ] T032 [P] Configurar Lighthouse CI (`lighthouserc` + passo no workflow) com gates Performance/Accessibility ≥ 95 em `/pt` e `/en` (SC-003/SC-004)
-- [ ] T033 Passar `npm run lint` e `npx astro check` sem erros; corrigir o que aparecer
-- [ ] T034 Rodar os cenários de validação de [quickstart.md](./quickstart.md) (incluindo fallback de vídeos e toggle de idioma sem JS)
-- [ ] T035 [P] Atualizar `CLAUDE.md` na raiz com a stack real e comandos (`dev`/`build`/`test`/`lint`)
+- [X] T031 [P] Criar workflow `.github/workflows/deploy.yml` (build com secret `YOUTUBE_API_KEY` + deploy no GitHub Pages)
+- [X] T032 [P] Configurar Lighthouse CI (`lighthouserc` + passo no workflow) com gates Performance/Accessibility ≥ 95 em `/pt` e `/en` (SC-003/SC-004)
+- [X] T033 Passar `npm run lint` e `npx astro check` sem erros; corrigir o que aparecer
+- [X] T034 Rodar os cenários de validação de [quickstart.md](./quickstart.md) (incluindo fallback de vídeos e toggle de idioma sem JS)
+- [X] T035 [P] Atualizar `CLAUDE.md` na raiz com a stack real e comandos (`dev`/`build`/`test`/`lint`)
 
 ---
 

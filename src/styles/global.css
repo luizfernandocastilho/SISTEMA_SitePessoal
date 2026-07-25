@@ -8,8 +8,7 @@
   --color-accent-contrast: #ffffff;
   --color-border: #d7dbe0;
 
-  --font-sans:
-    system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --radius: 10px;
   --space: 1rem;
   --maxw: 68rem;

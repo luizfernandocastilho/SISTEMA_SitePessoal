@@ -37,7 +37,13 @@ const photoSrc = profile.photo ? withBase(profile.photo, base) : null;
   <div class="container hero-inner">
     {
       photoSrc && (
-        <img class="hero-photo" src={photoSrc} alt={photoAlt ?? profile.name} width="140" height="140" />
+        <img
+          class="hero-photo"
+          src={photoSrc}
+          alt={photoAlt ?? profile.name}
+          width="140"
+          height="140"
+        />
       )
     }
     <div>

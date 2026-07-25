@@ -1,6 +1,6 @@
 # Phase 1 Data Model: Página Inicial — Portfólio Pessoal
 
-Entidades derivadas da spec, mapeadas para *content collections* do Astro (schemas Zod em
+Entidades derivadas da spec, mapeadas para _content collections_ do Astro (schemas Zod em
 `src/content.config.ts`). Todo conteúdo é versionado no repositório (Princípio IV). Regras de
 validação vêm dos requisitos funcionais.
 
@@ -16,27 +16,27 @@ validação vêm dos requisitos funcionais.
 Dados de apresentação do dono do site (US1, FR-001). Coleção com **um único item** que carrega
 campos bilíngues (sufixos `_pt`/`_en`).
 
-| Campo            | Tipo                          | Regras                                             |
-|------------------|-------------------------------|----------------------------------------------------|
-| `name`           | string                        | obrigatório                                        |
-| `headline_pt`    | string                        | obrigatório; descrição profissional resumida (PT)  |
-| `headline_en`    | string                        | obrigatório; descrição profissional resumida (EN)  |
-| `email`          | string (email)                | obrigatório; usado em link `mailto:` (FR-012)      |
-| `socialLinks`    | array de `{ label, url }`     | url absoluta; abrem em nova aba (FR-012)            |
-| `photo`          | string (path em public/)      | opcional; requer `alt` (FR-010 acessibilidade)     |
-| `photoAlt_pt/en` | string                        | obrigatório se `photo` presente                    |
+| Campo            | Tipo                      | Regras                                            |
+| ---------------- | ------------------------- | ------------------------------------------------- |
+| `name`           | string                    | obrigatório                                       |
+| `headline_pt`    | string                    | obrigatório; descrição profissional resumida (PT) |
+| `headline_en`    | string                    | obrigatório; descrição profissional resumida (EN) |
+| `email`          | string (email)            | obrigatório; usado em link `mailto:` (FR-012)     |
+| `socialLinks`    | array de `{ label, url }` | url absoluta; abrem em nova aba (FR-012)          |
+| `photo`          | string (path em public/)  | opcional; requer `alt` (FR-010 acessibilidade)    |
+| `photoAlt_pt/en` | string                    | obrigatório se `photo` presente                   |
 
 ## Entidade: Certificação (`certifications`)
 
 US2, FR-003. Um item por certificação.
 
-| Campo         | Tipo                    | Regras                                                     |
-|---------------|-------------------------|-----------------------------------------------------------|
-| `name`        | string                  | obrigatório                                               |
-| `issuer`      | string                  | obrigatório (entidade emissora)                          |
-| `year`        | number (inteiro)        | obrigatório; 4 dígitos                                    |
-| `verifyUrl`   | string (URL)            | opcional; se presente, link de verificação em nova aba    |
-| `order`       | number                  | opcional; ordenação de exibição (default: por `year` desc)|
+| Campo       | Tipo             | Regras                                                     |
+| ----------- | ---------------- | ---------------------------------------------------------- |
+| `name`      | string           | obrigatório                                                |
+| `issuer`    | string           | obrigatório (entidade emissora)                            |
+| `year`      | number (inteiro) | obrigatório; 4 dígitos                                     |
+| `verifyUrl` | string (URL)     | opcional; se presente, link de verificação em nova aba     |
+| `order`     | number           | opcional; ordenação de exibição (default: por `year` desc) |
 
 Regra: se `verifyUrl` ausente, exibir a certificação sem link (edge case "link indisponível").
 
@@ -44,14 +44,14 @@ Regra: se `verifyUrl` ausente, exibir a certificação sem link (edge case "link
 
 US3, FR-004 (PDF hospedado para download). Um item por artigo.
 
-| Campo         | Tipo                        | Regras                                                   |
-|---------------|-----------------------------|----------------------------------------------------------|
-| `title_pt`    | string                      | obrigatório                                              |
-| `title_en`    | string                      | obrigatório                                             |
-| `publishedAt` | date (ISO)                  | obrigatório                                              |
-| `venue`       | string                      | obrigatório (veículo/local de publicação)               |
-| `pdf`         | string (path public/articles) | obrigatório; arquivo `.pdf` existente                  |
-| `order`       | number                      | opcional; default por `publishedAt` desc                |
+| Campo         | Tipo                          | Regras                                    |
+| ------------- | ----------------------------- | ----------------------------------------- |
+| `title_pt`    | string                        | obrigatório                               |
+| `title_en`    | string                        | obrigatório                               |
+| `publishedAt` | date (ISO)                    | obrigatório                               |
+| `venue`       | string                        | obrigatório (veículo/local de publicação) |
+| `pdf`         | string (path public/articles) | obrigatório; arquivo `.pdf` existente     |
+| `order`       | number                        | opcional; default por `publishedAt` desc  |
 
 Regra: se o `pdf` estiver ausente/inacessível, o artigo permanece listado com seus dados textuais
 (edge case "PDF ausente").
@@ -61,13 +61,13 @@ Regra: se o `pdf` estiver ausente/inacessível, o artigo permanece listado com s
 FR-005/FR-006, SC-007. **Não** é uma content collection editável: é obtida em build de
 `src/lib/youtube.ts` e persistida em `src/data/youtube-cache.json` (fallback).
 
-| Campo         | Tipo            | Origem                                             |
-|---------------|-----------------|----------------------------------------------------|
-| `id`          | string          | ID do vídeo no YouTube                             |
-| `title`       | string          | título do vídeo (idioma conforme o canal)         |
-| `thumbnail`   | string (URL)    | miniatura (maior resolução disponível)            |
-| `url`         | string (URL)    | `https://www.youtube.com/watch?v={id}`            |
-| `publishedAt` | date (ISO)      | data de publicação no canal                       |
+| Campo         | Tipo         | Origem                                    |
+| ------------- | ------------ | ----------------------------------------- |
+| `id`          | string       | ID do vídeo no YouTube                    |
+| `title`       | string       | título do vídeo (idioma conforme o canal) |
+| `thumbnail`   | string (URL) | miniatura (maior resolução disponível)    |
+| `url`         | string (URL) | `https://www.youtube.com/watch?v={id}`    |
+| `publishedAt` | date (ISO)   | data de publicação no canal               |
 
 Config associada (não por vídeo): `channelId`/handle do canal e `maxVideos` (default 6).
 
@@ -76,10 +76,10 @@ Config associada (não por vídeo): `channelId`/handle do canal e `maxVideos` (d
 Suporte a i18n (FR-008): rótulos de interface (nomes de seções, botões, toggle de idioma, textos
 de fallback). Um arquivo por idioma (`pt`, `en`) com o mesmo conjunto de chaves.
 
-| Campo    | Tipo                | Regras                                             |
-|----------|---------------------|----------------------------------------------------|
-| `locale` | enum(`pt`,`en`)     | obrigatório                                        |
-| `strings`| record<string,string> | mesmo conjunto de chaves em ambos os locales      |
+| Campo     | Tipo                  | Regras                                       |
+| --------- | --------------------- | -------------------------------------------- |
+| `locale`  | enum(`pt`,`en`)       | obrigatório                                  |
+| `strings` | record<string,string> | mesmo conjunto de chaves em ambos os locales |
 
 Regra de consistência: o conjunto de chaves de `pt` e `en` deve ser idêntico (validado em teste).
 

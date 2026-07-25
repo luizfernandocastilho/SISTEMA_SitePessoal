@@ -45,9 +45,7 @@ export async function getProfile() {
 /** Certificações ordenadas por `order` (asc) e depois ano desc. */
 export async function getCertifications() {
   const all = await getCollection('certifications');
-  return all
-    .map((e) => e.data)
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || b.year - a.year);
+  return all.map((e) => e.data).sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || b.year - a.year);
 }
 
 /** Artigos ordenados por `order` (asc) e depois data desc. */
@@ -57,8 +55,7 @@ export async function getArticles() {
     .map((e) => e.data)
     .sort(
       (a, b) =>
-        (a.order ?? 0) - (b.order ?? 0) ||
-        b.publishedAt.getTime() - a.publishedAt.getTime()
+        (a.order ?? 0) - (b.order ?? 0) || b.publishedAt.getTime() - a.publishedAt.getTime(),
     );
 }
 

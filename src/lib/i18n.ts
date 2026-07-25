@@ -39,7 +39,7 @@ export function switchLocalePath(pathname: string, target: Locale): string {
 export function t(
   strings: Record<string, string>,
   key: string,
-  fallback?: Record<string, string>
+  fallback?: Record<string, string>,
 ): string {
   if (strings && typeof strings[key] === 'string' && strings[key] !== '') {
     return strings[key];

@@ -27,7 +27,7 @@ const videos = await getVideos();
 const channelUrl = getChannelUrl();
 
 const title = profile?.name ?? 'Site Pessoal';
-const description = locale === 'pt' ? profile?.headline_pt ?? '' : profile?.headline_en ?? '';
+const description = locale === 'pt' ? (profile?.headline_pt ?? '') : (profile?.headline_en ?? '');
 
 // Seções presentes na página (usado pela navegação do Header).
 const sections: { id: string; label: string }[] = [];

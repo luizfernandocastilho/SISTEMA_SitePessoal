@@ -1,6 +1,6 @@
 # Contract: Content Collections (schemas)
 
-Define os schemas Zod das *content collections* em `src/content.config.ts`. Este é o contrato entre
+Define os schemas Zod das _content collections_ em `src/content.config.ts`. Este é o contrato entre
 o conteúdo versionado (editável pelo dono) e o layout. Adicionar/editar itens NÃO deve exigir
 mudança de layout (SC-005). Tipos aqui refletem [data-model.md](../data-model.md).
 

@@ -30,7 +30,7 @@ function mockFetchOnce(payload: unknown, ok = true, status = 200) {
       ok,
       status,
       json: async () => payload,
-    }))
+    })),
   );
 }
 
@@ -57,7 +57,7 @@ describe('getChannelVideos', () => {
 
   it('respeita maxVideos e ordena por data desc', async () => {
     const items = Array.from({ length: 20 }, (_, i) =>
-      apiItem(`v${i}`, `2024-01-${String(i + 1).padStart(2, '0')}T00:00:00Z`)
+      apiItem(`v${i}`, `2024-01-${String(i + 1).padStart(2, '0')}T00:00:00Z`),
     );
     mockFetchOnce({ items });
     const videos = await getChannelVideos({
@@ -74,7 +74,7 @@ describe('getChannelVideos', () => {
     vi.mocked(readFile).mockResolvedValue(
       JSON.stringify([
         { id: 'c1', title: 'Cache 1', thumbnail: '', url: 'u', publishedAt: '2024-01-01' },
-      ]) as never
+      ]) as never,
     );
     const videos = await getChannelVideos({
       channelId: CHANNEL,
@@ -100,7 +100,7 @@ describe('getChannelVideos', () => {
     vi.mocked(readFile).mockResolvedValue(
       JSON.stringify([
         { id: 'c1', title: 'Cache 1', thumbnail: '', url: 'u', publishedAt: '2024-01-01' },
-      ]) as never
+      ]) as never,
     );
     const videos = await getChannelVideos({ channelId: CHANNEL, apiKey: KEY, cachePath: CACHE });
     expect(videos).toHaveLength(1);
@@ -112,7 +112,7 @@ describe('getChannelVideos', () => {
       'fetch',
       vi.fn(async () => {
         throw new Error('network');
-      })
+      }),
     );
     vi.mocked(readFile).mockRejectedValue(new Error('ENOENT') as never);
     const videos = await getChannelVideos({ channelId: CHANNEL, apiKey: KEY, cachePath: CACHE });

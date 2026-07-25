@@ -17,7 +17,7 @@
 - Q: O site deve ser em qual(is) idioma(s)? → A: Bilíngue PT/EN, com alternância de idioma.
 - Q: A página deve ter alguma forma de contato direto além de links de redes? → A: Apenas links (email/redes sociais); sem formulário.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Apresentação profissional (Priority: P1)
 
@@ -115,7 +115,7 @@ automaticamente do canal, cada um assistível a partir da página.
 - **Conteúdo longo**: listas com muitos itens permanecem navegáveis (ex.: exibindo os mais
   recentes ou permitindo ver mais) sem tornar a página excessivamente longa.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -152,7 +152,7 @@ automaticamente do canal, cada um assistível a partir da página.
   preservando a página inicial; o contato MUST se dar apenas por links (email/redes), sem
   formulário.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Perfil**: dados de apresentação do dono — nome, descrição profissional (em PT e EN), links de
   contato (email) e redes sociais.
@@ -162,7 +162,7 @@ automaticamente do canal, cada um assistível a partir da página.
 - **Vídeo**: título, miniatura, URL do vídeo e referência ao canal do YouTube — obtido
   automaticamente via API do YouTube (não editado manualmente).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

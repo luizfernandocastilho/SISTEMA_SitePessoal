@@ -10,9 +10,7 @@ const profile = defineCollection({
       headline_pt: z.string(),
       headline_en: z.string(),
       email: z.string().email(),
-      socialLinks: z
-        .array(z.object({ label: z.string(), url: z.string().url() }))
-        .default([]),
+      socialLinks: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
       photo: z.string().optional(),
       photoAlt_pt: z.string().optional(),
       photoAlt_en: z.string().optional(),

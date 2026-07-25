@@ -9,7 +9,7 @@
 Página inicial de um site pessoal (portfólio) com quatro seções — apresentação profissional,
 certificações, artigos (PDF para download) e vídeos do canal do YouTube — bilíngue PT/EN e
 publicada como site estático. Abordagem técnica: **gerador de site estático Astro** com conteúdo
-mantido em *content collections* versionadas, i18n nativo por rota (toggle sem JavaScript de
+mantido em _content collections_ versionadas, i18n nativo por rota (toggle sem JavaScript de
 runtime), lista de vídeos obtida da **API do YouTube em tempo de build** (chave via secret, nunca
 enviada ao navegador) com fallback em cache, e saída 100% estática publicada no GitHub Pages via
 GitHub Actions. Lógica não-trivial (fetch de vídeos, helpers de i18n) em TypeScript, testada com
@@ -44,7 +44,7 @@ artigos e vídeos (ordem de grandeza pequena); site pessoal mantido por 1 pessoa
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 Avaliação contra a Constituição v1.0.0:
 

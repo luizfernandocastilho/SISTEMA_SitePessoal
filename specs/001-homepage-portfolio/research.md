@@ -9,13 +9,13 @@ NEEDS CLARIFICATION.
 - **Rationale**: A spec exige, de qualquer forma, um passo de build (fetch de vídeos), i18n PT/EN
   e conteúdo-como-dado separado do layout. Astro entrega os três com o mínimo de peso: renderiza
   para HTML estático, **envia zero JavaScript por padrão** (atende Princípio II e SC-004),
-  oferece *content collections* tipadas (Princípio IV) e i18n de rota nativo. TypeScript disponível
+  oferece _content collections_ tipadas (Princípio IV) e i18n de rota nativo. TypeScript disponível
   para a lógica testável.
 - **Alternatives considered**:
-  - *HTML/CSS/JS puro*: mais simples só na aparência — exigiria duplicar páginas por idioma e um
+  - _HTML/CSS/JS puro_: mais simples só na aparência — exigiria duplicar páginas por idioma e um
     pipeline de build caseiro para o YouTube; viola DRY e aumenta manutenção.
-  - *Eleventy (11ty)*: excelente e leve, mas i18n e tipagem de conteúdo são mais manuais.
-  - *Next.js/Nuxt*: peso e runtime JS desnecessários para um site estático; contraria Princípio I.
+  - _Eleventy (11ty)_: excelente e leve, mas i18n e tipagem de conteúdo são mais manuais.
+  - _Next.js/Nuxt_: peso e runtime JS desnecessários para um site estático; contraria Princípio I.
 
 ## 2. Internacionalização PT/EN
 
@@ -25,19 +25,19 @@ NEEDS CLARIFICATION.
 - **Rationale**: Alterna idioma em 1 interação (SC-006) **sem JavaScript de runtime**; cada idioma
   é uma URL indexável; conteúdo por idioma vive versionado nas collections.
 - **Alternatives considered**:
-  - *Troca client-side via JS* (esconder/mostrar): pior para SEO e acessibilidade, exige JS.
-  - *Bibliotecas i18n de terceiros*: desnecessárias dado o suporte nativo do Astro.
+  - _Troca client-side via JS_ (esconder/mostrar): pior para SEO e acessibilidade, exige JS.
+  - _Bibliotecas i18n de terceiros_: desnecessárias dado o suporte nativo do Astro.
 - **Fallback de tradução**: quando um item não tiver versão no idioma ativo, exibir o outro idioma
   com marcação clara (atende edge case "Idioma sem tradução").
 
 ## 3. Vídeos via API do YouTube (em build)
 
 - **Decision**: Módulo `src/lib/youtube.ts` consulta a **YouTube Data API v3** em tempo de build,
-  buscando os uploads recentes do canal (via *uploads playlist* do canal). A chave vem de
+  buscando os uploads recentes do canal (via _uploads playlist_ do canal). A chave vem de
   `YOUTUBE_API_KEY` (variável de ambiente / secret do CI) e **nunca** é incluída na saída. O
   resultado é normalizado e persistido em `src/data/youtube-cache.json`.
 - **Rationale**: Mantém a saída 100% estática (Restrição constitucional) enquanto satisfaz
-  FR-005/FR-006 e SC-007 (lista reflete o canal sem edição manual). Consultar a *uploads playlist*
+  FR-005/FR-006 e SC-007 (lista reflete o canal sem edição manual). Consultar a _uploads playlist_
   (`playlistItems.list`) é mais barato em cota do que `search.list`.
 - **Fallback**: se a API falhar/estourar cota no build, usar o `youtube-cache.json` anterior; se
   não houver cache, a seção é omitida sem quebrar o build (FR-011, edge case "API indisponível").
@@ -45,10 +45,10 @@ NEEDS CLARIFICATION.
   vídeos a exibir em `MAX_VIDEOS` (variável de ambiente, default 6) — mesma origem do `.env.example`
   e do workflow de deploy.
 - **Alternatives considered**:
-  - *Fetch client-side*: exporia a chave e adicionaria JS + dependência de runtime — rejeitado.
-  - *RSS do canal* (`feeds/videos.xml`): sem chave, porém dados mais pobres (sem estatísticas,
+  - _Fetch client-side_: exporia a chave e adicionaria JS + dependência de runtime — rejeitado.
+  - _RSS do canal_ (`feeds/videos.xml`): sem chave, porém dados mais pobres (sem estatísticas,
     limite ~15 itens) e menos estável. Mantido como possível simplificação futura, não adotado.
-  - *Embed único do canal*: não permite miniatura/título por vídeo conforme FR-005.
+  - _Embed único do canal_: não permite miniatura/título por vídeo conforme FR-005.
 
 ## 4. Artigos em PDF
 
@@ -63,7 +63,7 @@ NEEDS CLARIFICATION.
 ## 5. Hospedagem e deploy
 
 - **Decision**: GitHub Pages, build e deploy via GitHub Actions (`.github/workflows/deploy.yml`).
-  O `YOUTUBE_API_KEY` é um *secret* do repositório injetado no passo de build.
+  O `YOUTUBE_API_KEY` é um _secret_ do repositório injetado no passo de build.
 - **Rationale**: Estático, gratuito, integrado ao GitHub; o build no CI é o único lugar que vê a
   chave da API, preservando a Restrição constitucional. Contato é só por links, então não há
   necessidade de recursos de formulário (ex.: Netlify Forms).

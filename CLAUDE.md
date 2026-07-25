@@ -4,45 +4,79 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-`SISTEMA_SitePessoal` is a personal website project managed with **GitHub Spec Kit** (Specify CLI `0.14.1`) using a **Spec-Driven Development (SDD)** workflow. There is **no application code yet** — the repo currently contains only the Spec Kit scaffold under `.specify/` and the `speckit-*` skills under `.claude/skills/`. The tech stack is intentionally undecided until a `/speckit.plan` step chooses it.
+`SISTEMA_SitePessoal` is a personal website (portfolio) for Luiz Fernando Castilho, built as a
+**static site with [Astro](https://astro.build) 5** and managed with **GitHub Spec Kit**
+(Spec-Driven Development). The homepage is bilingual (PT/EN) and shows four sections: a
+professional presentation, certifications, published articles (PDF downloads), and videos pulled
+from a YouTube channel at build time.
 
-The project was initialized with `--integration claude`, POSIX `sh` scripts, and **sequential** feature numbering (`init-options.json`).
-
-## The SDD workflow (how work happens here)
-
-Development is driven by `speckit-*` skills, invoked in Claude Code as `/speckit.*` slash commands. Run them roughly in this order:
-
-1. `/speckit.constitution` — **do this first.** `.specify/memory/constitution.md` is still an unfilled template (`[PLACEHOLDER]` tokens). It must be populated before it can govern anything.
-2. `/speckit.specify` — describe *what* and *why* to build (no tech stack). Creates a new numbered feature.
-3. `/speckit.clarify` — *(optional)* resolve underspecified areas before planning.
-4. `/speckit.plan` — choose tech stack and architecture. **This is where the stack for this repo gets decided.**
-5. `/speckit.tasks` — generate the actionable task list.
-6. `/speckit.analyze` — *(optional)* cross-artifact consistency check before implementing.
-7. `/speckit.implement` — build the feature per the plan.
-
-A bundled multi-step workflow (`.specify/workflows/speckit/workflow.yml`, id `speckit`) chains `specify → plan → tasks → implement` with human **review gates** after the spec and after the plan (`on_reject: abort`).
-
-## Repository structure & conventions
-
-- `.specify/memory/constitution.md` — project principles. Governs all SDD steps. **Currently a template.**
-- `.specify/templates/` — templates for spec, plan, tasks, checklist, constitution. Resolved at runtime; the resolution stack is (highest priority first): `.specify/templates/overrides/` → `.specify/presets/templates/` → `.specify/extensions/templates/` → `.specify/templates/`.
-- `.specify/scripts/bash/` — shell scripts the skills call (`sh` script mode). Key ones:
-  - `create-new-feature.sh` — creates a feature. Numbers are zero-padded 3 digits (`%03d`) and sequential; branch/dir named `NNN-short-suffix`. Specs live in `specs/NNN-.../` at repo root (the `specs/` dir does not exist yet — the first `/speckit.specify` creates it).
-  - `common.sh` — shared helpers. Resolves the active feature via `SPECIFY_FEATURE` / `SPECIFY_FEATURE_DIRECTORY` env vars or `.specify/feature.json`.
-  - `setup-plan.sh`, `setup-tasks.sh`, `check-prerequisites.sh`.
-- `.claude/skills/speckit-*/SKILL.md` — the actual skill definitions backing each `/speckit.*` command.
-- `.specify/integration.json` / `init-options.json` — Spec Kit config (integration = `claude`, script = `sh`).
-
-**Not a git repository yet.** `create-new-feature.sh` supports a no-git fallback (resolving features via `.specify/feature.json` and directory basename), but initializing git is recommended so the review-gate / per-feature-branch model works as intended.
-
-## Specify CLI
-
-The `specify` CLI is installed globally (via `uv tool`). Useful commands:
+## Commands
 
 ```bash
-specify self check          # check for a newer Spec Kit release (read-only)
-specify self upgrade        # upgrade the CLI in place
-specify integration list    # list available agent integrations
+npm install        # install dependencies
+npm run dev        # local dev server (http://localhost:4321)
+npm run build      # static build → dist/ (fetches YouTube videos here)
+npm run preview    # serve the built dist/
+npm run check      # astro check (types + content collection schemas)
+npm test           # Vitest (run once); npm run test:watch for watch mode
+npm run lint       # prettier --check .   (format gate)
+npm run format     # prettier --write .
 ```
 
-Do not edit files under `.specify/templates/` or `.specify/scripts/` to customize behavior — use the override/preset/extension layers described above so upgrades don't clobber changes.
+Run a single test file: `npx vitest run tests/unit/youtube.test.ts`.
+
+Quality gate before committing: `npm run check && npm test && npm run lint`.
+
+## Architecture (the big picture)
+
+- **Content is data, separated from layout** (constitution Principle IV). All owner-maintained
+  content lives in versioned **Astro content collections** under `src/content/`, with Zod schemas
+  in `src/content.config.ts`: `profile` (single bilingual item), `certifications`, `articles`
+  (metadata; the PDF itself sits in `public/articles/`), and `ui` (interface strings, one file per
+  locale). Adding a certification or article means editing content only — never layout.
+
+- **Page assembly is centralized.** `src/pages/{pt,en}/index.astro` are thin wrappers that both
+  render `src/components/Home.astro` with their locale. `Home.astro` loads all data via
+  `src/lib/content.ts`, decides which sections are present (empty sections are omitted, which also
+  drives the header nav), and composes `Hero`, `Certifications`, `Articles`, and `Videos`.
+  `src/pages/index.astro` is a static redirect to `/pt`.
+
+- **i18n without runtime JS.** Astro i18n routing (`defaultLocale: pt`, `locales: [pt, en]`, see
+  `astro.config.mjs`). The language toggle is a plain link (`LanguageToggle.astro` via
+  `getRelativeLocaleUrl`). Pure, tested helpers live in `src/lib/i18n.ts`; `t(strings, key,
+fallback)` resolves a UI string with fallback to the other locale then the key itself.
+
+- **YouTube videos are fetched at build, never at runtime.** `src/lib/youtube.ts`
+  (`getChannelVideos`) calls the YouTube Data API v3 during the build, normalizes results, writes
+  `src/data/youtube-cache.json`, and **never throws** — on missing key or API error it falls back
+  to the cache, else returns `[]` (section is then omitted). The API key stays in `YOUTUBE_API_KEY`
+  and is never shipped to the browser. `content.ts` memoizes the fetch to one call per build shared
+  across both locales. This is what keeps a live-data feature compatible with static hosting.
+
+- **Only non-trivial logic is unit-tested** (`tests/unit/`): `i18n.ts` and `youtube.ts`. Static
+  content and presentation are not unit-tested; the format/type gates cover the rest.
+
+## Conventions & gotchas
+
+- Public asset paths must be base-prefixed: use `withBase(path, import.meta.env.BASE_URL)` from
+  `src/lib/paths.ts` (the site deploys under a GitHub Pages base path, e.g. `/SISTEMA_SitePessoal`).
+- External links (verification, videos, channel) open in a new tab (`target="_blank"
+rel="noopener noreferrer"`). Contact is links only (email/social) — no contact form.
+- Video titles come from YouTube in the channel's language and are intentionally exempt from the
+  bilingual requirement (see spec FR-008); everything else must have PT and EN versions with
+  matching UI-string keys across `src/content/ui/pt.json` and `en.json`.
+- Env vars (see `.env.example`): `YOUTUBE_API_KEY`, `CHANNEL_ID`, `MAX_VIDEOS`, `SITE_URL`,
+  `BASE_PATH`. `astro.config.mjs` reads `SITE_URL`/`BASE_PATH`.
+- Deploy: pushing to `main` runs `.github/workflows/deploy.yml` (build with the `YOUTUBE_API_KEY`
+  secret → GitHub Pages). Sample content under `src/content/` and `public/articles/` is
+  placeholder — replace with real data.
+
+## Spec-Driven Development
+
+Feature specs live in `specs/NNN-.../` (see `specs/001-homepage-portfolio/` for spec, plan,
+research, data-model, contracts, tasks). Development is driven by `speckit-*` skills invoked as
+`/speckit.*` slash commands: `constitution → specify → clarify → plan → tasks → analyze →
+implement`. The project constitution is `.specify/memory/constitution.md` (v1.0.0) — its four
+principles (simplicity/YAGNI, performance & accessibility, code quality & tests, content as
+versioned data) govern all changes. Do not edit files under `.specify/templates/` or
+`.specify/scripts/` to customize behavior — use the override/preset/extension layers.
