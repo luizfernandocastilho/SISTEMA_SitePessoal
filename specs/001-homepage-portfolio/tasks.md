@@ -128,11 +128,11 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Purpose**: Deploy, gates de qualidade e validação final (afetam todas as stories).
 
-- [X] T031 [P] Criar workflow `.github/workflows/deploy.yml` (build com secret `YOUTUBE_API_KEY` + deploy no GitHub Pages)
-- [X] T032 [P] Configurar Lighthouse CI (`lighthouserc` + passo no workflow) com gates Performance/Accessibility ≥ 95 em `/pt` e `/en` (SC-003/SC-004)
-- [X] T033 Passar `npm run lint` e `npx astro check` sem erros; corrigir o que aparecer
-- [X] T034 Rodar os cenários de validação de [quickstart.md](./quickstart.md) (incluindo fallback de vídeos e toggle de idioma sem JS)
-- [X] T035 [P] Atualizar `CLAUDE.md` na raiz com a stack real e comandos (`dev`/`build`/`test`/`lint`)
+- [x] T031 [P] Criar workflow `.github/workflows/deploy.yml` (build com secret `YOUTUBE_API_KEY` + deploy no GitHub Pages)
+- [x] T032 [P] Configurar Lighthouse CI (`lighthouserc` + passo no workflow) com gates Performance/Accessibility ≥ 95 em `/pt` e `/en` (SC-003/SC-004)
+- [x] T033 Passar `npm run lint` e `npx astro check` sem erros; corrigir o que aparecer
+- [x] T034 Rodar os cenários de validação de [quickstart.md](./quickstart.md) (incluindo fallback de vídeos e toggle de idioma sem JS)
+- [x] T035 [P] Atualizar `CLAUDE.md` na raiz com a stack real e comandos (`dev`/`build`/`test`/`lint`)
 
 ---
 
