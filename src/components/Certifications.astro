@@ -1,0 +1,80 @@
+---
+import { t, type Locale } from '../lib/i18n';
+
+interface Certification {
+  name: string;
+  issuer: string;
+  year: number;
+  verifyUrl?: string;
+  order?: number;
+}
+
+interface Props {
+  id: string;
+  locale: Locale;
+  items: Certification[];
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { id, items, strings, fallback } = Astro.props;
+---
+
+<section class="section" id={id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <h2 id={`${id}-title`}>{t(strings, 'sectionCertifications', fallback)}</h2>
+    <ul class="cert-list">
+      {
+        items.map((c) => (
+          <li class="cert-item">
+            <div>
+              <p class="cert-name">{c.name}</p>
+              <p class="cert-meta">
+                {c.issuer} · {c.year}
+              </p>
+            </div>
+            {c.verifyUrl && (
+              <a class="cert-verify" href={c.verifyUrl} target="_blank" rel="noopener noreferrer">
+                {t(strings, 'certVerify', fallback)}
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cert-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .cert-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+  .cert-name {
+    font-weight: 600;
+    margin: 0;
+  }
+  .cert-meta {
+    margin: 0.15rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+  .cert-verify {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+</style>

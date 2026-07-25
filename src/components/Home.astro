@@ -1,8 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from './Hero.astro';
-import { getUi, getProfile } from '../lib/content';
-import { type Locale } from '../lib/i18n';
+import Certifications from './Certifications.astro';
+import Articles from './Articles.astro';
+import Videos from './Videos.astro';
+import {
+  getUi,
+  getProfile,
+  getCertifications,
+  getArticles,
+  getVideos,
+  getChannelUrl,
+} from '../lib/content';
+import { t, type Locale } from '../lib/i18n';
 
 interface Props {
   locale: Locale;
@@ -11,12 +21,25 @@ interface Props {
 const { locale } = Astro.props;
 const { strings, fallback } = await getUi(locale);
 const profile = await getProfile();
+const certifications = await getCertifications();
+const articles = await getArticles();
+const videos = await getVideos();
+const channelUrl = getChannelUrl();
 
 const title = profile?.name ?? 'Site Pessoal';
 const description = locale === 'pt' ? profile?.headline_pt ?? '' : profile?.headline_en ?? '';
 
 // Seções presentes na página (usado pela navegação do Header).
 const sections: { id: string; label: string }[] = [];
+if (certifications.length > 0) {
+  sections.push({ id: 'certifications', label: t(strings, 'navCertifications', fallback) });
+}
+if (articles.length > 0) {
+  sections.push({ id: 'articles', label: t(strings, 'navArticles', fallback) });
+}
+if (videos.length > 0) {
+  sections.push({ id: 'videos', label: t(strings, 'navVideos', fallback) });
+}
 ---
 
 <BaseLayout
@@ -28,4 +51,38 @@ const sections: { id: string; label: string }[] = [];
   sections={sections}
 >
   {profile && <Hero locale={locale} profile={profile} strings={strings} fallback={fallback} />}
+  {
+    certifications.length > 0 && (
+      <Certifications
+        id="certifications"
+        locale={locale}
+        items={certifications}
+        strings={strings}
+        fallback={fallback}
+      />
+    )
+  }
+  {
+    articles.length > 0 && (
+      <Articles
+        id="articles"
+        locale={locale}
+        items={articles}
+        strings={strings}
+        fallback={fallback}
+      />
+    )
+  }
+  {
+    videos.length > 0 && (
+      <Videos
+        id="videos"
+        locale={locale}
+        videos={videos}
+        channelUrl={channelUrl ?? undefined}
+        strings={strings}
+        fallback={fallback}
+      />
+    )
+  }
 </BaseLayout>

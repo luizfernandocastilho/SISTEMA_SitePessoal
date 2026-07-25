@@ -86,9 +86,9 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Adicionar um item em `certifications`; após build, aparece na seção; item com `verifyUrl` abre verificação em nova aba, item sem link aparece sem ele (FR-003).
 
-- [ ] T019 [P] [US2] Criar itens de conteúdo em `src/content/certifications/` (exemplos reais) conforme schema `certifications`
-- [ ] T020 [US2] Criar componente `src/components/Certifications.astro` (lista ordenada por ano desc; link de verificação opcional em nova aba; estado vazio omite a seção — FR-011)
-- [ ] T021 [US2] Incluir `<Certifications />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
+- [X] T019 [P] [US2] Criar itens de conteúdo em `src/content/certifications/` (exemplos reais) conforme schema `certifications`
+- [X] T020 [US2] Criar componente `src/components/Certifications.astro` (lista ordenada por ano desc; link de verificação opcional em nova aba; estado vazio omite a seção — FR-011)
+- [X] T021 [US2] Incluir `<Certifications />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
 
 **Checkpoint**: US1 e US2 funcionam de forma independente.
 
@@ -100,10 +100,10 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Colocar um PDF em `public/articles/` + metadado em `articles`; após build, o item lista os dados e o download entrega o PDF (FR-004).
 
-- [ ] T022 [P] [US3] Adicionar PDFs de exemplo em `public/articles/`
-- [ ] T023 [P] [US3] Criar metadados em `src/content/articles/` (`title_pt/en`, `publishedAt`, `venue`, `pdf`) conforme schema `articles`
-- [ ] T024 [US3] Criar componente `src/components/Articles.astro` (lista ordenada por data desc; link de download do PDF; degrada se PDF ausente — edge case)
-- [ ] T025 [US3] Incluir `<Articles />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
+- [X] T022 [P] [US3] Adicionar PDFs de exemplo em `public/articles/`
+- [X] T023 [P] [US3] Criar metadados em `src/content/articles/` (`title_pt/en`, `publishedAt`, `venue`, `pdf`) conforme schema `articles`
+- [X] T024 [US3] Criar componente `src/components/Articles.astro` (lista ordenada por data desc; link de download do PDF; degrada se PDF ausente — edge case)
+- [X] T025 [US3] Incluir `<Articles />` nas páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro`
 
 **Checkpoint**: US1–US3 funcionam de forma independente.
 
@@ -115,11 +115,11 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Com chave válida, build popula a seção e atualiza o cache; sem chave/erro de API, build conclui usando cache ou omite a seção (FR-005/FR-006/FR-011).
 
-- [ ] T026 [P] [US4] [tests] Escrever testes unitários de `src/lib/youtube.ts` em `tests/unit/youtube.test.ts` cobrindo todos os casos de [contracts/youtube-fetch.md](./contracts/youtube-fetch.md) (deve FALHAR antes da implementação)
-- [ ] T027 [US4] Implementar `src/lib/youtube.ts` (`getChannelVideos`: fetch da uploads playlist, normalização, limite/ordenar, grava cache; fallbacks sem-chave/erro; nunca lança) — fazer T026 passar
-- [ ] T028 [P] [US4] Criar `src/data/youtube-cache.json` inicial (seed vazio/`[]` versionado como fallback)
-- [ ] T029 [US4] Criar componente `src/components/Videos.astro` que recebe os vídeos obtidos em build (título, miniatura com alt, link do vídeo e do canal em nova aba; omite seção se lista vazia — FR-005/FR-011)
-- [ ] T030 [US4] Ligar o fetch de vídeos no carregamento das páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro` (ler `CHANNEL_ID`/`MAX_VIDEOS` do ambiente) e incluir `<Videos />`
+- [X] T026 [P] [US4] [tests] Escrever testes unitários de `src/lib/youtube.ts` em `tests/unit/youtube.test.ts` cobrindo todos os casos de [contracts/youtube-fetch.md](./contracts/youtube-fetch.md) (deve FALHAR antes da implementação)
+- [X] T027 [US4] Implementar `src/lib/youtube.ts` (`getChannelVideos`: fetch da uploads playlist, normalização, limite/ordenar, grava cache; fallbacks sem-chave/erro; nunca lança) — fazer T026 passar
+- [X] T028 [P] [US4] Criar `src/data/youtube-cache.json` inicial (seed vazio/`[]` versionado como fallback)
+- [X] T029 [US4] Criar componente `src/components/Videos.astro` que recebe os vídeos obtidos em build (título, miniatura com alt, link do vídeo e do canal em nova aba; omite seção se lista vazia — FR-005/FR-011)
+- [X] T030 [US4] Ligar o fetch de vídeos no carregamento das páginas `src/pages/pt/index.astro` e `src/pages/en/index.astro` (ler `CHANNEL_ID`/`MAX_VIDEOS` do ambiente) e incluir `<Videos />`
 
 **Checkpoint**: Todas as quatro user stories funcionam de forma independente.
 

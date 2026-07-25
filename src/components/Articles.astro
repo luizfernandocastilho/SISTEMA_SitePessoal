@@ -1,0 +1,92 @@
+---
+import { withBase } from '../lib/paths';
+import { t, type Locale } from '../lib/i18n';
+
+interface Article {
+  title_pt: string;
+  title_en: string;
+  publishedAt: Date;
+  venue: string;
+  pdf: string;
+  order?: number;
+}
+
+interface Props {
+  id: string;
+  locale: Locale;
+  items: Article[];
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { id, locale, items, strings, fallback } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+});
+---
+
+<section class="section" id={id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <h2 id={`${id}-title`}>{t(strings, 'sectionArticles', fallback)}</h2>
+    <ul class="article-list">
+      {
+        items.map((a) => (
+          <li class="article-item">
+            <div>
+              <p class="article-title">{locale === 'pt' ? a.title_pt : a.title_en}</p>
+              <p class="article-meta">
+                {a.venue} · {dateFmt.format(a.publishedAt)}
+              </p>
+            </div>
+            <a
+              class="article-download"
+              href={withBase(a.pdf, base)}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t(strings, 'articleDownload', fallback)}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .article-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .article-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+  .article-title {
+    font-weight: 600;
+    margin: 0;
+  }
+  .article-meta {
+    margin: 0.15rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+  .article-download {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+</style>
