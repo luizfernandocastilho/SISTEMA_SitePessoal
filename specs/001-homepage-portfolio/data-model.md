@@ -13,8 +13,8 @@ validação vêm dos requisitos funcionais.
 
 ## Entidade: Perfil (`profile`)
 
-Dados de apresentação do dono do site (US1, FR-001). Coleção com um único item por idioma (ou um
-item com campos bilíngues).
+Dados de apresentação do dono do site (US1, FR-001). Coleção com **um único item** que carrega
+campos bilíngues (sufixos `_pt`/`_en`).
 
 | Campo            | Tipo                          | Regras                                             |
 |------------------|-------------------------------|----------------------------------------------------|

@@ -138,8 +138,10 @@ automaticamente do canal, cada um assistível a partir da página.
   apresentação e curadoria/configuração de vídeos) MUST ser versionado e editável sem alterar a
   lógica de layout.
 - **FR-008**: A página MUST ser bilíngue (português e inglês) e MUST oferecer alternância de
-  idioma; todo texto de interface e de conteúdo apresentado na página MUST ter versão em ambos os
-  idiomas.
+  idioma; todo texto de interface e de conteúdo mantido pelo dono MUST ter versão em ambos os
+  idiomas. Textos provenientes de fontes externas não traduzíveis pelo site — em especial os
+  títulos de vídeos obtidos da API do YouTube — MAY ser exibidos no idioma original fornecido pela
+  fonte, com os rótulos de interface ao redor traduzidos.
 - **FR-009**: A página MUST ser responsiva e utilizável de telas de celular a desktop, sem
   rolagem horizontal.
 - **FR-010**: A página MUST ser acessível: HTML semântico, imagens com texto alternativo,
@@ -175,7 +177,8 @@ automaticamente do canal, cada um assistível a partir da página.
 - **SC-005**: Adicionar uma nova certificação ou artigo (com seu PDF) é feito editando apenas o
   conteúdo/arquivos correspondentes, sem alterar código de layout.
 - **SC-006**: O visitante alterna entre português e inglês em 1 interação e todo o conteúdo
-  visível da página passa a ser exibido no idioma escolhido.
+  mantido pelo dono e os rótulos de interface passam a ser exibidos no idioma escolhido (títulos de
+  vídeos externos podem permanecer no idioma original da fonte).
 - **SC-007**: A lista de vídeos reflete o canal do YouTube sem edição manual, atualizando-se a
   cada publicação do site.
 

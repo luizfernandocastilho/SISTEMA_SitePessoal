@@ -41,8 +41,9 @@ NEEDS CLARIFICATION.
   (`playlistItems.list`) é mais barato em cota do que `search.list`.
 - **Fallback**: se a API falhar/estourar cota no build, usar o `youtube-cache.json` anterior; se
   não houver cache, a seção é omitida sem quebrar o build (FR-011, edge case "API indisponível").
-- **Config necessária**: ID do canal (ou handle) mantido em `src/content/config` ou variável de
-  ambiente; nº de vídeos a exibir configurável (default: 6).
+- **Config necessária**: ID do canal em `CHANNEL_ID` (variável de ambiente / secret do CI) e nº de
+  vídeos a exibir em `MAX_VIDEOS` (variável de ambiente, default 6) — mesma origem do `.env.example`
+  e do workflow de deploy.
 - **Alternatives considered**:
   - *Fetch client-side*: exporia a chave e adicionaria JS + dependência de runtime — rejeitado.
   - *RSS do canal* (`feeds/videos.xml`): sem chave, porém dados mais pobres (sem estatísticas,

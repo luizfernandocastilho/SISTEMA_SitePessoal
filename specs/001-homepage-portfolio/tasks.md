@@ -58,7 +58,7 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 - [ ] T010 Implementar helpers de i18n em `src/lib/i18n.ts` (resolução de locale/rota, lookup de strings, fallback ao outro idioma) — fazer T009 passar
 - [ ] T011 Criar layout base em `src/layouts/BaseLayout.astro` (HTML semântico, `<html lang>`, meta/OG, skip-link de acessibilidade, slot de conteúdo)
 - [ ] T012 [P] Criar componente `src/components/LanguageToggle.astro` (link entre `/pt` e `/en` equivalentes, sem JS)
-- [ ] T013 [P] Criar componente `src/components/Header.astro` (navegação por âncoras para as seções + LanguageToggle)
+- [ ] T013 [P] Criar componente `src/components/Header.astro` (LanguageToggle + navegação por âncoras que renderiza **apenas as seções presentes** na página, evitando âncoras para seções ainda não implementadas — ex.: no MVP só US1)
 - [ ] T014 Criar shell das páginas: `src/pages/index.astro` (redireciona para `/pt`), `src/pages/pt/index.astro` e `src/pages/en/index.astro` (usam BaseLayout + Header, com `<main>` e âncoras de seção vazias)
 
 **Checkpoint**: `/pt` e `/en` renderizam com header, toggle funcional e main vazio; `npm test` passa.
