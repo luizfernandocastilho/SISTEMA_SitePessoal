@@ -1,0 +1,23 @@
+{
+  "locale": "pt",
+  "strings": {
+    "skipToContent": "Pular para o conteúdo",
+    "navAbout": "Início",
+    "navCertifications": "Certificações",
+    "navArticles": "Artigos",
+    "navVideos": "Vídeos",
+    "langToggleLabel": "Mudar idioma",
+    "langSwitchTo": "English",
+    "contactEmail": "Enviar email",
+    "sectionCertifications": "Certificações",
+    "sectionArticles": "Artigos",
+    "sectionVideos": "Vídeos",
+    "certVerify": "Verificar certificado",
+    "articleDownload": "Baixar PDF",
+    "articlePublishedAt": "Publicado em",
+    "articleVenue": "Veículo",
+    "videoWatch": "Assistir no YouTube",
+    "videosVisitChannel": "Visitar o canal",
+    "footerRights": "Todos os direitos reservados."
+  }
+}

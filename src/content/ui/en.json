@@ -1,0 +1,23 @@
+{
+  "locale": "en",
+  "strings": {
+    "skipToContent": "Skip to content",
+    "navAbout": "Home",
+    "navCertifications": "Certifications",
+    "navArticles": "Articles",
+    "navVideos": "Videos",
+    "langToggleLabel": "Change language",
+    "langSwitchTo": "Português",
+    "contactEmail": "Send email",
+    "sectionCertifications": "Certifications",
+    "sectionArticles": "Articles",
+    "sectionVideos": "Videos",
+    "certVerify": "Verify certificate",
+    "articleDownload": "Download PDF",
+    "articlePublishedAt": "Published on",
+    "articleVenue": "Venue",
+    "videoWatch": "Watch on YouTube",
+    "videosVisitChannel": "Visit the channel",
+    "footerRights": "All rights reserved."
+  }
+}

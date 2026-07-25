@@ -1,0 +1,14 @@
+{
+  "name": "Luiz Fernando Castilho",
+  "headline_pt": "Profissional de tecnologia — edite esta descrição com sua atuação, foco e o que você constrói.",
+  "headline_en": "Technology professional — edit this description with your role, focus and what you build.",
+  "email": "luizfernandocastilho@gmail.com",
+  "socialLinks": [
+    { "label": "GitHub", "url": "https://github.com/luizfernandocastilho" },
+    { "label": "YouTube", "url": "https://www.youtube.com/@seu-canal" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/seu-perfil" }
+  ],
+  "photo": "images/avatar.svg",
+  "photoAlt_pt": "Foto de Luiz Fernando Castilho",
+  "photoAlt_en": "Photo of Luiz Fernando Castilho"
+}

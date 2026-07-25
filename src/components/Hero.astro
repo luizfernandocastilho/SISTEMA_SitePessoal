@@ -1,0 +1,95 @@
+---
+import { withBase } from '../lib/paths';
+import { t, type Locale } from '../lib/i18n';
+
+interface SocialLink {
+  label: string;
+  url: string;
+}
+
+interface Profile {
+  name: string;
+  headline_pt: string;
+  headline_en: string;
+  email: string;
+  socialLinks: SocialLink[];
+  photo?: string;
+  photoAlt_pt?: string;
+  photoAlt_en?: string;
+}
+
+interface Props {
+  locale: Locale;
+  profile: Profile;
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { locale, profile, strings, fallback } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const headline = locale === 'pt' ? profile.headline_pt : profile.headline_en;
+const photoAlt = locale === 'pt' ? profile.photoAlt_pt : profile.photoAlt_en;
+const photoSrc = profile.photo ? withBase(profile.photo, base) : null;
+---
+
+<section class="section hero" aria-labelledby="hero-name">
+  <div class="container hero-inner">
+    {
+      photoSrc && (
+        <img class="hero-photo" src={photoSrc} alt={photoAlt ?? profile.name} width="140" height="140" />
+      )
+    }
+    <div>
+      <h1 id="hero-name">{profile.name}</h1>
+      <p class="hero-headline">{headline}</p>
+      <p class="hero-links">
+        <a class="btn" href={`mailto:${profile.email}`}>{t(strings, 'contactEmail', fallback)}</a>
+        {
+          profile.socialLinks.map((s) => (
+            <a href={s.url} target="_blank" rel="noopener noreferrer">
+              {s.label}
+            </a>
+          ))
+        }
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 4vw, 2.5rem);
+    flex-wrap: wrap;
+  }
+  .hero-photo {
+    border-radius: 50%;
+    flex: 0 0 auto;
+  }
+  .hero-headline {
+    font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+    color: var(--color-muted);
+    max-width: 46ch;
+  }
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .btn:hover {
+    filter: brightness(1.08);
+  }
+</style>

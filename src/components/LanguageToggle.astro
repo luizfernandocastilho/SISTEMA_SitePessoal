@@ -1,0 +1,41 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { Locale } from '../lib/i18n';
+import { otherLocale, t } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { locale, strings, fallback } = Astro.props;
+const target = otherLocale(locale);
+// Link para a home do outro idioma (respeita a base configurada). Sem JS.
+const href = getRelativeLocaleUrl(target, '');
+---
+
+<a
+  class="lang-toggle"
+  href={href}
+  hreflang={target}
+  aria-label={t(strings, 'langToggleLabel', fallback)}
+>
+  {t(strings, 'langSwitchTo', fallback)}
+</a>
+
+<style>
+  .lang-toggle {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+  .lang-toggle:hover {
+    background: var(--color-surface);
+  }
+</style>

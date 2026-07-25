@@ -1,0 +1,6 @@
+dist/
+node_modules/
+.astro/
+public/
+src/data/youtube-cache.json
+package-lock.json

@@ -31,14 +31,14 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Purpose**: Inicialização do projeto Astro e ferramentas.
 
-- [ ] T001 Inicializar projeto Astro na raiz: `package.json`, `astro.config.mjs` (i18n
+- [X] T001 Inicializar projeto Astro na raiz: `package.json`, `astro.config.mjs` (i18n
   `defaultLocale: "pt"`, `locales: ["pt","en"]`; integração `@astrojs/sitemap`; `site` URL),
   `tsconfig.json`
-- [ ] T002 [P] Criar estrutura de diretórios: `src/{content,components,layouts,pages,lib,data,styles}`,
+- [X] T002 [P] Criar estrutura de diretórios: `src/{content,components,layouts,pages,lib,data,styles}`,
   `public/{articles,images}`, `tests/unit`
-- [ ] T003 [P] Configurar ESLint + Prettier na raiz (`.eslintrc`, `.prettierrc`) e scripts `lint`/`format` no `package.json`
-- [ ] T004 [P] Configurar Vitest (`vitest.config.ts`) e script `test` no `package.json`
-- [ ] T005 [P] Criar `.env.example` (`YOUTUBE_API_KEY`, `CHANNEL_ID`, `MAX_VIDEOS`) e atualizar `.gitignore` (`.env`, `dist/`, `node_modules/`)
+- [X] T003 [P] Configurar ESLint + Prettier na raiz (`.eslintrc`, `.prettierrc`) e scripts `lint`/`format` no `package.json`
+- [X] T004 [P] Configurar Vitest (`vitest.config.ts`) e script `test` no `package.json`
+- [X] T005 [P] Criar `.env.example` (`YOUTUBE_API_KEY`, `CHANNEL_ID`, `MAX_VIDEOS`) e atualizar `.gitignore` (`.env`, `dist/`, `node_modules/`)
 
 **Checkpoint**: Projeto instala (`npm install`) e `npm run dev` sobe uma página vazia.
 
@@ -50,16 +50,16 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T006 Definir schemas das content collections em `src/content.config.ts` (`profile`,
+- [X] T006 Definir schemas das content collections em `src/content.config.ts` (`profile`,
   `certifications`, `articles`, `ui`) com Zod, conforme [contracts/content-collections.md](./contracts/content-collections.md)
-- [ ] T007 [P] Criar estilos globais e tokens em `src/styles/global.css` (responsivo, sem rolagem horizontal, contraste WCAG AA)
-- [ ] T008 [P] Criar strings de UI em `src/content/ui/pt.json` e `src/content/ui/en.json` (rótulos de seções, toggle, textos de fallback — mesmas chaves nos dois)
-- [ ] T009 [P] [tests] Escrever teste unitário dos helpers de i18n em `tests/unit/i18n.test.ts` (deve FALHAR antes da implementação)
-- [ ] T010 Implementar helpers de i18n em `src/lib/i18n.ts` (resolução de locale/rota, lookup de strings, fallback ao outro idioma) — fazer T009 passar
-- [ ] T011 Criar layout base em `src/layouts/BaseLayout.astro` (HTML semântico, `<html lang>`, meta/OG, skip-link de acessibilidade, slot de conteúdo)
-- [ ] T012 [P] Criar componente `src/components/LanguageToggle.astro` (link entre `/pt` e `/en` equivalentes, sem JS)
-- [ ] T013 [P] Criar componente `src/components/Header.astro` (LanguageToggle + navegação por âncoras que renderiza **apenas as seções presentes** na página, evitando âncoras para seções ainda não implementadas — ex.: no MVP só US1)
-- [ ] T014 Criar shell das páginas: `src/pages/index.astro` (redireciona para `/pt`), `src/pages/pt/index.astro` e `src/pages/en/index.astro` (usam BaseLayout + Header, com `<main>` e âncoras de seção vazias)
+- [X] T007 [P] Criar estilos globais e tokens em `src/styles/global.css` (responsivo, sem rolagem horizontal, contraste WCAG AA)
+- [X] T008 [P] Criar strings de UI em `src/content/ui/pt.json` e `src/content/ui/en.json` (rótulos de seções, toggle, textos de fallback — mesmas chaves nos dois)
+- [X] T009 [P] [tests] Escrever teste unitário dos helpers de i18n em `tests/unit/i18n.test.ts` (deve FALHAR antes da implementação)
+- [X] T010 Implementar helpers de i18n em `src/lib/i18n.ts` (resolução de locale/rota, lookup de strings, fallback ao outro idioma) — fazer T009 passar
+- [X] T011 Criar layout base em `src/layouts/BaseLayout.astro` (HTML semântico, `<html lang>`, meta/OG, skip-link de acessibilidade, slot de conteúdo)
+- [X] T012 [P] Criar componente `src/components/LanguageToggle.astro` (link entre `/pt` e `/en` equivalentes, sem JS)
+- [X] T013 [P] Criar componente `src/components/Header.astro` (LanguageToggle + navegação por âncoras que renderiza **apenas as seções presentes** na página, evitando âncoras para seções ainda não implementadas — ex.: no MVP só US1)
+- [X] T014 Criar shell das páginas: `src/pages/index.astro` (redireciona para `/pt`), `src/pages/pt/index.astro` e `src/pages/en/index.astro` (usam BaseLayout + Header, com `<main>` e âncoras de seção vazias)
 
 **Checkpoint**: `/pt` e `/en` renderizam com header, toggle funcional e main vazio; `npm test` passa.
 
@@ -71,10 +71,10 @@ Projeto único (site estático Astro): `src/`, `public/`, `tests/` na raiz do re
 
 **Independent Test**: Abrir `/pt` e `/en` e confirmar nome, headline e links de contato visíveis na primeira dobra, sem rolagem horizontal (SC-001/SC-002).
 
-- [ ] T015 [P] [US1] Criar conteúdo de perfil em `src/content/profile/` (nome, `headline_pt/en`, `email`, `socialLinks`, `photo`+alt opcional) conforme schema `profile`
-- [ ] T016 [P] [US1] Adicionar imagens de perfil/OG em `public/images/` (com dimensões otimizadas)
-- [ ] T017 [US1] Criar componente `src/components/Hero.astro` (renderiza perfil no idioma ativo: nome, headline, `mailto:` e redes abrindo em nova aba — FR-001/FR-012)
-- [ ] T018 [US1] Incluir `<Hero />` no `<main>` de `src/pages/pt/index.astro` e `src/pages/en/index.astro`
+- [X] T015 [P] [US1] Criar conteúdo de perfil em `src/content/profile/` (nome, `headline_pt/en`, `email`, `socialLinks`, `photo`+alt opcional) conforme schema `profile`
+- [X] T016 [P] [US1] Adicionar imagens de perfil/OG em `public/images/` (com dimensões otimizadas)
+- [X] T017 [US1] Criar componente `src/components/Hero.astro` (renderiza perfil no idioma ativo: nome, headline, `mailto:` e redes abrindo em nova aba — FR-001/FR-012)
+- [X] T018 [US1] Incluir `<Hero />` no `<main>` de `src/pages/pt/index.astro` e `src/pages/en/index.astro`
 
 **Checkpoint**: US1 completa e testável — MVP publicável apenas com a apresentação.
 

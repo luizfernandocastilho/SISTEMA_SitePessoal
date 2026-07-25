@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import { getUi, getProfile } from '../lib/content';
+import { type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { strings, fallback } = await getUi(locale);
+const profile = await getProfile();
+
+const title = profile?.name ?? 'Site Pessoal';
+const description = locale === 'pt' ? profile?.headline_pt ?? '' : profile?.headline_en ?? '';
+
+// Seções presentes na página (usado pela navegação do Header).
+const sections: { id: string; label: string }[] = [];
+---
+
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={description}
+  strings={strings}
+  fallback={fallback}
+  sections={sections}
+>
+  {profile && <Hero locale={locale} profile={profile} strings={strings} fallback={fallback} />}
+</BaseLayout>

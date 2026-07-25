@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import type { Locale } from '../lib/i18n';
+import { t } from '../lib/i18n';
+
+interface SectionLink {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+  sections: SectionLink[];
+}
+
+const { locale, title, description, strings, fallback, sections } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t(strings, 'skipToContent', fallback)}</a>
+    <Header locale={locale} strings={strings} fallback={fallback} sections={sections} />
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="section">
+      <div class="container">
+        <p style="color: var(--color-muted); margin: 0;">
+          © {year} · {t(strings, 'footerRights', fallback)}
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

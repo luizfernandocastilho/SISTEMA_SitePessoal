@@ -1,0 +1,84 @@
+---
+import LanguageToggle from './LanguageToggle.astro';
+import type { Locale } from '../lib/i18n';
+
+interface SectionLink {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  locale: Locale;
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+  sections: SectionLink[];
+}
+
+const { locale, strings, fallback, sections } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#main">◆</a>
+    <nav aria-label="Seções" class="nav">
+      {/* Renderiza âncoras apenas para seções presentes na página (evita links quebrados). */}
+      {
+        sections.map((s) => (
+          <a href={`#${s.id}`}>{s.label}</a>
+        ))
+      }
+    </nav>
+    <LanguageToggle locale={locale} strings={strings} fallback={fallback} />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    backdrop-filter: saturate(1.2) blur(6px);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.6rem;
+  }
+  .brand {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-accent);
+    font-size: 1.1rem;
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-inline-start: auto;
+  }
+  .nav a {
+    text-decoration: none;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+  .nav a:hover {
+    color: var(--color-text);
+  }
+  .lang-toggle,
+  .site-header :global(.lang-toggle) {
+    margin-inline-start: 0.5rem;
+  }
+  @media (max-width: 40rem) {
+    .header-inner {
+      flex-wrap: wrap;
+    }
+    .nav {
+      order: 3;
+      width: 100%;
+      margin-inline-start: 0;
+    }
+  }
+</style>

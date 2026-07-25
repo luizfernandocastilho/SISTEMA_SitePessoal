@@ -1,0 +1,6 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+// Redireciona a raiz para o idioma padrão (pt).
+const target = getRelativeLocaleUrl('pt', '');
+return Astro.redirect(target);
+---
