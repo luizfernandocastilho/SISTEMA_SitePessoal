@@ -4,11 +4,11 @@
   "headline_en": "Technology professional — edit this description with your role, focus and what you build.",
   "email": "luizfernandocastilho@gmail.com",
   "socialLinks": [
-    { "label": "GitHub", "url": "https://github.com/luizfernandocastilho" },
-    { "label": "YouTube", "url": "https://www.youtube.com/@seu-canal" },
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/seu-perfil" }
+    { "label": "GitHub", "url": "https://github.com/luizfernandocastilho", "icon": "github" },
+    { "label": "YouTube", "url": "https://www.youtube.com/@seu-canal", "icon": "youtube" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/seu-perfil", "icon": "linkedin" }
   ],
-  "photo": "images/avatar.svg",
+  "photo": "images/luiz.jpg",
   "photoAlt_pt": "Foto de Luiz Fernando Castilho",
   "photoAlt_en": "Photo of Luiz Fernando Castilho"
 }

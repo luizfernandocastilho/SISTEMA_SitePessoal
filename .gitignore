@@ -21,3 +21,6 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Fotos originais (grandes) — versionar apenas as otimizadas em public/images/
+fotos/
