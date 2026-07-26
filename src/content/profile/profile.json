@@ -5,8 +5,16 @@
   "email": "luizfernandocastilho@gmail.com",
   "socialLinks": [
     { "label": "GitHub", "url": "https://github.com/luizfernandocastilho", "icon": "github" },
-    { "label": "YouTube", "url": "https://www.youtube.com/@seu-canal", "icon": "youtube" },
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/seu-perfil", "icon": "linkedin" }
+    {
+      "label": "YouTube",
+      "url": "https://www.youtube.com/@luizfernandocastilho",
+      "icon": "youtube"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/luizfernandocastilho/",
+      "icon": "linkedin"
+    }
   ],
   "photo": "images/luiz.jpg",
   "photoAlt_pt": "Foto de Luiz Fernando Castilho",
