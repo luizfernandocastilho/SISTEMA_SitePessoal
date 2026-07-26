@@ -14,7 +14,13 @@
       "label": "LinkedIn",
       "url": "https://www.linkedin.com/in/luizfernandocastilho/",
       "icon": "linkedin"
-    }
+    },
+    {
+      "label": "Bluesky",
+      "url": "https://bsky.app/profile/luizcastilho.bsky.social",
+      "icon": "bluesky"
+    },
+    { "label": "X", "url": "https://x.com/luizfcastilho", "icon": "x" }
   ],
   "photo": "images/luiz.jpg",
   "photoAlt_pt": "Foto de Luiz Fernando Castilho",
