@@ -46,15 +46,14 @@ Quality gate before committing: `npm run check && npm test && npm run lint`.
   `getRelativeLocaleUrl`). Pure, tested helpers live in `src/lib/i18n.ts`; `t(strings, key,
 fallback)` resolves a UI string with fallback to the other locale then the key itself.
 
-- **YouTube videos are fetched at build, never at runtime.** `src/lib/youtube.ts`
-  (`getChannelVideos`) calls the YouTube Data API v3 during the build, normalizes results, writes
-  `src/data/youtube-cache.json`, and **never throws** — on missing key or API error it falls back
-  to the cache, else returns `[]` (section is then omitted). The API key stays in `YOUTUBE_API_KEY`
-  and is never shipped to the browser. `content.ts` memoizes the fetch to one call per build shared
-  across both locales. This is what keeps a live-data feature compatible with static hosting.
+- **Videos are curated playlists, no API.** The "Vídeos" section highlights YouTube playlists as
+  course cards (`playlists` collection). No YouTube Data API / key is used. Cover images come from
+  `img.youtube.com/vi/{coverVideoId}/hqdefault.jpg` (a public thumbnail URL, no key). Helpers to
+  parse YouTube URLs and build thumbnail URLs live in `src/lib/youtube-urls.ts`. To add a course,
+  drop a JSON file in `src/content/playlists/` with `title_pt`, `title_en`, `url`, `coverVideoId`.
 
-- **Only non-trivial logic is unit-tested** (`tests/unit/`): `i18n.ts` and `youtube.ts`. Static
-  content and presentation are not unit-tested; the format/type gates cover the rest.
+- **Only non-trivial logic is unit-tested** (`tests/unit/`): `i18n.ts` and `youtube-urls.ts`.
+  Static content and presentation are not unit-tested; the format/type gates cover the rest.
 
 ## Conventions & gotchas
 
@@ -65,11 +64,10 @@ rel="noopener noreferrer"`). Contact is links only (email/social) — no contact
 - Video titles come from YouTube in the channel's language and are intentionally exempt from the
   bilingual requirement (see spec FR-008); everything else must have PT and EN versions with
   matching UI-string keys across `src/content/ui/pt.json` and `en.json`.
-- Env vars (see `.env.example`): `YOUTUBE_API_KEY`, `CHANNEL_ID`, `MAX_VIDEOS`, `SITE_URL`,
-  `BASE_PATH`. `astro.config.mjs` reads `SITE_URL`/`BASE_PATH`.
-- Deploy: pushing to `main` runs `.github/workflows/deploy.yml` (build with the `YOUTUBE_API_KEY`
-  secret → GitHub Pages). Sample content under `src/content/` and `public/articles/` is
-  placeholder — replace with real data.
+- Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`).
+- Deploy: pushing to `main` runs `.github/workflows/deploy.yml` (static build → GitHub Pages).
+  Sample content under `src/content/certifications` and `src/content/articles` (+ `public/articles/`)
+  is placeholder — replace with real data.
 
 ## Spec-Driven Development
 

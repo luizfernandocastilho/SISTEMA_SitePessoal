@@ -27,10 +27,6 @@ jobs:
       - run: npm ci
       - name: Build
         env:
-          # Segredo/variáveis do repositório — a chave nunca vai para a saída do site.
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          CHANNEL_ID: ${{ vars.CHANNEL_ID }}
-          MAX_VIDEOS: ${{ vars.MAX_VIDEOS }}
           SITE_URL: ${{ vars.SITE_URL }}
           BASE_PATH: ${{ vars.BASE_PATH }}
         run: npm run build

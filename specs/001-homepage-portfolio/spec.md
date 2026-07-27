@@ -10,9 +10,13 @@
 
 ## Clarifications
 
+### Session 2026-07-27
+
+- Q: A seção de vídeos deve mesmo usar a YouTube Data API? → A: **Não** (reverte a decisão de 2026-07-24). Para evitar chave/risco de cobrança, a seção passa a **destacar playlists/cursos curados** como cards (capa + título + link), sem qualquer chamada de API. Capa vem da miniatura pública `img.youtube.com`.
+
 ### Session 2026-07-24
 
-- Q: Como a seção de vídeos deve obter os vídeos do canal do YouTube? → A: Automático via API do YouTube (lista atualizada a partir do canal, mantendo a saída publicada estática).
+- Q: Como a seção de vídeos deve obter os vídeos do canal do YouTube? → A: ~~Automático via API do YouTube~~ (revertido em 2026-07-27 — ver acima).
 - Q: Como os artigos publicados devem ser apresentados? → A: Como arquivos PDF hospedados no site, disponibilizados para download.
 - Q: O site deve ser em qual(is) idioma(s)? → A: Bilíngue PT/EN, com alternância de idioma.
 - Q: A página deve ter alguma forma de contato direto além de links de redes? → A: Apenas links (email/redes sociais); sem formulário.
