@@ -4,7 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-`SISTEMA_SitePessoal` is a personal website (portfolio) for Luiz Fernando Castilho, built as a
+This is a personal website (portfolio) for Luiz Fernando Castilho (GitHub repo `site`,
+served at `.github.io/site/`; local folder is `SISTEMA_SitePessoal`), built as a
 **static site with [Astro](https://astro.build) 5** and managed with **GitHub Spec Kit**
 (Spec-Driven Development). The homepage is bilingual (PT/EN) and shows four sections: a
 professional presentation, certifications, published articles (PDF downloads), and videos pulled
@@ -58,7 +59,7 @@ fallback)` resolves a UI string with fallback to the other locale then the key i
 ## Conventions & gotchas
 
 - Public asset paths must be base-prefixed: use `withBase(path, import.meta.env.BASE_URL)` from
-  `src/lib/paths.ts` (the site deploys under a GitHub Pages base path, e.g. `/SISTEMA_SitePessoal`).
+  `src/lib/paths.ts` (the site deploys under a GitHub Pages base path, e.g. `/site`).
 - External links (verification, videos, channel) open in a new tab (`target="_blank"
 rel="noopener noreferrer"`). Contact is links only (email/social) — no contact form.
 - Video titles come from YouTube in the channel's language and are intentionally exempt from the
