@@ -24,3 +24,6 @@ Thumbs.db
 
 # Fotos originais (grandes) — versionar apenas as otimizadas em public/images/
 fotos/
+
+# Design system (material de referência local; só os assets derivados vão para public/)
+design-system/
