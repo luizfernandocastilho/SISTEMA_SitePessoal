@@ -1,29 +1,46 @@
-/* ---------- Design tokens ---------- */
-:root {
-  --color-bg: #ffffff;
-  --color-surface: #f5f6f8;
-  --color-text: #14181f; /* contraste AAA sobre bg branco */
-  --color-muted: #4a5261; /* >= 4.5:1 sobre bg */
-  --color-accent: #0b5cab; /* azul com contraste AA para links */
-  --color-accent-contrast: #ffffff;
-  --color-border: #d7dbe0;
-
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --radius: 10px;
-  --space: 1rem;
-  --maxw: 68rem;
+/* ---------- Webfonts (self-hosted, subset Latin, woff2 variável) ---------- */
+/* Derivadas de design-system/fonts (Oswald + Source Sans 3). Base '/' → paths absolutos. */
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/oswald-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/source-sans-3-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/source-sans-3-italic-latin.woff2') format('woff2');
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0f1319;
-    --color-surface: #171c24;
-    --color-text: #eef1f5;
-    --color-muted: #aab3c0;
-    --color-accent: #6fb2ff;
-    --color-accent-contrast: #0f1319;
-    --color-border: #2a313c;
-  }
+/* ---------- Design tokens (design-system: verde editorial, papel branco) ---------- */
+:root {
+  --color-bg: #ffffff; /* papel branco */
+  --color-surface: #f6f7f4; /* off-white para cards/superfícies */
+  --color-text: #1c221d; /* ink — contraste 16:1 sobre branco */
+  --color-muted: #55605a; /* ink-500 — 6.5:1 sobre branco */
+  --color-accent: #2f7a3a; /* green-700 — verde funcional, 5.3:1 (links/botões/réguas) */
+  --color-accent-contrast: #ffffff;
+  --color-accent-vivid: #4fb055; /* green-500 — verde vivo da marca, só em blocos decorativos */
+  --color-border: #dde1da; /* hairline (line-200) */
+
+  --font-display: 'Oswald', 'Barlow Semi Condensed', system-ui, sans-serif;
+  --font-body: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
+  --font-sans: var(--font-body); /* compat: tokens antigos */
+
+  --ls-label: 0.14em; /* tracking largo dos rótulos uppercase */
+  --radius: 4px; /* cantos retos; raio pequeno só em controles */
+  --space: 1rem;
+  --maxw: 68rem;
 }
 
 /* ---------- Base ---------- */
@@ -39,7 +56,7 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   line-height: 1.6;
   color: var(--color-text);
   background: var(--color-bg);
@@ -65,11 +82,32 @@ button:focus-visible,
   border-radius: 4px;
 }
 
+/* Display type: Oswald condensado para títulos. */
 h1,
 h2,
 h3 {
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
   margin: 0 0 0.5em;
+}
+
+/* Motivo editorial: régua verde de 2px sob os títulos de seção. */
+h2 {
+  padding-bottom: 0.45rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+/* Rótulo de seção uppercase com tracking largo (utilitário do design-system). */
+.section-label {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  font-size: 0.8125rem;
+  color: var(--color-accent);
 }
 
 /* ---------- Layout ---------- */
