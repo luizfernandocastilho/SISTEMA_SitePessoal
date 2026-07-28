@@ -1,10 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from './Hero.astro';
-import Certifications from './Certifications.astro';
-import Articles from './Articles.astro';
-import { getUi, getProfile, getCertifications, getArticles } from '../lib/content';
-import { t, type Locale } from '../lib/i18n';
+import { getUi, getProfile } from '../lib/content';
+import { type Locale } from '../lib/i18n';
 
 interface Props {
   locale: Locale;
@@ -13,20 +11,9 @@ interface Props {
 const { locale } = Astro.props;
 const { strings, fallback } = await getUi(locale);
 const profile = await getProfile();
-const certifications = await getCertifications();
-const articles = await getArticles();
 
 const title = profile?.name ?? 'Site Pessoal';
 const description = locale === 'pt' ? (profile?.headline_pt ?? '') : (profile?.headline_en ?? '');
-
-// Seções presentes na página (usado pela navegação do Header).
-const sections: { id: string; label: string }[] = [];
-if (certifications.length > 0) {
-  sections.push({ id: 'certifications', label: t(strings, 'navCertifications', fallback) });
-}
-if (articles.length > 0) {
-  sections.push({ id: 'articles', label: t(strings, 'navArticles', fallback) });
-}
 ---
 
 <BaseLayout
@@ -35,29 +22,7 @@ if (articles.length > 0) {
   description={description}
   strings={strings}
   fallback={fallback}
-  sections={sections}
+  navKey="home"
 >
   {profile && <Hero locale={locale} profile={profile} strings={strings} fallback={fallback} />}
-  {
-    certifications.length > 0 && (
-      <Certifications
-        id="certifications"
-        locale={locale}
-        items={certifications}
-        strings={strings}
-        fallback={fallback}
-      />
-    )
-  }
-  {
-    articles.length > 0 && (
-      <Articles
-        id="articles"
-        locale={locale}
-        items={articles}
-        strings={strings}
-        fallback={fallback}
-      />
-    )
-  }
 </BaseLayout>

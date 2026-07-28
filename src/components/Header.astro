@@ -1,30 +1,34 @@
 ---
 import LanguageToggle from './LanguageToggle.astro';
 import type { Locale } from '../lib/i18n';
-
-interface SectionLink {
-  id: string;
-  label: string;
-}
+import { t } from '../lib/i18n';
+import { NAV_ITEMS, navUrl } from '../lib/nav';
 
 interface Props {
   locale: Locale;
   strings: Record<string, string>;
   fallback: Record<string, string>;
-  sections: SectionLink[];
+  navKey: string;
 }
 
-const { locale, strings, fallback, sections } = Astro.props;
+const { locale, strings, fallback, navKey } = Astro.props;
+const homeUrl = navUrl(NAV_ITEMS[0], locale);
+const navLabel = locale === 'pt' ? 'Navegação principal' : 'Main navigation';
 ---
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="#main">◆</a>
-    <nav aria-label="Seções" class="nav">
-      {/* Renderiza âncoras apenas para seções presentes na página (evita links quebrados). */}
-      {sections.map((s) => <a href={`#${s.id}`}>{s.label}</a>)}
+    <a class="brand" href={homeUrl} aria-label="Luiz Castilho">◆</a>
+    <nav aria-label={navLabel} class="nav">
+      {
+        NAV_ITEMS.map((item) => (
+          <a href={navUrl(item, locale)} aria-current={item.key === navKey ? 'page' : undefined}>
+            {t(strings, item.labelKey, fallback)}
+          </a>
+        ))
+      }
     </nav>
-    <LanguageToggle locale={locale} strings={strings} fallback={fallback} />
+    <LanguageToggle locale={locale} strings={strings} fallback={fallback} navKey={navKey} />
   </div>
 </header>
 
@@ -59,9 +63,15 @@ const { locale, strings, fallback, sections } = Astro.props;
     text-decoration: none;
     color: var(--color-muted);
     font-size: 0.95rem;
+    padding-block: 0.15rem;
   }
   .nav a:hover {
     color: var(--color-text);
+  }
+  .nav a[aria-current='page'] {
+    color: var(--color-text);
+    font-weight: 600;
+    box-shadow: inset 0 -2px 0 var(--color-accent);
   }
   .lang-toggle,
   .site-header :global(.lang-toggle) {
