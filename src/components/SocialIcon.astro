@@ -1,7 +1,7 @@
 ---
 // Ícones SVG inline (sem biblioteca externa). Decorativos: aria-hidden.
 interface Props {
-  name: 'github' | 'youtube' | 'linkedin' | 'bluesky' | 'x';
+  name: 'github' | 'youtube' | 'linkedin' | 'bluesky' | 'x' | 'orcid';
 }
 
 const { name } = Astro.props;
@@ -40,6 +40,13 @@ const { name } = Astro.props;
     name === 'x' && (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
         <path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.46l8.6-9.83L0 1.15h7.6l5.24 6.93 6.06-6.93Zm-1.29 19.5h2.04L6.48 3.24H4.3l13.31 17.41Z" />
+      </svg>
+    )
+  }
+  {
+    name === 'orcid' && (
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947 0 .525-.422.947-.947.947-.525 0-.946-.422-.946-.947 0-.516.421-.947.946-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z" />
       </svg>
     )
   }
