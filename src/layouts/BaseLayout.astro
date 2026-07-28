@@ -4,21 +4,16 @@ import Header from '../components/Header.astro';
 import type { Locale } from '../lib/i18n';
 import { t } from '../lib/i18n';
 
-interface SectionLink {
-  id: string;
-  label: string;
-}
-
 interface Props {
   locale: Locale;
   title: string;
   description: string;
   strings: Record<string, string>;
   fallback: Record<string, string>;
-  sections: SectionLink[];
+  navKey: string;
 }
 
-const { locale, title, description, strings, fallback, sections } = Astro.props;
+const { locale, title, description, strings, fallback, navKey } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -36,7 +31,7 @@ const year = new Date().getFullYear();
   </head>
   <body>
     <a class="skip-link" href="#main">{t(strings, 'skipToContent', fallback)}</a>
-    <Header locale={locale} strings={strings} fallback={fallback} sections={sections} />
+    <Header locale={locale} strings={strings} fallback={fallback} navKey={navKey} />
     <main id="main">
       <slot />
     </main>

@@ -1,18 +1,19 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { Locale } from '../lib/i18n';
 import { otherLocale, t } from '../lib/i18n';
+import { counterpartUrl } from '../lib/nav';
 
 interface Props {
   locale: Locale;
   strings: Record<string, string>;
   fallback: Record<string, string>;
+  navKey: string;
 }
 
-const { locale, strings, fallback } = Astro.props;
+const { locale, strings, fallback, navKey } = Astro.props;
 const target = otherLocale(locale);
-// Link para a home do outro idioma (respeita a base configurada). Sem JS.
-const href = getRelativeLocaleUrl(target, '');
+// Link para a MESMA página no outro idioma (preserva a página). Sem JS.
+const href = counterpartUrl(navKey, target);
 ---
 
 <a
