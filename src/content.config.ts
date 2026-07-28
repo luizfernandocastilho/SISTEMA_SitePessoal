@@ -53,6 +53,25 @@ const articles = defineCollection({
   }),
 });
 
+// Recursos — links/downloads úteis. Cada item aponta para `url` (externo) ou `pdf`
+// (arquivo em public/). Um item por arquivo.
+const resources = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/resources' }),
+  schema: z
+    .object({
+      title_pt: z.string(),
+      title_en: z.string(),
+      description_pt: z.string().optional(),
+      description_en: z.string().optional(),
+      url: z.string().url().optional(),
+      pdf: z.string().optional(),
+      order: z.number().optional(),
+    })
+    .refine((d) => !!d.url || !!d.pdf, {
+      message: 'Informe url (externo) ou pdf (arquivo em public/)',
+    }),
+});
+
 // Strings de interface — um arquivo por idioma (pt.json, en.json).
 const ui = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/ui' }),
@@ -62,4 +81,4 @@ const ui = defineCollection({
   }),
 });
 
-export const collections = { profile, certifications, articles, ui };
+export const collections = { profile, certifications, articles, resources, ui };

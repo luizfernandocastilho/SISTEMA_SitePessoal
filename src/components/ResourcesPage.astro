@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Resources from './Resources.astro';
+import { getUi, getProfile, getResources } from '../lib/content';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { strings, fallback } = await getUi(locale);
+const profile = await getProfile();
+const resources = await getResources();
+
+const section = t(strings, 'sectionResources', fallback);
+const title = `${section} · ${profile?.name ?? 'Site Pessoal'}`;
+---
+
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={section}
+  strings={strings}
+  fallback={fallback}
+  navKey="resources"
+>
+  <Resources
+    id="resources"
+    locale={locale}
+    items={resources}
+    strings={strings}
+    fallback={fallback}
+  />
+</BaseLayout>
