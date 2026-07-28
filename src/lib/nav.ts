@@ -21,6 +21,7 @@ export const NAV_ITEMS: NavItem[] = [
   },
   { key: 'articles', labelKey: 'navArticles', slugs: { pt: 'artigos', en: 'articles' } },
   { key: 'resources', labelKey: 'navResources', slugs: { pt: 'recursos', en: 'resources' } },
+  { key: 'keynotes', labelKey: 'navKeynotes', slugs: { pt: 'keynotes', en: 'keynotes' } },
 ];
 
 /** URL (base-prefixada) de um item no idioma dado. */

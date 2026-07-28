@@ -6,18 +6,21 @@
     "navCertifications": "Certificações",
     "navArticles": "Artigos",
     "navResources": "Recursos",
+    "navKeynotes": "Keynotes",
     "langToggleLabel": "Mudar idioma",
     "langSwitchTo": "English",
     "contactEmail": "Enviar email",
     "sectionCertifications": "Certificações",
     "sectionArticles": "Artigos",
     "sectionResources": "Recursos",
+    "sectionKeynotes": "Keynotes",
     "certVerify": "Verificar certificado",
     "articleDownload": "Baixar PDF",
     "articlePublishedAt": "Publicado em",
     "articleVenue": "Veículo",
     "resourceOpen": "Abrir",
     "resourceDownload": "Baixar",
+    "keynoteView": "Ver apresentação",
     "footerRights": "Todos os direitos reservados."
   }
 }

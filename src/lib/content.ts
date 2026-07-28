@@ -40,4 +40,15 @@ export async function getResources() {
   return all.map((e) => e.data).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
 
+/** Keynotes ordenados por `order` (asc) e depois data desc. */
+export async function getKeynotes() {
+  const all = await getCollection('keynotes');
+  return all
+    .map((e) => e.data)
+    .sort(
+      (a, b) =>
+        (a.order ?? 0) - (b.order ?? 0) || (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0),
+    );
+}
+
 export { DEFAULT_LOCALE, type Locale };

@@ -72,6 +72,25 @@ const resources = defineCollection({
     }),
 });
 
+// Keynotes — apresentações/decks. Aponta para `url` (externo) ou `pdf` (public/).
+// `cover` opcional (imagem da capa do deck). Um item por arquivo.
+const keynotes = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/keynotes' }),
+  schema: z
+    .object({
+      title_pt: z.string(),
+      title_en: z.string(),
+      url: z.string().url().optional(),
+      pdf: z.string().optional(),
+      cover: z.string().optional(),
+      date: z.coerce.date().optional(),
+      order: z.number().optional(),
+    })
+    .refine((d) => !!d.url || !!d.pdf, {
+      message: 'Informe url (externo) ou pdf (arquivo em public/)',
+    }),
+});
+
 // Strings de interface — um arquivo por idioma (pt.json, en.json).
 const ui = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/ui' }),
@@ -81,4 +100,4 @@ const ui = defineCollection({
   }),
 });
 
-export const collections = { profile, certifications, articles, resources, ui };
+export const collections = { profile, certifications, articles, resources, keynotes, ui };
