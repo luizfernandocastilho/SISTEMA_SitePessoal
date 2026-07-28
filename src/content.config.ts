@@ -15,7 +15,7 @@ const profile = defineCollection({
           z.object({
             label: z.string(),
             url: z.string().url(),
-            icon: z.enum(['github', 'youtube', 'linkedin', 'bluesky', 'x']).optional(),
+            icon: z.enum(['github', 'youtube', 'linkedin', 'bluesky', 'x', 'orcid']).optional(),
           }),
         )
         .default([]),
