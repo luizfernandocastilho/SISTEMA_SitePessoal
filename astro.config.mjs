@@ -2,10 +2,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// URL final do site (ajuste para o seu domínio/GitHub Pages).
-// Ex.: 'https://luizfernandocastilho.github.io' com base '/site'.
-const SITE = process.env.SITE_URL || 'https://luizfernandocastilho.github.io';
-const BASE = process.env.BASE_PATH || '/site';
+// URL final do site (domínio próprio via GitHub Pages).
+// Domínio customizado serve na raiz, então a base é '/'.
+const SITE = process.env.SITE_URL || 'https://www.luizcastilho.com';
+const BASE = process.env.BASE_PATH || '/';
 
 export default defineConfig({
   site: SITE,

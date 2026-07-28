@@ -5,18 +5,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this repository is
 
 This is a personal website (portfolio) for Luiz Fernando Castilho (GitHub repo `site`,
-served at `.github.io/site/`; local folder is `SISTEMA_SitePessoal`), built as a
+served at the custom domain `www.luizcastilho.com`; local folder is `SISTEMA_SitePessoal`), built as a
 **static site with [Astro](https://astro.build) 5** and managed with **GitHub Spec Kit**
 (Spec-Driven Development). The homepage is bilingual (PT/EN) and shows four sections: a
-professional presentation, certifications, published articles (PDF downloads), and videos pulled
-from a YouTube channel at build time.
+professional presentation, certifications, published articles (PDF downloads), and a "Vídeos"
+section of curated YouTube playlists (static data — no API, no build-time fetch).
 
 ## Commands
 
 ```bash
 npm install        # install dependencies
 npm run dev        # local dev server (http://localhost:4321)
-npm run build      # static build → dist/ (fetches YouTube videos here)
+npm run build      # static build → dist/
 npm run preview    # serve the built dist/
 npm run check      # astro check (types + content collection schemas)
 npm test           # Vitest (run once); npm run test:watch for watch mode
@@ -24,9 +24,11 @@ npm run lint       # prettier --check .   (format gate)
 npm run format     # prettier --write .
 ```
 
-Run a single test file: `npx vitest run tests/unit/youtube.test.ts`.
+Run a single test file: `npx vitest run tests/unit/youtube-urls.test.ts`.
 
-Quality gate before committing: `npm run check && npm test && npm run lint`.
+Quality gate before committing: `npm run check && npm test && npm run lint`. CI (`.github/workflows/ci.yml`)
+runs the same three gates, then a Lighthouse job that builds with `BASE_PATH=/` and enforces
+Performance & Accessibility ≥ 95 (`lighthouserc.json`).
 
 ## Architecture (the big picture)
 
@@ -39,7 +41,8 @@ Quality gate before committing: `npm run check && npm test && npm run lint`.
 - **Page assembly is centralized.** `src/pages/{pt,en}/index.astro` are thin wrappers that both
   render `src/components/Home.astro` with their locale. `Home.astro` loads all data via
   `src/lib/content.ts`, decides which sections are present (empty sections are omitted, which also
-  drives the header nav), and composes `Hero`, `Certifications`, `Articles`, and `Videos`.
+  drives the header nav), and composes `Hero`, `Certifications`, `Articles`, and `Playlists`
+  (the "Vídeos" section, rendered from `Playlists.astro` under the `videos` anchor id).
   `src/pages/index.astro` is a static redirect to `/pt`.
 
 - **i18n without runtime JS.** Astro i18n routing (`defaultLocale: pt`, `locales: [pt, en]`, see
@@ -59,7 +62,8 @@ fallback)` resolves a UI string with fallback to the other locale then the key i
 ## Conventions & gotchas
 
 - Public asset paths must be base-prefixed: use `withBase(path, import.meta.env.BASE_URL)` from
-  `src/lib/paths.ts` (the site deploys under a GitHub Pages base path, e.g. `/site`).
+  `src/lib/paths.ts`. The site deploys to the custom domain `www.luizcastilho.com`, so `BASE_PATH`
+  is `/`; keep using `withBase` so a future move back to a sub-path base stays a one-line change.
 - External links (verification, videos, channel) open in a new tab (`target="_blank"
 rel="noopener noreferrer"`). Contact is links only (email/social) — no contact form.
 - Video titles come from YouTube in the channel's language and are intentionally exempt from the
