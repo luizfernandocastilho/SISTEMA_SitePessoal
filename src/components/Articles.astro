@@ -1,13 +1,13 @@
 ---
-import { withBase } from '../lib/paths';
 import { t, type Locale } from '../lib/i18n';
+import DownloadRequestForm from './DownloadRequestForm.astro';
 
 interface Article {
   title_pt: string;
   title_en: string;
   publishedAt: Date;
   venue: string;
-  pdf: string;
+  fileId: string;
   order?: number;
 }
 
@@ -20,7 +20,6 @@ interface Props {
 }
 
 const { id, locale, items, strings, fallback } = Astro.props;
-const base = import.meta.env.BASE_URL;
 
 const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
   year: 'numeric',
@@ -33,25 +32,24 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
     <h2 id={`${id}-title`}>{t(strings, 'sectionArticles', fallback)}</h2>
     <ul class="article-list">
       {
-        items.map((a) => (
-          <li class="article-item">
-            <div>
-              <p class="article-title">{locale === 'pt' ? a.title_pt : a.title_en}</p>
+        items.map((a) => {
+          const title = locale === 'pt' ? a.title_pt : a.title_en;
+          return (
+            <li class="article-item">
+              <p class="article-title">{title}</p>
               <p class="article-meta">
                 {a.venue} · {dateFmt.format(a.publishedAt)}
               </p>
-            </div>
-            <a
-              class="article-download"
-              href={withBase(a.pdf, base)}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t(strings, 'articleDownload', fallback)}
-            </a>
-          </li>
-        ))
+              <DownloadRequestForm
+                fileId={a.fileId}
+                fileTitle={title}
+                locale={locale}
+                strings={strings}
+                fallback={fallback}
+              />
+            </li>
+          );
+        })
       }
     </ul>
   </div>
@@ -66,11 +64,6 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
     gap: 0.75rem;
   }
   .article-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
@@ -81,12 +74,8 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
     margin: 0;
   }
   .article-meta {
-    margin: 0.15rem 0 0;
+    margin: 0.15rem 0 0.6rem;
     color: var(--color-muted);
     font-size: 0.95rem;
-  }
-  .article-download {
-    white-space: nowrap;
-    font-weight: 600;
   }
 </style>

@@ -8,7 +8,9 @@ This is a personal website (portfolio) for Luiz Fernando Castilho (GitHub repo `
 served at the custom domain `www.luizcastilho.com`; local folder is `SISTEMA_SitePessoal`), built as a
 **static site with [Astro](https://astro.build) 5** and managed with **GitHub Spec Kit**
 (Spec-Driven Development). The homepage is bilingual (PT/EN) and shows three sections: a
-professional presentation, certifications, and published articles (PDF downloads).
+professional presentation, certifications, published articles, resources and keynotes.
+Downloads are gated: the reader submits name + email (a native form POST to the `api/` backend),
+which emails a tokenized link — files are never public. See `api/` and `src/components/DownloadRequestForm.astro`.
 
 ## Commands
 
@@ -34,8 +36,9 @@ Performance & Accessibility ≥ 95 (`lighthouserc.json`).
 - **Content is data, separated from layout** (constitution Principle IV). All owner-maintained
   content lives in versioned **Astro content collections** under `src/content/`, with Zod schemas
   in `src/content.config.ts`: `profile` (single bilingual item), `certifications`, `articles`
-  (metadata; the PDF itself sits in `public/articles/`), and `ui` (interface strings, one file per
-  locale). Adding a certification or article means editing content only — never layout.
+  (metadata + a `fileId`; the file itself is private in the `api/` backend, not in `public/`),
+  `resources`, `keynotes`, and `ui` (interface strings, one file per locale). Adding a
+  certification or article means editing content only — never layout.
 
 - **Page assembly is centralized.** `src/pages/{pt,en}/index.astro` are thin wrappers that both
   render `src/components/Home.astro` with their locale. `Home.astro` loads all data via
@@ -60,10 +63,16 @@ fallback)` resolves a UI string with fallback to the other locale then the key i
 rel="noopener noreferrer"`). Contact is links only (email/social) — no contact form.
 - All owner-facing content must have PT and EN versions with matching UI-string keys across
   `src/content/ui/pt.json` and `en.json`.
-- Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`).
+- Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`) and
+  `PUBLIC_API_URL` (base of the download-gate backend, used by the request form).
 - Deploy: pushing to `main` runs `.github/workflows/deploy.yml` (static build → GitHub Pages).
-  Sample content under `src/content/certifications` and `src/content/articles` (+ `public/articles/`)
-  is placeholder — replace with real data.
+  Sample content under `src/content/certifications` and `src/content/articles` is placeholder —
+  replace with real data. Gated files (`fileId`) live in the `api/` backend's private storage,
+  registered in its `files` table.
+
+- **Download-gate backend (`api/`).** Separate Dockerized service (Fastify + Postgres + Nodemailer)
+  that captures name/email leads and serves files via tokenized links. It has its own tooling and is
+  excluded from the site's prettier (`.prettierignore`). See `api/README.md`.
 
 ## Spec-Driven Development
 

@@ -40,7 +40,8 @@ const certifications = defineCollection({
   }),
 });
 
-// Artigos — metadados; o PDF vive em public/articles/.
+// Artigos — metadados; o arquivo é privado no backend (referenciado por `fileId`,
+// baixado via gate por e-mail — não fica em public/).
 const articles = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/articles' }),
   schema: z.object({
@@ -48,13 +49,13 @@ const articles = defineCollection({
     title_en: z.string(),
     publishedAt: z.coerce.date(),
     venue: z.string(),
-    pdf: z.string(),
+    fileId: z.string(),
     order: z.number().optional(),
   }),
 });
 
-// Recursos — links/downloads úteis. Cada item aponta para `url` (externo) ou `pdf`
-// (arquivo em public/). Um item por arquivo.
+// Recursos — links/downloads úteis. Aponta para `url` (link externo direto) OU `fileId`
+// (arquivo privado no backend, baixado via gate por e-mail). Um item por arquivo.
 const resources = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/resources' }),
   schema: z
@@ -64,16 +65,16 @@ const resources = defineCollection({
       description_pt: z.string().optional(),
       description_en: z.string().optional(),
       url: z.string().url().optional(),
-      pdf: z.string().optional(),
+      fileId: z.string().optional(),
       order: z.number().optional(),
     })
-    .refine((d) => !!d.url || !!d.pdf, {
-      message: 'Informe url (externo) ou pdf (arquivo em public/)',
+    .refine((d) => !!d.url || !!d.fileId, {
+      message: 'Informe url (externo) ou fileId (arquivo privado no backend)',
     }),
 });
 
-// Keynotes — apresentações/decks. Aponta para `url` (externo) ou `pdf` (public/).
-// `cover` opcional (imagem da capa do deck). Um item por arquivo.
+// Keynotes — apresentações/decks. Aponta para `url` (link externo direto) OU `fileId`
+// (arquivo privado no backend). `cover` opcional (capa). Um item por arquivo.
 const keynotes = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/keynotes' }),
   schema: z
@@ -81,13 +82,13 @@ const keynotes = defineCollection({
       title_pt: z.string(),
       title_en: z.string(),
       url: z.string().url().optional(),
-      pdf: z.string().optional(),
+      fileId: z.string().optional(),
       cover: z.string().optional(),
       date: z.coerce.date().optional(),
       order: z.number().optional(),
     })
-    .refine((d) => !!d.url || !!d.pdf, {
-      message: 'Informe url (externo) ou pdf (arquivo em public/)',
+    .refine((d) => !!d.url || !!d.fileId, {
+      message: 'Informe url (externo) ou fileId (arquivo privado no backend)',
     }),
 });
 

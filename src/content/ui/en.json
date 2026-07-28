@@ -21,6 +21,13 @@
     "resourceOpen": "Open",
     "resourceDownload": "Download",
     "keynoteView": "View deck",
+    "downloadRequest": "Request download",
+    "formName": "Name",
+    "formEmail": "Email",
+    "formConsent": "I agree to receive the link by email and to the processing of my data per the",
+    "formSubmit": "Send link",
+    "privacyTitle": "Privacy Policy",
+    "footerPrivacy": "Privacy",
     "footerRights": "All rights reserved."
   }
 }

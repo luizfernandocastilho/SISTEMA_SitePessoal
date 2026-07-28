@@ -3,6 +3,6 @@
   "title_en": "Example — Second published article",
   "publishedAt": "2023-11-02",
   "venue": "Outro veículo/publicação",
-  "pdf": "articles/exemplo-artigo-2.pdf",
+  "fileId": "artigo-exemplo-2",
   "order": 2
 }

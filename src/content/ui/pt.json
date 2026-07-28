@@ -21,6 +21,13 @@
     "resourceOpen": "Abrir",
     "resourceDownload": "Baixar",
     "keynoteView": "Ver apresentação",
+    "downloadRequest": "Solicitar download",
+    "formName": "Nome",
+    "formEmail": "E-mail",
+    "formConsent": "Concordo em receber o link por e-mail e com o tratamento dos meus dados conforme a",
+    "formSubmit": "Enviar link",
+    "privacyTitle": "Política de Privacidade",
+    "footerPrivacy": "Privacidade",
     "footerRights": "Todos os direitos reservados."
   }
 }
