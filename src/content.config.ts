@@ -53,18 +53,6 @@ const articles = defineCollection({
   }),
 });
 
-// Playlists/cursos do YouTube — curados (sem API). A capa usa a miniatura de coverVideoId.
-const playlists = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/playlists' }),
-  schema: z.object({
-    title_pt: z.string(),
-    title_en: z.string(),
-    url: z.string().url(),
-    coverVideoId: z.string(),
-    order: z.number().optional(),
-  }),
-});
-
 // Strings de interface — um arquivo por idioma (pt.json, en.json).
 const ui = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/ui' }),
@@ -74,4 +62,4 @@ const ui = defineCollection({
   }),
 });
 
-export const collections = { profile, certifications, articles, playlists, ui };
+export const collections = { profile, certifications, articles, ui };

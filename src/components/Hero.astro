@@ -37,22 +37,24 @@ const photoSrc = profile.photo ? withBase(profile.photo, base) : null;
 
 <section class="section hero" aria-labelledby="hero-name">
   <div class="container hero-inner">
-    {
-      photoSrc && (
-        <img
-          class="hero-photo"
-          src={photoSrc}
-          alt={photoAlt ?? profile.name}
-          width="140"
-          height="140"
-        />
-      )
-    }
+    <div class="hero-aside">
+      {
+        photoSrc && (
+          <img
+            class="hero-photo"
+            src={photoSrc}
+            alt={photoAlt ?? profile.name}
+            width="210"
+            height="210"
+          />
+        )
+      }
+      <a class="btn" href={`mailto:${profile.email}`}>{t(strings, 'contactEmail', fallback)}</a>
+    </div>
     <div>
       <h1 id="hero-name">{profile.name}</h1>
       <p class="hero-headline">{headline}</p>
       <p class="hero-links">
-        <a class="btn" href={`mailto:${profile.email}`}>{t(strings, 'contactEmail', fallback)}</a>
         {
           profile.socialLinks.map((s) => (
             <a class="social-link" href={s.url} target="_blank" rel="noopener noreferrer">
@@ -72,6 +74,13 @@ const photoSrc = profile.photo ? withBase(profile.photo, base) : null;
     align-items: center;
     gap: clamp(1rem, 4vw, 2.5rem);
     flex-wrap: wrap;
+  }
+  .hero-aside {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
   .hero-photo {
     border-radius: 50%;
