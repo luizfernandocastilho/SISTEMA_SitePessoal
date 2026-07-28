@@ -35,6 +35,7 @@
 
   --font-display: 'Oswald', 'Barlow Semi Condensed', system-ui, sans-serif;
   --font-body: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
+  --font-title: Georgia, 'Times New Roman', 'Times', serif; /* nome e títulos de página */
   --font-sans: var(--font-body); /* compat: tokens antigos */
 
   --ls-label: 0.14em; /* tracking largo dos rótulos uppercase */
@@ -82,7 +83,7 @@ button:focus-visible,
   border-radius: 4px;
 }
 
-/* Display type: Oswald condensado para títulos. */
+/* Display type: Oswald condensado para h3; nome (h1) e títulos de página (h2) em Georgia. */
 h1,
 h2,
 h3 {
@@ -91,6 +92,11 @@ h3 {
   line-height: 1.1;
   letter-spacing: 0.01em;
   margin: 0 0 0.5em;
+}
+
+h1,
+h2 {
+  font-family: var(--font-title);
 }
 
 /* Motivo editorial: régua verde de 2px sob os títulos de seção. */
