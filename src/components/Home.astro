@@ -3,8 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from './Hero.astro';
 import Certifications from './Certifications.astro';
 import Articles from './Articles.astro';
-import Playlists from './Playlists.astro';
-import { getUi, getProfile, getCertifications, getArticles, getPlaylists } from '../lib/content';
+import { getUi, getProfile, getCertifications, getArticles } from '../lib/content';
 import { t, type Locale } from '../lib/i18n';
 
 interface Props {
@@ -16,7 +15,6 @@ const { strings, fallback } = await getUi(locale);
 const profile = await getProfile();
 const certifications = await getCertifications();
 const articles = await getArticles();
-const playlists = await getPlaylists();
 
 const title = profile?.name ?? 'Site Pessoal';
 const description = locale === 'pt' ? (profile?.headline_pt ?? '') : (profile?.headline_en ?? '');
@@ -28,9 +26,6 @@ if (certifications.length > 0) {
 }
 if (articles.length > 0) {
   sections.push({ id: 'articles', label: t(strings, 'navArticles', fallback) });
-}
-if (playlists.length > 0) {
-  sections.push({ id: 'videos', label: t(strings, 'navVideos', fallback) });
 }
 ---
 
@@ -60,17 +55,6 @@ if (playlists.length > 0) {
         id="articles"
         locale={locale}
         items={articles}
-        strings={strings}
-        fallback={fallback}
-      />
-    )
-  }
-  {
-    playlists.length > 0 && (
-      <Playlists
-        id="videos"
-        locale={locale}
-        items={playlists}
         strings={strings}
         fallback={fallback}
       />
