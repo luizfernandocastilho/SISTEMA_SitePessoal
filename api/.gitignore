@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.env
+# Arquivos privados de download (não versionar binários; ficam no volume do NAS)
+storage/*
+!storage/.gitkeep
