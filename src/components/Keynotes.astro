@@ -1,12 +1,13 @@
 ---
 import { withBase } from '../lib/paths';
 import { t, type Locale } from '../lib/i18n';
+import DownloadRequestForm from './DownloadRequestForm.astro';
 
 interface Keynote {
   title_pt: string;
   title_en: string;
   url?: string;
-  pdf?: string;
+  fileId?: string;
   cover?: string;
   date?: Date;
   order?: number;
@@ -35,25 +36,44 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
       {
         items.map((k) => {
           const title = locale === 'pt' ? k.title_pt : k.title_en;
-          const href = k.pdf ? withBase(k.pdf, base) : k.url!;
           const cover = k.cover
             ? k.cover.startsWith('http')
               ? k.cover
               : withBase(k.cover, base)
             : null;
+          const coverEl = cover ? (
+            <img src={cover} alt={title} loading="lazy" width="480" height="270" />
+          ) : (
+            <span class="keynote-slide">
+              <span class="keynote-slide-label">Keynote</span>
+              <span class="keynote-slide-title">{title}</span>
+            </span>
+          );
+          // Item com arquivo privado: card com formulário (gate). Item com URL: link direto.
+          if (k.fileId) {
+            return (
+              <li class="keynote-card">
+                <div class="keynote-inner">
+                  <span class="keynote-cover">{coverEl}</span>
+                  <span class="keynote-body">
+                    <span class="keynote-title">{title}</span>
+                    {k.date && <span class="keynote-date">{dateFmt.format(k.date)}</span>}
+                    <DownloadRequestForm
+                      fileId={k.fileId}
+                      fileTitle={title}
+                      locale={locale}
+                      strings={strings}
+                      fallback={fallback}
+                    />
+                  </span>
+                </div>
+              </li>
+            );
+          }
           return (
             <li class="keynote-card">
-              <a href={href} target="_blank" rel="noopener noreferrer">
-                <span class="keynote-cover">
-                  {cover ? (
-                    <img src={cover} alt={title} loading="lazy" width="480" height="270" />
-                  ) : (
-                    <span class="keynote-slide">
-                      <span class="keynote-slide-label">Keynote</span>
-                      <span class="keynote-slide-title">{title}</span>
-                    </span>
-                  )}
-                </span>
+              <a href={k.url!} target="_blank" rel="noopener noreferrer">
+                <span class="keynote-cover">{coverEl}</span>
                 <span class="keynote-body">
                   <span class="keynote-title">{title}</span>
                   {k.date && <span class="keynote-date">{dateFmt.format(k.date)}</span>}
@@ -77,7 +97,8 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.25rem;
   }
-  .keynote-card a {
+  .keynote-card a,
+  .keynote-card .keynote-inner {
     display: block;
     text-decoration: none;
     color: var(--color-text);

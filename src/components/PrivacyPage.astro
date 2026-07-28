@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getUi, getProfile } from '../lib/content';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { strings, fallback } = await getUi(locale);
+const profile = await getProfile();
+const heading = t(strings, 'privacyTitle', fallback);
+const title = `${heading} · ${profile?.name ?? 'Site Pessoal'}`;
+const email = profile?.email ?? '';
+const pt = locale === 'pt';
+---
+
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={heading}
+  strings={strings}
+  fallback={fallback}
+  navKey="privacy"
+>
+  <section class="section" aria-labelledby="privacy-title">
+    <div class="container prose">
+      <h2 id="privacy-title">{heading}</h2>
+      {
+        pt ? (
+          <Fragment>
+            <p>
+              Esta página descreve como seus dados são tratados quando você solicita o download de
+              um material (artigo, keynote ou recurso).
+            </p>
+            <h3>Dados coletados</h3>
+            <p>Nome, e-mail, o material solicitado e a data/hora da solicitação.</p>
+            <h3>Finalidade e base legal</h3>
+            <p>
+              Enviar o link do material ao seu e-mail e manter registro das solicitações. Base
+              legal: <strong>consentimento</strong> (LGPD, art. 7º, I).
+            </p>
+            <h3>Compartilhamento e retenção</h3>
+            <p>
+              Seus dados não são vendidos nem compartilhados com terceiros para marketing. São
+              mantidos apenas enquanto necessários a essa finalidade.
+            </p>
+            <h3>Seus direitos</h3>
+            <p>
+              Você pode solicitar acesso, correção ou exclusão dos seus dados pelo e-mail
+              {email && (
+                <Fragment>
+                  {' '}
+                  <a href={`mailto:${email}`}>{email}</a>
+                </Fragment>
+              )}
+              .
+            </p>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <p>
+              This page describes how your data is handled when you request a download (article,
+              keynote or resource).
+            </p>
+            <h3>Data collected</h3>
+            <p>Name, email, the requested item, and the request date/time.</p>
+            <h3>Purpose and legal basis</h3>
+            <p>
+              To email you the item's link and keep a record of requests. Legal basis:{' '}
+              <strong>consent</strong>.
+            </p>
+            <h3>Sharing and retention</h3>
+            <p>
+              Your data is not sold or shared with third parties for marketing. It is kept only as
+              long as needed for this purpose.
+            </p>
+            <h3>Your rights</h3>
+            <p>
+              You may request access, correction or deletion of your data via
+              {email && (
+                <Fragment>
+                  {' '}
+                  <a href={`mailto:${email}`}>{email}</a>
+                </Fragment>
+              )}
+              .
+            </p>
+          </Fragment>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 60ch;
+  }
+  .prose h3 {
+    margin-top: 1.5rem;
+  }
+</style>
