@@ -5,15 +5,19 @@
     "navAbout": "Início",
     "navCertifications": "Certificações",
     "navArticles": "Artigos",
+    "navResources": "Recursos",
     "langToggleLabel": "Mudar idioma",
     "langSwitchTo": "English",
     "contactEmail": "Enviar email",
     "sectionCertifications": "Certificações",
     "sectionArticles": "Artigos",
+    "sectionResources": "Recursos",
     "certVerify": "Verificar certificado",
     "articleDownload": "Baixar PDF",
     "articlePublishedAt": "Publicado em",
     "articleVenue": "Veículo",
+    "resourceOpen": "Abrir",
+    "resourceDownload": "Baixar",
     "footerRights": "Todos os direitos reservados."
   }
 }

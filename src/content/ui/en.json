@@ -5,15 +5,19 @@
     "navAbout": "Home",
     "navCertifications": "Certifications",
     "navArticles": "Articles",
+    "navResources": "Resources",
     "langToggleLabel": "Change language",
     "langSwitchTo": "Português",
     "contactEmail": "Send email",
     "sectionCertifications": "Certifications",
     "sectionArticles": "Articles",
+    "sectionResources": "Resources",
     "certVerify": "Verify certificate",
     "articleDownload": "Download PDF",
     "articlePublishedAt": "Published on",
     "articleVenue": "Venue",
+    "resourceOpen": "Open",
+    "resourceDownload": "Download",
     "footerRights": "All rights reserved."
   }
 }

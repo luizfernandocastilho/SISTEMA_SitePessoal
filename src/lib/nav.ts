@@ -20,6 +20,7 @@ export const NAV_ITEMS: NavItem[] = [
     slugs: { pt: 'certificacoes', en: 'certifications' },
   },
   { key: 'articles', labelKey: 'navArticles', slugs: { pt: 'artigos', en: 'articles' } },
+  { key: 'resources', labelKey: 'navResources', slugs: { pt: 'recursos', en: 'resources' } },
 ];
 
 /** URL (base-prefixada) de um item no idioma dado. */
