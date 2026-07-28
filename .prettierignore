@@ -4,3 +4,5 @@ node_modules/
 public/
 src/data/youtube-cache.json
 package-lock.json
+# Backend tem tooling próprio (api/package.json)
+api/

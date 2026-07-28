@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-site}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB:-site_downloads}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-site} -d ${POSTGRES_DB:-site_downloads}']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-site}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-site_downloads}
+      APP_SECRET: ${APP_SECRET:-dev-secret-change-me}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:3000}
+      SITE_URL: ${SITE_URL:-https://www.luizcastilho.com}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-dev-admin-change-me}
+      TOKEN_TTL_HOURS: ${TOKEN_TTL_HOURS:-168}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-Luiz Castilho <no-reply@luizcastilho.com>}
+      STORAGE_DIR: /app/storage
+      PORT: 3000
+    ports:
+      - '${API_PORT:-3000}:3000'
+    volumes:
+      # Arquivos privados servidos apenas via link tokenizado (nunca públicos).
+      - ./storage:/app/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
