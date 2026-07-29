@@ -8,6 +8,11 @@ import { runMigrations } from './migrate.js';
 const FILES = [
   { id: 'artigo-exemplo-1', title: 'Artigo de exemplo 1', filename: 'artigo-exemplo-1.pdf' },
   { id: 'artigo-exemplo-2', title: 'Artigo de exemplo 2', filename: 'artigo-exemplo-2.pdf' },
+  {
+    id: 'abilene-falso-consenso',
+    title: 'A armadilha do falso consenso e o fracasso na gestão de processos',
+    filename: 'palestra_abilene_narrativa_clara.pdf',
+  },
 ];
 
 export async function seed(): Promise<void> {

@@ -24,6 +24,12 @@
     "resourceDownload": "Download",
     "keynoteView": "View deck",
     "keynoteDownload": "Download PDF",
+    "gateIntro": "Enter your name and email; we'll send you the download link.",
+    "gateName": "Name",
+    "gateEmail": "Email",
+    "gateConsent": "I authorize the use of my name and email to receive the file link, per the",
+    "gateConsentLink": "Privacy Policy",
+    "gateSubmit": "Get link by email",
     "atuacaoView": "Learn more",
     "footerRights": "All rights reserved."
   }

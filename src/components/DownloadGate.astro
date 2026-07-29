@@ -1,0 +1,119 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  id: string;
+  fileId: string;
+  locale: Locale;
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { id, fileId, locale, strings, fallback } = Astro.props;
+
+// URL pública do backend (embutida no build; ver .env.example). Fallback evita
+// `action="undefined/..."` quando a env não está definida (ex.: CI/Lighthouse).
+const apiBase = import.meta.env.PUBLIC_API_URL ?? 'https://api.luizcastilho.com';
+const action = `${apiBase.replace(/\/$/, '')}/downloads/request`;
+
+const privacyUrl = getRelativeLocaleUrl(locale, locale === 'pt' ? 'privacidade' : 'privacy');
+const nameId = `${id}-name`;
+const emailId = `${id}-email`;
+const consentId = `${id}-consent`;
+---
+
+<form class="gate" method="POST" action={action}>
+  <p class="gate-intro">{t(strings, 'gateIntro', fallback)}</p>
+  <input type="hidden" name="file_id" value={fileId} />
+  <input type="hidden" name="locale" value={locale} />
+
+  <label class="gate-field" for={nameId}>
+    <span>{t(strings, 'gateName', fallback)}</span>
+    <input
+      id={nameId}
+      name="name"
+      type="text"
+      required
+      minlength="2"
+      maxlength="120"
+      autocomplete="name"
+    />
+  </label>
+
+  <label class="gate-field" for={emailId}>
+    <span>{t(strings, 'gateEmail', fallback)}</span>
+    <input id={emailId} name="email" type="email" required maxlength="254" autocomplete="email" />
+  </label>
+
+  <label class="gate-consent" for={consentId}>
+    <input id={consentId} name="consent" type="checkbox" value="on" required />
+    <span>
+      {t(strings, 'gateConsent', fallback)}{' '}
+      <a href={privacyUrl}>{t(strings, 'gateConsentLink', fallback)}</a>.
+    </span>
+  </label>
+
+  <button type="submit">{t(strings, 'gateSubmit', fallback)}</button>
+</form>
+
+<style>
+  .gate {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 0.75rem;
+  }
+  .gate-intro {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .gate-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .gate-field input {
+    font: inherit;
+    font-weight: 400;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+  .gate-field input:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+  }
+  .gate-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--color-muted);
+  }
+  .gate-consent input {
+    margin-top: 0.2rem;
+    flex: 0 0 auto;
+  }
+  .gate button {
+    align-self: flex-start;
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    border: 0;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .gate button:hover {
+    filter: brightness(1.08);
+  }
+</style>

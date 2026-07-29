@@ -85,9 +85,13 @@ const keynotes = defineCollection({
       cover: z.string().optional(),
       date: z.coerce.date().optional(),
       order: z.number().optional(),
+      // Gate de download por e-mail: o arquivo vive no backend (api/storage) e é
+      // servido só por token. `fileId` casa com o id da tabela `files` do backend.
+      gated: z.boolean().optional(),
+      fileId: z.string().optional(),
     })
-    .refine((d) => !!d.url || !!d.pdf, {
-      message: 'Informe url (externo) ou pdf (arquivo em public/)',
+    .refine((d) => !!d.url || !!d.pdf || (d.gated === true && !!d.fileId), {
+      message: 'Informe url (externo), pdf (arquivo em public/) ou gated + fileId (backend)',
     }),
 });
 

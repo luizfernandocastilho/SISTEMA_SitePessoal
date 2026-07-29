@@ -24,6 +24,12 @@
     "resourceDownload": "Baixar",
     "keynoteView": "Ver apresentação",
     "keynoteDownload": "Baixar PDF",
+    "gateIntro": "Informe seu nome e e-mail; enviaremos o link de download.",
+    "gateName": "Nome",
+    "gateEmail": "E-mail",
+    "gateConsent": "Autorizo o uso do meu nome e e-mail para receber o link do arquivo, conforme a",
+    "gateConsentLink": "Política de Privacidade",
+    "gateSubmit": "Receber link por e-mail",
     "atuacaoView": "Saiba mais",
     "footerRights": "Todos os direitos reservados."
   }
