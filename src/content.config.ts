@@ -91,6 +91,23 @@ const keynotes = defineCollection({
     }),
 });
 
+// Atuação — áreas de atuação profissional em cards (padrão Keynotes). Cada card tem
+// título/descrição bilíngues; `url`/`pdf`/`cover` são opcionais (um card pode ser só
+// descritivo). Um item por arquivo.
+const atuacao = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/atuacao' }),
+  schema: z.object({
+    title_pt: z.string(),
+    title_en: z.string(),
+    description_pt: z.string().optional(),
+    description_en: z.string().optional(),
+    url: z.string().url().optional(),
+    pdf: z.string().optional(),
+    cover: z.string().optional(),
+    order: z.number().optional(),
+  }),
+});
+
 // Strings de interface — um arquivo por idioma (pt.json, en.json).
 const ui = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/ui' }),
@@ -100,4 +117,4 @@ const ui = defineCollection({
   }),
 });
 
-export const collections = { profile, certifications, articles, resources, keynotes, ui };
+export const collections = { profile, certifications, articles, resources, keynotes, atuacao, ui };

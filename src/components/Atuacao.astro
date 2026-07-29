@@ -1,0 +1,155 @@
+---
+import { withBase } from '../lib/paths';
+import { t, type Locale } from '../lib/i18n';
+
+interface AtuacaoItem {
+  title_pt: string;
+  title_en: string;
+  description_pt?: string;
+  description_en?: string;
+  url?: string;
+  pdf?: string;
+  cover?: string;
+  order?: number;
+}
+
+interface Props {
+  id: string;
+  locale: Locale;
+  items: AtuacaoItem[];
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { id, locale, items, strings, fallback } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const label = t(strings, 'sectionAtuacao', fallback);
+---
+
+<section class="section" id={id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <h2 id={`${id}-title`}>{label}</h2>
+    <ul class="atuacao-grid">
+      {
+        items.map((a) => {
+          const title = locale === 'pt' ? a.title_pt : a.title_en;
+          const description = locale === 'pt' ? a.description_pt : a.description_en;
+          const href = a.pdf ? withBase(a.pdf, base) : (a.url ?? null);
+          const cover = a.cover
+            ? a.cover.startsWith('http')
+              ? a.cover
+              : withBase(a.cover, base)
+            : null;
+          const Card = href ? 'a' : 'div';
+          const linkProps = href ? { href, target: '_blank', rel: 'noopener noreferrer' } : {};
+          return (
+            <li class="atuacao-card">
+              <Card {...linkProps}>
+                <span class="atuacao-cover">
+                  {cover ? (
+                    <img src={cover} alt={title} loading="lazy" width="480" height="270" />
+                  ) : (
+                    <span class="atuacao-slide">
+                      <span class="atuacao-slide-label">{label}</span>
+                      <span class="atuacao-slide-title">{title}</span>
+                    </span>
+                  )}
+                </span>
+                <span class="atuacao-body">
+                  <span class="atuacao-title">{title}</span>
+                  {description && <span class="atuacao-desc">{description}</span>}
+                  {href && (
+                    <span class="atuacao-action">{t(strings, 'atuacaoView', fallback)} →</span>
+                  )}
+                </span>
+              </Card>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .atuacao-grid {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .atuacao-card a,
+  .atuacao-card div {
+    display: block;
+    text-decoration: none;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    overflow: hidden;
+    height: 100%;
+  }
+  .atuacao-card a:hover {
+    border-color: var(--color-accent);
+  }
+  .atuacao-cover {
+    display: block;
+    aspect-ratio: 16 / 9;
+  }
+  .atuacao-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Painel estilo slide (quando não há capa): fundo verde, tipografia Oswald reversa. */
+  .atuacao-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 1.1rem;
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    border-top: 3px solid var(--color-accent-vivid, #4fb055);
+  }
+  .atuacao-slide-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label, 0.14em);
+    font-size: 0.72rem;
+    opacity: 0.85;
+  }
+  .atuacao-slide-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.15;
+  }
+  .atuacao-body {
+    display: block;
+    padding: 0.85rem 1rem 1rem;
+  }
+  .atuacao-title {
+    display: block;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .atuacao-desc {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .atuacao-action {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+</style>

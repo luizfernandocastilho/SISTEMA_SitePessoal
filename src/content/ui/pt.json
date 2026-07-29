@@ -4,6 +4,7 @@
     "skipToContent": "Pular para o conteúdo",
     "navAbout": "Início",
     "navCertifications": "Certificações",
+    "navAtuacao": "Atuação",
     "navArticles": "Artigos",
     "navResources": "Recursos",
     "navKeynotes": "Keynotes",
@@ -11,6 +12,7 @@
     "langSwitchTo": "English",
     "contactEmail": "Enviar email",
     "sectionCertifications": "Certificações",
+    "sectionAtuacao": "Atuação",
     "sectionArticles": "Artigos",
     "sectionResources": "Recursos",
     "sectionKeynotes": "Keynotes",
@@ -21,6 +23,7 @@
     "resourceOpen": "Abrir",
     "resourceDownload": "Baixar",
     "keynoteView": "Ver apresentação",
+    "atuacaoView": "Saiba mais",
     "footerRights": "Todos os direitos reservados."
   }
 }
