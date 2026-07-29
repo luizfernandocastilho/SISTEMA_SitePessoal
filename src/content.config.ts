@@ -43,14 +43,21 @@ const certifications = defineCollection({
 // Artigos — metadados; o PDF vive em public/articles/.
 const articles = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/articles' }),
-  schema: z.object({
-    title_pt: z.string(),
-    title_en: z.string(),
-    publishedAt: z.coerce.date(),
-    venue: z.string(),
-    pdf: z.string(),
-    order: z.number().optional(),
-  }),
+  schema: z
+    .object({
+      title_pt: z.string(),
+      title_en: z.string(),
+      publishedAt: z.coerce.date(),
+      venue: z.string(),
+      pdf: z.string().optional(),
+      order: z.number().optional(),
+      // Gate de download por e-mail (arquivo no backend, servido por token).
+      gated: z.boolean().optional(),
+      fileId: z.string().optional(),
+    })
+    .refine((d) => !!d.pdf || (d.gated === true && !!d.fileId), {
+      message: 'Informe pdf (arquivo em public/) ou gated + fileId (backend)',
+    }),
 });
 
 // Recursos — links/downloads úteis. Cada item aponta para `url` (externo) ou `pdf`
@@ -66,9 +73,12 @@ const resources = defineCollection({
       url: z.string().url().optional(),
       pdf: z.string().optional(),
       order: z.number().optional(),
+      // Gate de download por e-mail (arquivo no backend, servido por token).
+      gated: z.boolean().optional(),
+      fileId: z.string().optional(),
     })
-    .refine((d) => !!d.url || !!d.pdf, {
-      message: 'Informe url (externo) ou pdf (arquivo em public/)',
+    .refine((d) => !!d.url || !!d.pdf || (d.gated === true && !!d.fileId), {
+      message: 'Informe url (externo), pdf (arquivo em public/) ou gated + fileId (backend)',
     }),
 });
 

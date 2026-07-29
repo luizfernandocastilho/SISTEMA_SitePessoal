@@ -1,14 +1,17 @@
 ---
 import { withBase } from '../lib/paths';
 import { t, type Locale } from '../lib/i18n';
+import DownloadGate from './DownloadGate.astro';
 
 interface Article {
   title_pt: string;
   title_en: string;
   publishedAt: Date;
   venue: string;
-  pdf: string;
+  pdf?: string;
   order?: number;
+  gated?: boolean;
+  fileId?: string;
 }
 
 interface Props {
@@ -41,15 +44,30 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
                 {a.venue} · {dateFmt.format(a.publishedAt)}
               </p>
             </div>
-            <a
-              class="article-download"
-              href={withBase(a.pdf, base)}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t(strings, 'articleDownload', fallback)}
-            </a>
+            {a.gated && a.fileId ? (
+              <details class="item-gate">
+                <summary class="article-download item-summary">
+                  {t(strings, 'articleDownload', fallback)}
+                </summary>
+                <DownloadGate
+                  id={`gate-${a.fileId}`}
+                  fileId={a.fileId}
+                  locale={locale}
+                  strings={strings}
+                  fallback={fallback}
+                />
+              </details>
+            ) : (
+              <a
+                class="article-download"
+                href={withBase(a.pdf!, base)}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t(strings, 'articleDownload', fallback)}
+              </a>
+            )}
           </li>
         ))
       }
@@ -88,5 +106,24 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
   .article-download {
     white-space: nowrap;
     font-weight: 600;
+  }
+  /* Gate: CTA nativo (<summary>) que expande o formulário em largura total. */
+  .item-gate {
+    color: var(--color-accent);
+  }
+  summary.item-summary {
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-accent);
+  }
+  summary.item-summary::-webkit-details-marker {
+    display: none;
+  }
+  summary.item-summary:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  .item-gate[open] {
+    flex-basis: 100%;
   }
 </style>
