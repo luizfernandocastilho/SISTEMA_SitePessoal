@@ -14,7 +14,7 @@ const { id, fileId, locale, strings, fallback } = Astro.props;
 
 // URL pública do backend (embutida no build; ver .env.example). Fallback evita
 // `action="undefined/..."` quando a env não está definida (ex.: CI/Lighthouse).
-const apiBase = import.meta.env.PUBLIC_API_URL ?? 'https://api.luizcastilho.com';
+const apiBase = import.meta.env.PUBLIC_API_URL || 'https://api.luizcastilho.com';
 const action = `${apiBase.replace(/\/$/, '')}/downloads/request`;
 
 const privacyUrl = getRelativeLocaleUrl(locale, locale === 'pt' ? 'privacidade' : 'privacy');
