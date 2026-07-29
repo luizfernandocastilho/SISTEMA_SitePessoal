@@ -16,13 +16,10 @@ const target = otherLocale(locale);
 const href = counterpartUrl(navKey, target);
 ---
 
-<a
-  class="lang-toggle"
-  href={href}
-  hreflang={target}
-  aria-label={t(strings, 'langToggleLabel', fallback)}
->
-  {t(strings, 'langSwitchTo', fallback)}
+<a class="lang-toggle" href={href} hreflang={target}>
+  <span class="visually-hidden">{t(strings, 'langToggleLabel', fallback)}: </span>{
+    t(strings, 'langSwitchTo', fallback)
+  }
 </a>
 
 <style>
