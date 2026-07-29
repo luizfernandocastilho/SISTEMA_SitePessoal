@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getUi, getProfile } from '../lib/content';
+import { type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { strings, fallback } = await getUi(locale);
+const profile = await getProfile();
+const email = profile?.email ?? '';
+
+const heading = locale === 'pt' ? 'Política de Privacidade' : 'Privacy Policy';
+const title = `${heading} · ${profile?.name ?? 'Site Pessoal'}`;
+---
+
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={heading}
+  strings={strings}
+  fallback={fallback}
+  navKey="privacy"
+>
+  <section class="section">
+    <div class="container prose">
+      <h2>{heading}</h2>
+      {
+        locale === 'pt' ? (
+          <>
+            <p>
+              Ao solicitar o download de um arquivo neste site, você informa seu{' '}
+              <strong>nome</strong> e<strong> e-mail</strong>. Esses dados são usados exclusivamente
+              para enviar o link do arquivo solicitado por e-mail e para manter um registro das
+              solicitações.
+            </p>
+            <p>
+              <strong>Base legal:</strong> consentimento (LGPD, Lei nº 13.709/2018), manifestado ao
+              marcar a caixa de autorização no formulário.
+            </p>
+            <p>
+              <strong>Uso e compartilhamento:</strong> os dados não são vendidos nem compartilhados
+              com terceiros para fins de marketing. Ficam armazenados de forma privada, sob controle
+              do titular do site.
+            </p>
+            <p>
+              <strong>Seus direitos:</strong> você pode solicitar a confirmação, o acesso, a
+              correção ou a exclusão dos seus dados, bem como revogar o consentimento, a qualquer
+              momento, pelo e-mail {email && <a href={`mailto:${email}`}>{email}</a>}.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              When you request a file download on this site, you provide your <strong>name</strong>{' '}
+              and
+              <strong> email</strong>. This data is used solely to email you the link to the
+              requested file and to keep a record of requests.
+            </p>
+            <p>
+              <strong>Legal basis:</strong> consent (Brazil's LGPD, Law 13.709/2018), given by
+              checking the authorization box in the form.
+            </p>
+            <p>
+              <strong>Use and sharing:</strong> your data is neither sold nor shared with third
+              parties for marketing. It is stored privately, under the site owner's control.
+            </p>
+            <p>
+              <strong>Your rights:</strong> you may request confirmation, access, correction or
+              deletion of your data, and withdraw consent at any time, by emailing{' '}
+              {email && <a href={`mailto:${email}`}>{email}</a>}.
+            </p>
+          </>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: 60ch;
+  }
+  .prose p {
+    margin: 0 0 1rem;
+  }
+</style>

@@ -78,7 +78,9 @@ rel="noopener noreferrer"`). Contact is links only (email/social) — no contact
 - All owner-facing content and every UI-string key must exist in both PT and EN
   (`src/content/ui/pt.json` and `en.json`). Content schemas enforce bilingual fields (e.g.
   `title_pt`/`title_en`); `resources`/`keynotes` require either `url` (external) or `pdf` (in `public/`).
-- Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`).
+- Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`);
+  `PUBLIC_API_URL` (build-time, embedded via `import.meta.env.PUBLIC_API_URL`) is the download-gate
+  API base used as the `action` of the request form (`DownloadGate.astro`).
 - Deploy: pushing to `main` runs `.github/workflows/deploy.yml` (static build → GitHub Pages).
 - Sample content under `src/content/*` (files prefixed `exemplo-`) and `public/` PDFs is placeholder —
   replace with real data.
