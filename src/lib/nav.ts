@@ -19,6 +19,7 @@ export const NAV_ITEMS: NavItem[] = [
     labelKey: 'navCertifications',
     slugs: { pt: 'certificacoes', en: 'certifications' },
   },
+  { key: 'atuacao', labelKey: 'navAtuacao', slugs: { pt: 'atuacao', en: 'expertise' } },
   { key: 'articles', labelKey: 'navArticles', slugs: { pt: 'artigos', en: 'articles' } },
   { key: 'resources', labelKey: 'navResources', slugs: { pt: 'recursos', en: 'resources' } },
   { key: 'keynotes', labelKey: 'navKeynotes', slugs: { pt: 'keynotes', en: 'keynotes' } },
