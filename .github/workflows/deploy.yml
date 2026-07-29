@@ -29,6 +29,9 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           BASE_PATH: ${{ vars.BASE_PATH }}
+          # URL pública do backend de download-gate (api/). Se não definida, o
+          # site usa o fallback embutido em DownloadGate.astro.
+          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:
