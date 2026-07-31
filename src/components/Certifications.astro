@@ -1,5 +1,6 @@
 ---
 import { t, type Locale } from '../lib/i18n';
+import { groupCertificationsByIssuer } from '../lib/certifications';
 
 interface Certification {
   name: string;
@@ -18,40 +19,127 @@ interface Props {
 }
 
 const { id, items, strings, fallback } = Astro.props;
+// Consolida as certificações por instituição: cada grupo é um <details> nativo
+// (acordeão sem JS) que expande ao clicar. Ver src/lib/certifications.ts.
+const groups = groupCertificationsByIssuer(items);
 ---
 
 <section class="section" id={id} aria-labelledby={`${id}-title`}>
   <div class="container">
     <h2 id={`${id}-title`}>{t(strings, 'sectionCertifications', fallback)}</h2>
-    <ul class="cert-list">
+    <div class="cert-groups">
       {
-        items.map((c) => (
-          <li class="cert-item">
-            <div>
-              <p class="cert-name">{c.name}</p>
-              <p class="cert-meta">
-                {c.issuer} · {c.year}
-              </p>
-            </div>
-            {c.verifyUrl && (
-              <a class="cert-verify" href={c.verifyUrl} target="_blank" rel="noopener noreferrer">
-                {t(strings, 'certVerify', fallback)}
-              </a>
-            )}
-          </li>
+        groups.map((g) => (
+          <details class="cert-group">
+            <summary class="cert-group-summary">
+              <span class="cert-group-issuer">{g.issuer}</span>
+              <span class="cert-group-count">{g.items.length}</span>
+              <svg
+                class="cert-group-chevron"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="4 6 8 10 12 6" />
+              </svg>
+            </summary>
+            <ul class="cert-list">
+              {g.items.map((c) => (
+                <li class="cert-item">
+                  <div>
+                    <p class="cert-name">{c.name}</p>
+                    <p class="cert-meta">{c.year}</p>
+                  </div>
+                  {c.verifyUrl && (
+                    <a
+                      class="cert-verify"
+                      href={c.verifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t(strings, 'certVerify', fallback)}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </details>
         ))
       }
-    </ul>
+    </div>
   </div>
 </section>
 
 <style>
-  .cert-list {
-    list-style: none;
-    padding: 0;
-    margin: 1.5rem 0 0;
+  .cert-groups {
     display: grid;
     gap: 0.75rem;
+    margin: 1.5rem 0 0;
+  }
+  .cert-group {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .cert-group-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+  }
+  /* Remove o marcador nativo do <summary> (usamos o chevron abaixo). */
+  .cert-group-summary::-webkit-details-marker {
+    display: none;
+  }
+  .cert-group-summary::marker {
+    content: '';
+  }
+  .cert-group-summary:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  .cert-group-issuer {
+    flex: 1;
+  }
+  .cert-group-count {
+    flex-shrink: 0;
+    min-width: 1.5rem;
+    padding: 0.1rem 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+  }
+  .cert-group-chevron {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    transition: transform 0.2s ease;
+  }
+  .cert-group[open] .cert-group-chevron {
+    transform: rotate(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cert-group-chevron {
+      transition: none;
+    }
+  }
+  .cert-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 1.25rem 0.5rem;
+    display: grid;
   }
   .cert-item {
     display: flex;
@@ -59,10 +147,8 @@ const { id, items, strings, fallback } = Astro.props;
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--color-border);
   }
   .cert-name {
     font-weight: 600;
