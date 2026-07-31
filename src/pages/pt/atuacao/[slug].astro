@@ -1,0 +1,13 @@
+---
+import AtuacaoAreaPage from '../../../components/AtuacaoAreaPage.astro';
+import { getAtuacao } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const areas = await getAtuacao();
+  return areas.map((area) => ({ params: { slug: area.slug }, props: { area } }));
+}
+
+const { area } = Astro.props;
+---
+
+<AtuacaoAreaPage locale="pt" area={area} />

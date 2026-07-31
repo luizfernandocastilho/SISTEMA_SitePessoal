@@ -1,8 +1,10 @@
 ---
 import { withBase } from '../lib/paths';
+import { atuacaoAreaUrl } from '../lib/nav';
 import { t, type Locale } from '../lib/i18n';
 
 interface AtuacaoItem {
+  slug: string;
   title_pt: string;
   title_en: string;
   description_pt?: string;
@@ -34,17 +36,16 @@ const label = t(strings, 'sectionAtuacao', fallback);
         items.map((a) => {
           const title = locale === 'pt' ? a.title_pt : a.title_en;
           const description = locale === 'pt' ? a.description_pt : a.description_en;
-          const href = a.pdf ? withBase(a.pdf, base) : (a.url ?? null);
+          // Cada card leva à página da área (o deck fica acessível a partir dela).
+          const href = atuacaoAreaUrl(locale, a.slug);
           const cover = a.cover
             ? a.cover.startsWith('http')
               ? a.cover
               : withBase(a.cover, base)
             : null;
-          const Card = href ? 'a' : 'div';
-          const linkProps = href ? { href, target: '_blank', rel: 'noopener noreferrer' } : {};
           return (
             <li class="atuacao-card">
-              <Card {...linkProps}>
+              <a href={href}>
                 <span class="atuacao-cover">
                   {cover ? (
                     <img src={cover} alt={title} loading="lazy" width="480" height="270" />
@@ -57,11 +58,9 @@ const label = t(strings, 'sectionAtuacao', fallback);
                 <span class="atuacao-body">
                   {cover && <span class="atuacao-title">{title}</span>}
                   {description && <span class="atuacao-desc">{description}</span>}
-                  {href && (
-                    <span class="atuacao-action">{t(strings, 'atuacaoView', fallback)} →</span>
-                  )}
+                  <span class="atuacao-action">{t(strings, 'atuacaoView', fallback)} →</span>
                 </span>
-              </Card>
+              </a>
             </li>
           );
         })

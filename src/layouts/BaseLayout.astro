@@ -11,9 +11,10 @@ interface Props {
   strings: Record<string, string>;
   fallback: Record<string, string>;
   navKey: string;
+  atuacaoSlug?: string;
 }
 
-const { locale, title, description, strings, fallback, navKey } = Astro.props;
+const { locale, title, description, strings, fallback, navKey, atuacaoSlug } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -39,7 +40,13 @@ const year = new Date().getFullYear();
   </head>
   <body>
     <a class="skip-link" href="#main">{t(strings, 'skipToContent', fallback)}</a>
-    <Header locale={locale} strings={strings} fallback={fallback} navKey={navKey} />
+    <Header
+      locale={locale}
+      strings={strings}
+      fallback={fallback}
+      navKey={navKey}
+      atuacaoSlug={atuacaoSlug}
+    />
     <main id="main">
       <slot />
     </main>

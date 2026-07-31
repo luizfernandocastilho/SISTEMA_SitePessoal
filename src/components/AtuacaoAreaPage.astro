@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getUi, getProfile } from '../lib/content';
+import { navUrl } from '../lib/nav';
+import { NAV_ITEMS } from '../lib/nav';
+import { withBase } from '../lib/paths';
+import { t, type Locale } from '../lib/i18n';
+
+interface Area {
+  slug: string;
+  title_pt: string;
+  title_en: string;
+  description_pt?: string;
+  description_en?: string;
+  url?: string;
+  pdf?: string;
+  cover?: string;
+  order?: number;
+}
+
+interface Props {
+  locale: Locale;
+  area: Area;
+}
+
+const { locale, area } = Astro.props;
+const { strings, fallback } = await getUi(locale);
+const profile = await getProfile();
+
+const title = locale === 'pt' ? area.title_pt : area.title_en;
+const description = locale === 'pt' ? area.description_pt : area.description_en;
+const sectionLabel = t(strings, 'sectionAtuacao', fallback);
+const pageTitle = `${title} · ${profile?.name ?? 'Site Pessoal'}`;
+
+const base = import.meta.env.BASE_URL;
+const deckHref = area.pdf ? withBase(area.pdf, base) : (area.url ?? null);
+const gridUrl = navUrl(
+  NAV_ITEMS.find((i) => i.key === 'atuacao')!,
+  locale,
+);
+---
+
+<BaseLayout
+  locale={locale}
+  title={pageTitle}
+  description={description ?? title}
+  strings={strings}
+  fallback={fallback}
+  navKey="atuacao"
+  atuacaoSlug={area.slug}
+>
+  <section class="section">
+    <div class="container area">
+      <p class="section-label">{sectionLabel}</p>
+      <h1>{title}</h1>
+      {description && <p class="area-lead">{description}</p>}
+
+      {
+        deckHref ? (
+          <a class="area-deck" href={deckHref} target="_blank" rel="noopener noreferrer">
+            {t(strings, 'atuacaoView', fallback)} →
+          </a>
+        ) : (
+          <p class="area-soon">{t(strings, 'atuacaoDeckSoon', fallback)}</p>
+        )
+      }
+
+      <p class="area-back">
+        <a href={gridUrl}>← {t(strings, 'atuacaoBack', fallback)}</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .area {
+    max-width: 48rem;
+  }
+  .area-lead {
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+  .area-deck {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  .area-soon {
+    margin-top: 1.5rem;
+    color: var(--color-muted);
+  }
+  .area-back {
+    margin-top: 2.5rem;
+  }
+  .area-back a {
+    color: var(--color-muted);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .area-back a:hover {
+    color: var(--color-text);
+  }
+</style>
