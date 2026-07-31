@@ -35,3 +35,11 @@ export function counterpartUrl(navKey: string, target: Locale): string {
   const item = NAV_ITEMS.find((i) => i.key === navKey);
   return getRelativeLocaleUrl(target, item ? item.slugs[target] : '');
 }
+
+/** URL (base-prefixada) da página de uma área de Atuação, no idioma dado.
+ *  O `slug` é o mesmo nos dois idiomas; só muda o prefixo da seção
+ *  (`atuacao` em PT, `expertise` em EN). */
+export function atuacaoAreaUrl(locale: Locale, slug: string): string {
+  const item = NAV_ITEMS.find((i) => i.key === 'atuacao')!;
+  return getRelativeLocaleUrl(locale, `${item.slugs[locale]}/${slug}`);
+}
