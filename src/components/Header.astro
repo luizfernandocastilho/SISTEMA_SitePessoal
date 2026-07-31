@@ -2,7 +2,7 @@
 import LanguageToggle from './LanguageToggle.astro';
 import type { Locale } from '../lib/i18n';
 import { t } from '../lib/i18n';
-import { NAV_ITEMS, navUrl, atuacaoAreaUrl } from '../lib/nav';
+import { NAV_ITEMS, NAV_CHILDREN, navUrl, navChildUrl, atuacaoAreaUrl } from '../lib/nav';
 import { getAtuacao } from '../lib/content';
 
 interface Props {
@@ -11,9 +11,10 @@ interface Props {
   fallback: Record<string, string>;
   navKey: string;
   atuacaoSlug?: string;
+  counterpartHref?: string;
 }
 
-const { locale, strings, fallback, navKey, atuacaoSlug } = Astro.props;
+const { locale, strings, fallback, navKey, atuacaoSlug, counterpartHref } = Astro.props;
 const homeUrl = navUrl(NAV_ITEMS[0], locale);
 const navLabel = locale === 'pt' ? 'Navegação principal' : 'Main navigation';
 // Áreas de Atuação para o dropdown do menu.
@@ -25,31 +26,51 @@ const atuacaoAreas = await getAtuacao();
     <a class="brand" href={homeUrl} aria-label="Luiz Castilho">◆</a>
     <nav aria-label={navLabel} class="nav">
       {
-        NAV_ITEMS.map((item) =>
-          item.key === 'atuacao' ? (
-            <div class="nav-item nav-has-dropdown">
-              <a
-                href={navUrl(item, locale)}
-                aria-current={item.key === navKey ? 'page' : undefined}
-              >
-                {t(strings, item.labelKey, fallback)}
-              </a>
-              <ul class="nav-dropdown">
-                {atuacaoAreas.map((a) => (
-                  <li>
-                    <a href={atuacaoAreaUrl(locale, a.slug)}>
-                      {locale === 'pt' ? a.title_pt : a.title_en}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <a href={navUrl(item, locale)} aria-current={item.key === navKey ? 'page' : undefined}>
+        NAV_ITEMS.map((item) => {
+          const isCurrent = item.key === navKey ? 'page' : undefined;
+          // Atuação: dropdown gerado da collection `atuacao`.
+          if (item.key === 'atuacao') {
+            return (
+              <div class="nav-item nav-has-dropdown">
+                <a href={navUrl(item, locale)} aria-current={isCurrent}>
+                  {t(strings, item.labelKey, fallback)}
+                </a>
+                <ul class="nav-dropdown">
+                  {atuacaoAreas.map((a) => (
+                    <li>
+                      <a href={atuacaoAreaUrl(locale, a.slug)}>
+                        {locale === 'pt' ? a.title_pt : a.title_en}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }
+          // Demais itens com sub-páginas estáticas (ex.: Recursos → NAV_CHILDREN).
+          const children = NAV_CHILDREN[item.key];
+          if (children?.length) {
+            return (
+              <div class="nav-item nav-has-dropdown">
+                <a href={navUrl(item, locale)} aria-current={isCurrent}>
+                  {t(strings, item.labelKey, fallback)}
+                </a>
+                <ul class="nav-dropdown">
+                  {children.map((c) => (
+                    <li>
+                      <a href={navChildUrl(item, c, locale)}>{t(strings, c.labelKey, fallback)}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }
+          return (
+            <a href={navUrl(item, locale)} aria-current={isCurrent}>
               {t(strings, item.labelKey, fallback)}
             </a>
-          ),
-        )
+          );
+        })
       }
     </nav>
     <LanguageToggle
@@ -58,6 +79,7 @@ const atuacaoAreas = await getAtuacao();
       fallback={fallback}
       navKey={navKey}
       atuacaoSlug={atuacaoSlug}
+      counterpartHref={counterpartHref}
     />
   </div>
 </header>

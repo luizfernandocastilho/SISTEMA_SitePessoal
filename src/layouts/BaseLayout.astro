@@ -12,9 +12,11 @@ interface Props {
   fallback: Record<string, string>;
   navKey: string;
   atuacaoSlug?: string;
+  counterpartHref?: string;
 }
 
-const { locale, title, description, strings, fallback, navKey, atuacaoSlug } = Astro.props;
+const { locale, title, description, strings, fallback, navKey, atuacaoSlug, counterpartHref } =
+  Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -46,6 +48,7 @@ const year = new Date().getFullYear();
       fallback={fallback}
       navKey={navKey}
       atuacaoSlug={atuacaoSlug}
+      counterpartHref={counterpartHref}
     />
     <main id="main">
       <slot />

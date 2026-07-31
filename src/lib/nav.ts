@@ -12,6 +12,29 @@ export interface NavItem {
   slugs: Record<Locale, string>;
 }
 
+/**
+ * Sub-itens (dropdown) de um item do menu, indexados pela `key` do pai. Cada filho
+ * tem um `slug` por idioma RELATIVO ao slug da seção pai (ex.: pai `recursos` +
+ * filho `analises-e-relatorios` → `/recursos/analises-e-relatorios`). São páginas
+ * internas dedicadas. O dropdown de Atuação é gerado da collection `atuacao`; este
+ * mapa serve os sub-itens estáticos (ex.: Recursos).
+ */
+export interface NavChild {
+  key: string;
+  labelKey: string;
+  slugs: Record<Locale, string>;
+}
+
+export const NAV_CHILDREN: Record<string, NavChild[]> = {
+  resources: [
+    {
+      key: 'analises',
+      labelKey: 'navRecursoAnalises',
+      slugs: { pt: 'analises-e-relatorios', en: 'analyses-and-reports' },
+    },
+  ],
+};
+
 export const NAV_ITEMS: NavItem[] = [
   { key: 'home', labelKey: 'navAbout', slugs: { pt: '', en: '' } },
   {
@@ -42,4 +65,9 @@ export function counterpartUrl(navKey: string, target: Locale): string {
 export function atuacaoAreaUrl(locale: Locale, slug: string): string {
   const item = NAV_ITEMS.find((i) => i.key === 'atuacao')!;
   return getRelativeLocaleUrl(locale, `${item.slugs[locale]}/${slug}`);
+}
+
+/** URL (base-prefixada) de um sub-item (página interna dedicada) no idioma dado. */
+export function navChildUrl(parent: NavItem, child: NavChild, locale: Locale): string {
+  return getRelativeLocaleUrl(locale, `${parent.slugs[locale]}/${child.slugs[locale]}`);
 }
