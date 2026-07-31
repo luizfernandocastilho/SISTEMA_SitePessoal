@@ -9,13 +9,17 @@ interface Props {
   fallback: Record<string, string>;
   navKey: string;
   atuacaoSlug?: string;
+  counterpartHref?: string;
 }
 
-const { locale, strings, fallback, navKey, atuacaoSlug } = Astro.props;
+const { locale, strings, fallback, navKey, atuacaoSlug, counterpartHref } = Astro.props;
 const target = otherLocale(locale);
 // Link para a MESMA página no outro idioma (preserva a página). Sem JS.
-// Em páginas de área de Atuação, preserva a área específica pelo slug.
-const href = atuacaoSlug ? atuacaoAreaUrl(target, atuacaoSlug) : counterpartUrl(navKey, target);
+// `counterpartHref` (páginas internas dedicadas) tem precedência; senão, área de
+// Atuação pelo slug; senão, a seção do próprio item.
+const href =
+  counterpartHref ??
+  (atuacaoSlug ? atuacaoAreaUrl(target, atuacaoSlug) : counterpartUrl(navKey, target));
 ---
 
 <a class="lang-toggle" href={href} hreflang={target}>
