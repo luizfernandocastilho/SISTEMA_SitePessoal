@@ -22,6 +22,7 @@ const { id, items, strings, fallback } = Astro.props;
 // Consolida as certificações por instituição: cada grupo é um <details> nativo
 // (acordeão sem JS) que expande ao clicar. Ver src/lib/certifications.ts.
 const groups = groupCertificationsByIssuer(items);
+const verifyLabel = t(strings, 'certVerify', fallback);
 ---
 
 <section class="section" id={id} aria-labelledby={`${id}-title`}>
@@ -63,7 +64,7 @@ const groups = groupCertificationsByIssuer(items);
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {t(strings, 'certVerify', fallback)}
+                      {verifyLabel}
                     </a>
                   )}
                 </li>
@@ -72,17 +73,66 @@ const groups = groupCertificationsByIssuer(items);
           </details>
         ))
       }
+
+      {
+        /*
+        Medidor invisível: replica os grupos JÁ ABERTOS para fixar a largura do
+        acordeão na maior linha (cabeçalho ou nome de certificação + link), mesmo
+        com os <details> recolhidos (que usam display:none no conteúdo). Não é
+        pintado nem lido por leitores de tela (height:0 + visibility:hidden +
+        aria-hidden), mas contribui para o `max-content` do container. Ver #78.
+      */
+      }
+      <div class="cert-groups-sizer" aria-hidden="true">
+        {
+          groups.map((g) => (
+            <div class="cert-group">
+              <div class="cert-group-summary">
+                <span class="cert-group-issuer">{g.issuer}</span>
+                <span class="cert-group-count">{g.items.length}</span>
+                <svg
+                  class="cert-group-chevron"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  aria-hidden="true"
+                >
+                  <polyline points="4 6 8 10 12 6" />
+                </svg>
+              </div>
+              <ul class="cert-list">
+                {g.items.map((c) => (
+                  <li class="cert-item">
+                    <div>
+                      <p class="cert-name">{c.name}</p>
+                      <p class="cert-meta">{c.year}</p>
+                    </div>
+                    {c.verifyUrl && <span class="cert-verify">{verifyLabel}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  /* Largura mínima e uniforme: o container encolhe para a maior linha do seu
+     conteúdo (max-content) sem estourar o .container; todos os grupos herdam
+     essa largura via width:100%. Alinhado à esquerda. Ver #78. */
   .cert-groups {
     display: grid;
+    justify-items: start;
+    width: max-content;
+    max-width: 100%;
     gap: 0.75rem;
     margin: 1.5rem 0 0;
   }
   .cert-group {
+    width: 100%;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
@@ -95,6 +145,7 @@ const groups = groupCertificationsByIssuer(items);
     cursor: pointer;
     font-weight: 600;
     list-style: none;
+    white-space: nowrap;
   }
   /* Remove o marcador nativo do <summary> (usamos o chevron abaixo). */
   .cert-group-summary::-webkit-details-marker {
@@ -125,6 +176,11 @@ const groups = groupCertificationsByIssuer(items);
   .cert-group-chevron {
     flex-shrink: 0;
     color: var(--color-muted);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     transition: transform 0.2s ease;
   }
   .cert-group[open] .cert-group-chevron {
@@ -146,13 +202,14 @@ const groups = groupCertificationsByIssuer(items);
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     padding: 0.75rem 0;
     border-top: 1px solid var(--color-border);
   }
   .cert-name {
     font-weight: 600;
     margin: 0;
+    white-space: nowrap;
   }
   .cert-meta {
     margin: 0.15rem 0 0;
@@ -162,5 +219,33 @@ const groups = groupCertificationsByIssuer(items);
   .cert-verify {
     white-space: nowrap;
     font-weight: 600;
+  }
+
+  /* Medidor: em fluxo (contribui para o max-content) mas sem altura nem pintura. */
+  .cert-groups-sizer {
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+  }
+  .cert-groups-sizer .cert-group {
+    /* Sizes to its own (always-open) content, so it drives o max-content do container. */
+    width: max-content;
+  }
+
+  /* Telas estreitas: volta à largura total com quebra natural, sem overflow. */
+  @media (max-width: 640px) {
+    .cert-groups {
+      width: auto;
+    }
+    .cert-groups-sizer {
+      display: none;
+    }
+    .cert-group-summary,
+    .cert-name {
+      white-space: normal;
+    }
+    .cert-item {
+      flex-wrap: wrap;
+    }
   }
 </style>
