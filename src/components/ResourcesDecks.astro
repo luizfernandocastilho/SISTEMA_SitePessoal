@@ -1,0 +1,100 @@
+---
+import { NAV_ITEMS, NAV_CHILDREN, navChildUrl } from '../lib/nav';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  id: string;
+  locale: Locale;
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { id, locale, strings, fallback } = Astro.props;
+// Cada subitem de Recursos (nav.ts) vira um deck que leva à sua página interna.
+const parent = NAV_ITEMS.find((i) => i.key === 'resources')!;
+const children = NAV_CHILDREN['resources'] ?? [];
+const label = t(strings, 'sectionResources', fallback);
+---
+
+<section class="section" id={id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <h2 id={`${id}-title`}>{label}</h2>
+    <ul class="deck-grid">
+      {
+        children.map((c) => {
+          const title = t(strings, c.labelKey, fallback);
+          return (
+            <li class="deck-card">
+              <a href={navChildUrl(parent, c, locale)}>
+                <span class="deck-cover">
+                  <span class="deck-slide">
+                    <span class="deck-slide-title">{title}</span>
+                  </span>
+                </span>
+                <span class="deck-body">
+                  <span class="deck-action">{t(strings, 'resourceOpen', fallback)} →</span>
+                </span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .deck-grid {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .deck-card a {
+    display: block;
+    text-decoration: none;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    overflow: hidden;
+    height: 100%;
+  }
+  .deck-card a:hover {
+    border-color: var(--color-accent);
+  }
+  .deck-cover {
+    display: block;
+    aspect-ratio: 16 / 9;
+  }
+  /* Painel estilo slide (sem capa): fundo verde, tipografia Oswald reversa. */
+  .deck-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 1.1rem;
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    border-top: 3px solid var(--color-accent-vivid, #4fb055);
+  }
+  .deck-slide-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.15;
+  }
+  .deck-body {
+    display: block;
+    padding: 0.85rem 1rem 1rem;
+  }
+  .deck-action {
+    display: block;
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+</style>

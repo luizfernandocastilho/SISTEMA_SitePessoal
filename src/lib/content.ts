@@ -34,12 +34,6 @@ export async function getArticles() {
     );
 }
 
-/** Recursos ordenados por `order` (asc). */
-export async function getResources() {
-  const all = await getCollection('resources');
-  return all.map((e) => e.data).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-}
-
 /** Keynotes ordenados por `order` (asc) e depois data desc. */
 export async function getKeynotes() {
   const all = await getCollection('keynotes');

@@ -42,8 +42,8 @@ The `api/` service has its own package/tooling — see its section below.
 - **Content is data, separated from layout** (constitution Principle IV). All owner-maintained
   content lives in versioned **Astro content collections** under `src/content/`, with Zod schemas in
   `src/content.config.ts`: `profile` (single bilingual item), `certifications`, `articles`,
-  `resources`, `keynotes`, and `ui` (interface strings, one file per locale). `articles`/`resources`/
-  `keynotes` hold metadata; the actual PDFs live in `public/`. Adding an item means editing content
+  `keynotes`, and `ui` (interface strings, one file per locale). `articles`/`keynotes` hold
+  metadata; the actual PDFs live in `public/`. Adding an item means editing content
   only — never layout. Data access goes through `src/lib/content.ts` (typed getters that also apply
   the `order`-then-date/year sort).
 
@@ -77,7 +77,7 @@ The `api/` service has its own package/tooling — see its section below.
 rel="noopener noreferrer"`). Contact is links only (email/social) — no contact form.
 - All owner-facing content and every UI-string key must exist in both PT and EN
   (`src/content/ui/pt.json` and `en.json`). Content schemas enforce bilingual fields (e.g.
-  `title_pt`/`title_en`); `resources`/`keynotes` require either `url` (external) or `pdf` (in `public/`).
+  `title_pt`/`title_en`); `keynotes` require either `url` (external) or `pdf` (in `public/`).
 - Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`);
   `PUBLIC_API_URL` (build-time, embedded via `import.meta.env.PUBLIC_API_URL`) is the download-gate
   API base used as the `action` of the request form (`DownloadGate.astro`).
