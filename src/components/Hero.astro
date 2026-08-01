@@ -13,6 +13,8 @@ interface Profile {
   name: string;
   headline_pt: string;
   headline_en: string;
+  bio_pt?: string[];
+  bio_en?: string[];
   email: string;
   socialLinks: SocialLink[];
   photo?: string;
@@ -31,6 +33,7 @@ const { locale, profile, strings, fallback } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
 const headline = locale === 'pt' ? profile.headline_pt : profile.headline_en;
+const bio = locale === 'pt' ? profile.bio_pt : profile.bio_en;
 const photoAlt = locale === 'pt' ? profile.photoAlt_pt : profile.photoAlt_en;
 const photoSrc = profile.photo ? withBase(profile.photo, base) : null;
 ---
@@ -54,6 +57,7 @@ const photoSrc = profile.photo ? withBase(profile.photo, base) : null;
     <div>
       <h1 id="hero-name">{profile.name}</h1>
       <p class="hero-headline">{headline}</p>
+      {bio?.map((paragraph) => <p class="hero-bio">{paragraph}</p>)}
       <p class="hero-links">
         {
           profile.socialLinks.map((s) => (
@@ -95,6 +99,15 @@ const photoSrc = profile.photo ? withBase(profile.photo, base) : null;
     font-size: clamp(1.05rem, 2.5vw, 1.3rem);
     color: var(--color-muted);
     max-width: 46ch;
+  }
+  .hero-bio {
+    margin-top: 1rem;
+    max-width: 62ch;
+    line-height: 1.65;
+    color: var(--color-text);
+  }
+  .hero-bio + .hero-bio {
+    margin-top: 0.85rem;
   }
   .hero-links {
     display: flex;
