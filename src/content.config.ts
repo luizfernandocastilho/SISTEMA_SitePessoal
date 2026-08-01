@@ -9,6 +9,9 @@ const profile = defineCollection({
       name: z.string(),
       headline_pt: z.string(),
       headline_en: z.string(),
+      // Bio da home (um item por parágrafo), logo após a headline.
+      bio_pt: z.array(z.string()).optional(),
+      bio_en: z.array(z.string()).optional(),
       email: z.string().email(),
       socialLinks: z
         .array(
@@ -25,6 +28,9 @@ const profile = defineCollection({
     })
     .refine((d) => !d.photo || (!!d.photoAlt_pt && !!d.photoAlt_en), {
       message: 'photoAlt_pt e photoAlt_en são obrigatórios quando photo está presente',
+    })
+    .refine((d) => !!d.bio_pt === !!d.bio_en, {
+      message: 'bio_pt e bio_en devem estar ambos presentes (site bilíngue)',
     }),
 });
 
