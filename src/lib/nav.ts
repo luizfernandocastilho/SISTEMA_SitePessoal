@@ -23,6 +23,8 @@ export interface NavChild {
   key: string;
   labelKey: string;
   slugs: Record<Locale, string>;
+  /** Imagem de fundo do deck (em public/, sem base). Opcional. */
+  cover?: string;
 }
 
 export const NAV_CHILDREN: Record<string, NavChild[]> = {
@@ -31,6 +33,7 @@ export const NAV_CHILDREN: Record<string, NavChild[]> = {
       key: 'analises',
       labelKey: 'navRecursoAnalises',
       slugs: { pt: 'analises-e-relatorios', en: 'analyses-and-reports' },
+      cover: 'images/recursos-analises-relatorios.webp',
     },
   ],
 };
