@@ -3,5 +3,6 @@
   "title_en": "Crisis Management",
   "description_pt": "Preparação e resposta a crises: comitês, protocolos de decisão, comunicação e coordenação sob pressão.",
   "description_en": "Crisis preparedness and response: committees, decision protocols, communication and coordination under pressure.",
-  "order": 5
+  "order": 5,
+  "icon": "crisis"
 }

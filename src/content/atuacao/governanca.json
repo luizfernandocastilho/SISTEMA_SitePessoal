@@ -3,5 +3,6 @@
   "title_en": "Governance",
   "description_pt": "Estruturação de governança corporativa e de TI: papéis, comitês, políticas e controles para decisão e accountability.",
   "description_en": "Corporate and IT governance structuring: roles, committees, policies and controls for decision-making and accountability.",
-  "order": 1
+  "order": 1,
+  "icon": "governance"
 }

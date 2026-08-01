@@ -3,5 +3,6 @@
   "title_en": "Program & Portfolio Management",
   "description_pt": "Gestão de programas e portfólio: priorização, alinhamento estratégico e realização de benefícios.",
   "description_en": "Program and portfolio management: prioritization, strategic alignment and benefits realization.",
-  "order": 9
+  "order": 9,
+  "icon": "portfolio"
 }

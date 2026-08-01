@@ -1,0 +1,123 @@
+---
+// Ícones temáticos das áreas de Atuação — SVG inline (sem biblioteca), line/stroke.
+// Decorativos: aria-hidden. Herdam a cor via currentColor. Ver SocialIcon.astro.
+import type { AtuacaoIconName } from '../lib/atuacaoIcons';
+
+interface Props {
+  name: AtuacaoIconName;
+}
+
+const { name } = Astro.props;
+---
+
+<span class="atuacao-icon" aria-hidden="true">
+  {
+    name === 'governance' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <polyline points="3 9 12 4 21 9" />
+        <line x1="4" y1="20" x2="20" y2="20" />
+        <line x1="6" y1="9" x2="6" y2="20" />
+        <line x1="10" y1="9" x2="10" y2="20" />
+        <line x1="14" y1="9" x2="14" y2="20" />
+        <line x1="18" y1="9" x2="18" y2="20" />
+      </svg>
+    )
+  }
+  {
+    name === 'project' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <line x1="4" y1="7" x2="14" y2="7" />
+        <line x1="8" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="17" x2="11" y2="17" />
+      </svg>
+    )
+  }
+  {
+    name === 'process' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <rect x="3" y="4" width="7" height="5" rx="1" />
+        <rect x="14" y="15" width="7" height="5" rx="1" />
+        <path d="M6.5 9 V15.5 a2 2 0 0 0 2 2 H14" />
+      </svg>
+    )
+  }
+  {
+    name === 'risk' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <path d="M12 4 21 20 3 20 Z" />
+        <line x1="12" y1="10" x2="12" y2="14" />
+        <line x1="12" y1="17" x2="12" y2="17" />
+      </svg>
+    )
+  }
+  {
+    name === 'crisis' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <path d="M7 20 v-4 a5 5 0 0 1 10 0 v4 Z" />
+        <line x1="12" y1="8" x2="12" y2="6" />
+        <line x1="5.5" y1="10" x2="4" y2="9" />
+        <line x1="18.5" y1="10" x2="20" y2="9" />
+      </svg>
+    )
+  }
+  {
+    name === 'continuity' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <path d="M4.5 11 a7.5 7.5 0 0 1 12.9 -4.2" />
+        <polyline points="17.5 3 17.5 7 13.5 7" />
+        <path d="M19.5 13 a7.5 7.5 0 0 1 -12.9 4.2" />
+        <polyline points="6.5 21 6.5 17 10.5 17" />
+      </svg>
+    )
+  }
+  {
+    name === 'change' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <line x1="4" y1="8" x2="17" y2="8" />
+        <polyline points="14 5 17 8 14 11" />
+        <line x1="20" y1="16" x2="7" y2="16" />
+        <polyline points="10 13 7 16 10 19" />
+      </svg>
+    )
+  }
+  {
+    name === 'ai' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <rect x="7" y="7" width="10" height="10" rx="1" />
+        <rect x="10.5" y="10.5" width="3" height="3" />
+        <line x1="10" y1="4" x2="10" y2="7" />
+        <line x1="14" y1="4" x2="14" y2="7" />
+        <line x1="10" y1="17" x2="10" y2="20" />
+        <line x1="14" y1="17" x2="14" y2="20" />
+        <line x1="4" y1="10" x2="7" y2="10" />
+        <line x1="4" y1="14" x2="7" y2="14" />
+        <line x1="17" y1="10" x2="20" y2="10" />
+        <line x1="17" y1="14" x2="20" y2="14" />
+      </svg>
+    )
+  }
+  {
+    name === 'portfolio' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+    )
+  }
+</span>
+
+<style>
+  .atuacao-icon {
+    display: inline-flex;
+  }
+  .atuacao-icon svg {
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

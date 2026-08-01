@@ -3,5 +3,6 @@
   "title_en": "Change Management",
   "description_pt": "Gestão da mudança organizacional (HCMBOK): engajamento de pessoas, comunicação e adoção sustentável.",
   "description_en": "Organizational change management (HCMBOK): people engagement, communication and sustainable adoption.",
-  "order": 7
+  "order": 7,
+  "icon": "change"
 }
