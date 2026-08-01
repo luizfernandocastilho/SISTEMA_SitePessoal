@@ -3,5 +3,6 @@
   "title_en": "Project Management",
   "description_pt": "Condução de projetos do início ao encerramento: escopo, prazo, custo, riscos e stakeholders, com práticas PMI e ágeis.",
   "description_en": "Leading projects end to end: scope, schedule, cost, risks and stakeholders, using PMI and agile practices.",
-  "order": 2
+  "order": 2,
+  "icon": "project"
 }

@@ -2,6 +2,8 @@
 import { withBase } from '../lib/paths';
 import { atuacaoAreaUrl } from '../lib/nav';
 import { t, type Locale } from '../lib/i18n';
+import AtuacaoIcon from './AtuacaoIcon.astro';
+import type { AtuacaoIconName } from '../lib/atuacaoIcons';
 
 interface AtuacaoItem {
   slug: string;
@@ -13,6 +15,7 @@ interface AtuacaoItem {
   pdf?: string;
   cover?: string;
   order?: number;
+  icon?: AtuacaoIconName;
 }
 
 interface Props {
@@ -51,6 +54,11 @@ const label = t(strings, 'sectionAtuacao', fallback);
                     <img src={cover} alt={title} loading="lazy" width="480" height="270" />
                   ) : (
                     <span class="atuacao-slide">
+                      {a.icon && (
+                        <span class="atuacao-slide-icon">
+                          <AtuacaoIcon name={a.icon} />
+                        </span>
+                      )}
                       <span class="atuacao-slide-title">{title}</span>
                     </span>
                   )}
@@ -112,6 +120,12 @@ const label = t(strings, 'sectionAtuacao', fallback);
     background: var(--color-accent);
     color: var(--color-accent-contrast);
     border-top: 3px solid var(--color-accent-vivid, #4fb055);
+  }
+  /* Ícone no topo do slide (título fica no rodapé via justify-content: flex-end). */
+  .atuacao-slide-icon {
+    display: inline-flex;
+    margin-bottom: auto;
+    color: var(--color-accent-contrast);
   }
   .atuacao-slide-title {
     font-family: var(--font-display);

@@ -97,6 +97,20 @@ const atuacao = defineCollection({
     pdf: z.string().optional(),
     cover: z.string().optional(),
     order: z.number().optional(),
+    // Ícone temático do card (renderizado por AtuacaoIcon.astro).
+    icon: z
+      .enum([
+        'governance',
+        'project',
+        'process',
+        'risk',
+        'crisis',
+        'continuity',
+        'change',
+        'ai',
+        'portfolio',
+      ])
+      .optional(),
   }),
 });
 

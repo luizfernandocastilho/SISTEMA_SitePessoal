@@ -3,5 +3,6 @@
   "title_en": "Business Continuity Management",
   "description_pt": "Continuidade de negócios e resiliência operacional: análise de impacto (BIA), planos de recuperação e testes.",
   "description_en": "Business continuity and operational resilience: business impact analysis (BIA), recovery plans and testing.",
-  "order": 6
+  "order": 6,
+  "icon": "continuity"
 }
