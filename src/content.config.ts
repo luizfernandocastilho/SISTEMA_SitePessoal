@@ -60,28 +60,6 @@ const articles = defineCollection({
     }),
 });
 
-// Recursos — links/downloads úteis. Cada item aponta para `url` (externo) ou `pdf`
-// (arquivo em public/). Um item por arquivo.
-const resources = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/resources' }),
-  schema: z
-    .object({
-      title_pt: z.string(),
-      title_en: z.string(),
-      description_pt: z.string().optional(),
-      description_en: z.string().optional(),
-      url: z.string().url().optional(),
-      pdf: z.string().optional(),
-      order: z.number().optional(),
-      // Gate de download por e-mail (arquivo no backend, servido por token).
-      gated: z.boolean().optional(),
-      fileId: z.string().optional(),
-    })
-    .refine((d) => !!d.url || !!d.pdf || (d.gated === true && !!d.fileId), {
-      message: 'Informe url (externo), pdf (arquivo em public/) ou gated + fileId (backend)',
-    }),
-});
-
 // Keynotes — apresentações/decks. Aponta para `url` (externo) ou `pdf` (public/).
 // `cover` opcional (imagem da capa do deck). Um item por arquivo.
 const keynotes = defineCollection({
@@ -131,4 +109,4 @@ const ui = defineCollection({
   }),
 });
 
-export const collections = { profile, certifications, articles, resources, keynotes, atuacao, ui };
+export const collections = { profile, certifications, articles, keynotes, atuacao, ui };

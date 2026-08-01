@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Resources from './Resources.astro';
-import { getUi, getProfile, getResources } from '../lib/content';
+import ResourcesDecks from './ResourcesDecks.astro';
+import { getUi, getProfile } from '../lib/content';
 import { t, type Locale } from '../lib/i18n';
 
 interface Props {
@@ -11,7 +11,6 @@ interface Props {
 const { locale } = Astro.props;
 const { strings, fallback } = await getUi(locale);
 const profile = await getProfile();
-const resources = await getResources();
 
 const section = t(strings, 'sectionResources', fallback);
 const title = `${section} · ${profile?.name ?? 'Site Pessoal'}`;
@@ -25,11 +24,5 @@ const title = `${section} · ${profile?.name ?? 'Site Pessoal'}`;
   fallback={fallback}
   navKey="resources"
 >
-  <Resources
-    id="resources"
-    locale={locale}
-    items={resources}
-    strings={strings}
-    fallback={fallback}
-  />
+  <ResourcesDecks id="resources" locale={locale} strings={strings} fallback={fallback} />
 </BaseLayout>
