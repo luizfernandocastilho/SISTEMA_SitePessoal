@@ -76,18 +76,26 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
 </section>
 
 <style>
+  /* Largura mínima e uniforme (padrão das Certificações): a lista encolhe para a
+     maior linha do conteúdo (max-content) sem estourar o .container; todos os
+     blocos herdam essa largura via width:100%. Alinhada à esquerda. Ver #98. */
   .article-list {
     list-style: none;
     padding: 0;
     margin: 1.5rem 0 0;
     display: grid;
+    justify-items: start;
+    width: max-content;
+    max-width: 100%;
     gap: 0.75rem;
   }
   .article-item {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    /* wrap mantido para o gate aberto (flex-basis:100%) descer para a própria linha. */
     flex-wrap: wrap;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -97,6 +105,7 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
   .article-title {
     font-weight: 600;
     margin: 0;
+    white-space: nowrap;
   }
   .article-meta {
     margin: 0.15rem 0 0;
@@ -125,5 +134,15 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
   }
   .item-gate[open] {
     flex-basis: 100%;
+  }
+
+  /* Telas estreitas: volta à largura total com quebra natural, sem overflow. */
+  @media (max-width: 640px) {
+    .article-list {
+      width: auto;
+    }
+    .article-title {
+      white-space: normal;
+    }
   }
 </style>
