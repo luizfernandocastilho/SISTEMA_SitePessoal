@@ -25,6 +25,9 @@ export interface NavChild {
   slugs: Record<Locale, string>;
   /** Imagem de fundo do deck (em public/, sem base). Opcional. */
   cover?: string;
+  /** PDF para download (em public/, sem base). Quando presente, o deck vira um
+   *  link de download ("Baixar PDF") em vez de abrir a página interna. Opcional. */
+  pdf?: string;
 }
 
 export const NAV_CHILDREN: Record<string, NavChild[]> = {
