@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Articles from './Articles.astro';
-import { getUi, getProfile, getArticles } from '../lib/content';
+import Livros from './Livros.astro';
+import { getUi, getProfile, getLivros } from '../lib/content';
 import { NAV_ITEMS, NAV_CHILDREN, navChildUrl } from '../lib/nav';
 import { t, otherLocale, type Locale } from '../lib/i18n';
 
@@ -12,14 +12,14 @@ interface Props {
 const { locale } = Astro.props;
 const { strings, fallback } = await getUi(locale);
 const profile = await getProfile();
-const articles = await getArticles();
+const livros = await getLivros();
 
-const section = t(strings, 'sectionArticles', fallback);
+const section = t(strings, 'sectionLivros', fallback);
 const title = `${section} · ${profile?.name ?? 'Site Pessoal'}`;
 
-// Sub-página de Publicações → o toggle de idioma preserva a página de Artigos.
+// Sub-página de Publicações → o toggle de idioma preserva a página de Livros.
 const parent = NAV_ITEMS.find((i) => i.key === 'publications')!;
-const child = NAV_CHILDREN['publications'].find((c) => c.key === 'artigos')!;
+const child = NAV_CHILDREN['publications'].find((c) => c.key === 'livros')!;
 const counterpartHref = navChildUrl(parent, child, otherLocale(locale));
 ---
 
@@ -32,5 +32,5 @@ const counterpartHref = navChildUrl(parent, child, otherLocale(locale));
   navKey="publications"
   counterpartHref={counterpartHref}
 >
-  <Articles id="articles" locale={locale} items={articles} strings={strings} fallback={fallback} />
+  <Livros id="livros" locale={locale} items={livros} strings={strings} fallback={fallback} />
 </BaseLayout>

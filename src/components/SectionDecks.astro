@@ -8,13 +8,17 @@ interface Props {
   locale: Locale;
   strings: Record<string, string>;
   fallback: Record<string, string>;
+  /** Chave do item pai em NAV_ITEMS/NAV_CHILDREN (ex.: 'resources', 'publications'). */
+  parentKey: string;
+  /** Chave da string de título da seção (ex.: 'sectionResources'). */
+  sectionLabelKey: string;
 }
 
-const { id, locale, strings, fallback } = Astro.props;
-// Cada subitem de Recursos (nav.ts) vira um deck que leva à sua página interna.
-const parent = NAV_ITEMS.find((i) => i.key === 'resources')!;
-const children = NAV_CHILDREN['resources'] ?? [];
-const label = t(strings, 'sectionResources', fallback);
+const { id, locale, strings, fallback, parentKey, sectionLabelKey } = Astro.props;
+// Cada subitem (nav.ts) vira um deck que leva à sua página interna.
+const parent = NAV_ITEMS.find((i) => i.key === parentKey)!;
+const children = NAV_CHILDREN[parentKey] ?? [];
+const label = t(strings, sectionLabelKey, fallback);
 const base = import.meta.env.BASE_URL;
 ---
 

@@ -126,6 +126,24 @@ const atuacao = defineCollection({
   }),
 });
 
+// Livros — publicações do tipo livro. Capa opcional; `url` (compra/leitura) ou
+// `pdf` (arquivo em public/) opcionais. Um item por arquivo.
+const livros = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/livros' }),
+  schema: z.object({
+    title: z.string(),
+    author: z.string().optional(),
+    year: z.number().int().gte(1900).lte(2100).optional(),
+    publisher: z.string().optional(),
+    description_pt: z.string().optional(),
+    description_en: z.string().optional(),
+    cover: z.string().optional(),
+    url: z.string().url().optional(),
+    pdf: z.string().optional(),
+    order: z.number().optional(),
+  }),
+});
+
 // Strings de interface — um arquivo por idioma (pt.json, en.json).
 const ui = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/ui' }),
@@ -135,4 +153,4 @@ const ui = defineCollection({
   }),
 });
 
-export const collections = { profile, certifications, articles, keynotes, atuacao, ui };
+export const collections = { profile, certifications, articles, keynotes, atuacao, livros, ui };
