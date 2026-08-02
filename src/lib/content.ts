@@ -45,6 +45,14 @@ export async function getKeynotes() {
     );
 }
 
+/** Livros ordenados por `order` (asc) e depois ano desc. */
+export async function getLivros() {
+  const all = await getCollection('livros');
+  return all
+    .map((e) => e.data)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || (b.year ?? 0) - (a.year ?? 0));
+}
+
 /** Áreas de atuação ordenadas por `order` (asc). Inclui `slug` (id do arquivo)
  *  para as páginas individuais e o dropdown do menu. */
 export async function getAtuacao() {

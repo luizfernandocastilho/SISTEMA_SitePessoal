@@ -12,7 +12,7 @@ const { locale } = Astro.props;
 const { strings, fallback } = await getUi(locale);
 const profile = await getProfile();
 
-const section = t(strings, 'sectionResources', fallback);
+const section = t(strings, 'sectionPublicacoes', fallback);
 const title = `${section} · ${profile?.name ?? 'Site Pessoal'}`;
 ---
 
@@ -22,14 +22,14 @@ const title = `${section} · ${profile?.name ?? 'Site Pessoal'}`;
   description={section}
   strings={strings}
   fallback={fallback}
-  navKey="resources"
+  navKey="publications"
 >
   <SectionDecks
-    id="resources"
+    id="publications"
     locale={locale}
     strings={strings}
     fallback={fallback}
-    parentKey="resources"
-    sectionLabelKey="sectionResources"
+    parentKey="publications"
+    sectionLabelKey="sectionPublicacoes"
   />
 </BaseLayout>

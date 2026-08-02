@@ -36,6 +36,10 @@ export const NAV_CHILDREN: Record<string, NavChild[]> = {
       cover: 'images/recursos-analises-relatorios.webp',
     },
   ],
+  publications: [
+    { key: 'artigos', labelKey: 'navPubArtigos', slugs: { pt: 'artigos', en: 'articles' } },
+    { key: 'livros', labelKey: 'navPubLivros', slugs: { pt: 'livros', en: 'books' } },
+  ],
 };
 
 export const NAV_ITEMS: NavItem[] = [
@@ -46,7 +50,11 @@ export const NAV_ITEMS: NavItem[] = [
     slugs: { pt: 'certificacoes', en: 'certifications' },
   },
   { key: 'atuacao', labelKey: 'navAtuacao', slugs: { pt: 'atuacao', en: 'expertise' } },
-  { key: 'articles', labelKey: 'navArticles', slugs: { pt: 'artigos', en: 'articles' } },
+  {
+    key: 'publications',
+    labelKey: 'navPublicacoes',
+    slugs: { pt: 'publicacoes', en: 'publications' },
+  },
   { key: 'resources', labelKey: 'navResources', slugs: { pt: 'recursos', en: 'resources' } },
   { key: 'keynotes', labelKey: 'navKeynotes', slugs: { pt: 'keynotes', en: 'keynotes' } },
 ];
