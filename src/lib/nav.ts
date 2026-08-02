@@ -28,6 +28,8 @@ export interface NavChild {
   /** PDF para download (em public/, sem base). Quando presente, o deck vira um
    *  link de download ("Baixar PDF") em vez de abrir a página interna. Opcional. */
   pdf?: string;
+  /** Ícone do deck (renderizado por DeckIcon.astro): 'article' | 'book' | … */
+  icon?: string;
 }
 
 export const NAV_CHILDREN: Record<string, NavChild[]> = {
@@ -40,8 +42,13 @@ export const NAV_CHILDREN: Record<string, NavChild[]> = {
     },
   ],
   publications: [
-    { key: 'artigos', labelKey: 'navPubArtigos', slugs: { pt: 'artigos', en: 'articles' } },
-    { key: 'livros', labelKey: 'navPubLivros', slugs: { pt: 'livros', en: 'books' } },
+    {
+      key: 'artigos',
+      labelKey: 'navPubArtigos',
+      slugs: { pt: 'artigos', en: 'articles' },
+      icon: 'article',
+    },
+    { key: 'livros', labelKey: 'navPubLivros', slugs: { pt: 'livros', en: 'books' }, icon: 'book' },
   ],
 };
 
