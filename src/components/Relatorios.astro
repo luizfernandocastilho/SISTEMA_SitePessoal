@@ -1,0 +1,145 @@
+---
+import { withBase } from '../lib/paths';
+import { t, type Locale } from '../lib/i18n';
+
+interface Relatorio {
+  title: string;
+  description_pt?: string;
+  description_en?: string;
+  pdf: string;
+  cover?: string;
+  date?: Date;
+  order?: number;
+}
+
+interface Props {
+  locale: Locale;
+  items: Relatorio[];
+  strings: Record<string, string>;
+  fallback: Record<string, string>;
+}
+
+const { locale, items, strings, fallback } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<ul class="relatorio-grid">
+  {
+    items.map((r) => {
+      const description = locale === 'pt' ? r.description_pt : r.description_en;
+      const href = withBase(r.pdf, base);
+      const cover = r.cover
+        ? r.cover.startsWith('http')
+          ? r.cover
+          : withBase(r.cover, base)
+        : null;
+      return (
+        <li class="relatorio-card">
+          <a href={href} download target="_blank" rel="noopener noreferrer">
+            <span class="relatorio-cover">
+              <span class={`relatorio-slide${cover ? ' has-cover' : ''}`}>
+                {cover && (
+                  <img
+                    class="relatorio-cover-img"
+                    src={cover}
+                    alt={r.title}
+                    loading="lazy"
+                    width="960"
+                    height="524"
+                  />
+                )}
+                <span class="relatorio-slide-title">{r.title}</span>
+              </span>
+            </span>
+            <span class="relatorio-body">
+              {description && <span class="relatorio-desc">{description}</span>}
+              <span class="relatorio-action">{t(strings, 'articleDownload', fallback)} →</span>
+            </span>
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .relatorio-grid {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .relatorio-card a {
+    display: block;
+    text-decoration: none;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    overflow: hidden;
+    height: 100%;
+  }
+  .relatorio-card a:hover {
+    border-color: var(--color-accent);
+  }
+  .relatorio-cover {
+    display: block;
+    aspect-ratio: 16 / 9;
+  }
+  .relatorio-slide {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 1.1rem;
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    border-top: 3px solid var(--color-accent-vivid, #4fb055);
+    overflow: hidden;
+  }
+  .relatorio-slide.has-cover {
+    background: var(--color-text);
+  }
+  .relatorio-cover-img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .relatorio-slide.has-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 82%) 0%, rgb(0 0 0 / 45%) 38%, transparent 72%);
+  }
+  .relatorio-slide-title {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.15;
+  }
+  .relatorio-body {
+    display: block;
+    padding: 0.85rem 1rem 1rem;
+  }
+  .relatorio-desc {
+    display: block;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .relatorio-action {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+</style>

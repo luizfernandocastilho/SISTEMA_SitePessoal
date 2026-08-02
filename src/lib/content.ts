@@ -45,6 +45,17 @@ export async function getKeynotes() {
     );
 }
 
+/** Relatórios/análises ordenados por `order` (asc) e depois data desc. */
+export async function getRelatorios() {
+  const all = await getCollection('relatorios');
+  return all
+    .map((e) => e.data)
+    .sort(
+      (a, b) =>
+        (a.order ?? 0) - (b.order ?? 0) || (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0),
+    );
+}
+
 /** Livros ordenados por `order` (asc) e depois ano desc. */
 export async function getLivros() {
   const all = await getCollection('livros');

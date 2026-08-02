@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getUi, getProfile } from '../lib/content';
+import Relatorios from './Relatorios.astro';
+import { getUi, getProfile, getRelatorios } from '../lib/content';
 import { NAV_ITEMS, NAV_CHILDREN, navUrl, navChildUrl } from '../lib/nav';
 import { t, otherLocale, type Locale } from '../lib/i18n';
 
@@ -12,6 +13,9 @@ interface Props {
 const { locale, childKey } = Astro.props;
 const { strings, fallback } = await getUi(locale);
 const profile = await getProfile();
+
+// Decks do subitem "Análises e Relatórios" (coleção `relatorios`).
+const relatorios = childKey === 'analises' ? await getRelatorios() : [];
 
 const parent = NAV_ITEMS.find((i) => i.key === 'resources')!;
 const child = NAV_CHILDREN['resources'].find((c) => c.key === childKey)!;
@@ -36,7 +40,13 @@ const counterpartHref = navChildUrl(parent, child, otherLocale(locale));
     <div class="container page">
       <p class="section-label">{sectionLabel}</p>
       <h1>{title}</h1>
-      <p class="page-soon">{t(strings, 'pageContentSoon', fallback)}</p>
+      {
+        relatorios.length > 0 ? (
+          <Relatorios locale={locale} items={relatorios} strings={strings} fallback={fallback} />
+        ) : (
+          <p class="page-soon">{t(strings, 'pageContentSoon', fallback)}</p>
+        )
+      }
       <p class="page-back">
         <a href={gridUrl}>← {t(strings, 'resourcesBack', fallback)}</a>
       </p>
