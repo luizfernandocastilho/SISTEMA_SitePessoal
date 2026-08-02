@@ -9,6 +9,7 @@ export const ATUACAO_ICONS = [
   'change',
   'ai',
   'portfolio',
+  'data',
 ] as const;
 
 export type AtuacaoIconName = (typeof ATUACAO_ICONS)[number];

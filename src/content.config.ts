@@ -120,6 +120,7 @@ const atuacao = defineCollection({
         'change',
         'ai',
         'portfolio',
+        'data',
       ])
       .optional(),
   }),
