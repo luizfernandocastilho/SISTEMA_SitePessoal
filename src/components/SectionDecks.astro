@@ -1,6 +1,7 @@
 ---
 import { NAV_ITEMS, NAV_CHILDREN, navChildUrl } from '../lib/nav';
 import { withBase } from '../lib/paths';
+import DeckIcon from './DeckIcon.astro';
 import { t, type Locale } from '../lib/i18n';
 
 interface Props {
@@ -54,6 +55,11 @@ const base = import.meta.env.BASE_URL;
                         width="960"
                         height="524"
                       />
+                    )}
+                    {c.icon && (
+                      <span class="deck-slide-icon">
+                        <DeckIcon name={c.icon} />
+                      </span>
                     )}
                     <span class="deck-slide-title">{title}</span>
                   </span>
@@ -127,6 +133,14 @@ const base = import.meta.env.BASE_URL;
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgb(0 0 0 / 82%) 0%, rgb(0 0 0 / 45%) 38%, transparent 72%);
+  }
+  /* Ícone no topo do slide (título fica no rodapé via justify-content: flex-end). */
+  .deck-slide-icon {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    margin-bottom: auto;
+    color: var(--color-accent-contrast);
   }
   .deck-slide-title {
     position: relative;

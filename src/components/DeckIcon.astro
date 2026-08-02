@@ -1,0 +1,44 @@
+---
+// Ícones dos decks de seção (Publicações etc.) — SVG inline (sem biblioteca),
+// line/stroke. Decorativos: aria-hidden. Herdam a cor via currentColor.
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<span class="deck-icon" aria-hidden="true">
+  {
+    name === 'article' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <path d="M14 3 H7 a1 1 0 0 0 -1 1 v16 a1 1 0 0 0 1 1 h10 a1 1 0 0 0 1 -1 V8 Z" />
+        <polyline points="14 3 14 8 19 8" />
+        <line x1="9" y1="12" x2="15" y2="12" />
+        <line x1="9" y1="16" x2="15" y2="16" />
+      </svg>
+    )
+  }
+  {
+    name === 'book' && (
+      <svg viewBox="0 0 24 24" width="32" height="32">
+        <path d="M12 6 C 10 4.5 7 4.5 4 5 V19 C 7 18.5 10 18.5 12 20 C 14 18.5 17 18.5 20 19 V5 C 17 4.5 14 4.5 12 6 Z" />
+        <line x1="12" y1="6" x2="12" y2="20" />
+      </svg>
+    )
+  }
+</span>
+
+<style>
+  .deck-icon {
+    display: inline-flex;
+  }
+  .deck-icon svg {
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
