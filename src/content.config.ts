@@ -144,6 +144,20 @@ const livros = defineCollection({
   }),
 });
 
+// Relatórios/análises — decks com PDF para download (em public/). Um item por arquivo.
+const relatorios = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/relatorios' }),
+  schema: z.object({
+    title: z.string(),
+    description_pt: z.string().optional(),
+    description_en: z.string().optional(),
+    pdf: z.string(),
+    cover: z.string().optional(),
+    date: z.coerce.date().optional(),
+    order: z.number().optional(),
+  }),
+});
+
 // Strings de interface — um arquivo por idioma (pt.json, en.json).
 const ui = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/ui' }),
@@ -153,4 +167,13 @@ const ui = defineCollection({
   }),
 });
 
-export const collections = { profile, certifications, articles, keynotes, atuacao, livros, ui };
+export const collections = {
+  profile,
+  certifications,
+  articles,
+  keynotes,
+  atuacao,
+  livros,
+  relatorios,
+  ui,
+};
