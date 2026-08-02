@@ -99,6 +99,11 @@ const atuacao = defineCollection({
     title_en: z.string(),
     description_pt: z.string().optional(),
     description_en: z.string().optional(),
+    // Texto elaborado da página da área: parágrafos + destaques (bilíngue).
+    body_pt: z.array(z.string()).optional(),
+    body_en: z.array(z.string()).optional(),
+    highlights_pt: z.array(z.string()).optional(),
+    highlights_en: z.array(z.string()).optional(),
     url: z.string().url().optional(),
     pdf: z.string().optional(),
     cover: z.string().optional(),

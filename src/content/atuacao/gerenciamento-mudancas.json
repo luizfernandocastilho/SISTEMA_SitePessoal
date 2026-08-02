@@ -3,6 +3,26 @@
   "title_en": "Change Management",
   "description_pt": "Gestão da mudança organizacional (HCMBOK): engajamento de pessoas, comunicação e adoção sustentável.",
   "description_en": "Organizational change management (HCMBOK): people engagement, communication and sustainable adoption.",
+  "body_pt": [
+    "Conduzo a mudança organizacional com foco nas pessoas, usando o HCMBOK como referência. Toda transformação só se sustenta quando quem executa entende, aceita e adota o novo jeito de trabalhar.",
+    "Trabalho o engajamento, a comunicação e a jornada de adoção lado a lado com a entrega técnica. Assim, projetos e novas soluções deixam de ser imposições e passam a gerar valor de verdade, com adesão que dura."
+  ],
+  "highlights_pt": [
+    "Diagnóstico de impactos e prontidão para a mudança",
+    "Engajamento de lideranças e times",
+    "Plano de comunicação e capacitação",
+    "Adoção sustentável e mensuração"
+  ],
+  "body_en": [
+    "I lead organizational change with a people-first focus, using HCMBOK as a reference. Any transformation only sticks when the people doing the work understand, accept, and adopt the new way of working.",
+    "I address engagement, communication, and the adoption journey alongside the technical delivery. That way, projects and new solutions stop being impositions and start generating real value, with buy-in that lasts."
+  ],
+  "highlights_en": [
+    "Impact and change-readiness assessment",
+    "Leadership and team engagement",
+    "Communication and enablement plan",
+    "Sustainable adoption and measurement"
+  ],
   "order": 7,
   "icon": "change"
 }

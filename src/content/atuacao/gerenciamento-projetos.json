@@ -3,6 +3,26 @@
   "title_en": "Project Management",
   "description_pt": "Condução de projetos do início ao encerramento: escopo, prazo, custo, riscos e stakeholders, com práticas PMI e ágeis.",
   "description_en": "Leading projects end to end: scope, schedule, cost, risks and stakeholders, using PMI and agile practices.",
+  "body_pt": [
+    "Conduzo projetos do início ao encerramento, combinando práticas do PMI com abordagens ágeis conforme o contexto. Cuido de escopo, prazo, custo, riscos e stakeholders com o mesmo rigor, sempre orientado por dados e por resultados mensuráveis.",
+    "Meu foco é tirar a iniciativa do papel e entregá-la com previsibilidade, sem perder de vista o valor para o negócio. Trabalho próximo às equipes e à liderança, antecipando obstáculos e mantendo as decisões apoiadas em informação confiável."
+  ],
+  "highlights_pt": [
+    "Planejamento e controle de escopo, prazo e custo",
+    "Gestão de riscos e de stakeholders",
+    "Práticas PMI e ágeis conforme o contexto",
+    "Indicadores e status orientados à decisão"
+  ],
+  "body_en": [
+    "I lead projects from initiation to closing, combining PMI practices with agile approaches depending on the context. I manage scope, schedule, cost, risks, and stakeholders with equal rigor, always data-driven and focused on measurable results.",
+    "My focus is moving the initiative off paper and delivering it predictably, without losing sight of business value. I work closely with teams and leadership, anticipating obstacles and keeping decisions grounded in reliable information."
+  ],
+  "highlights_en": [
+    "Scope, schedule, and cost planning and control",
+    "Risk and stakeholder management",
+    "PMI and agile practices as the context requires",
+    "Decision-oriented indicators and status"
+  ],
   "order": 2,
   "icon": "project"
 }

@@ -3,6 +3,26 @@
   "title_en": "Governance",
   "description_pt": "Estruturação de governança corporativa e de TI: papéis, comitês, políticas e controles para decisão e accountability.",
   "description_en": "Corporate and IT governance structuring: roles, committees, policies and controls for decision-making and accountability.",
+  "body_pt": [
+    "Estruturo a governança corporativa e de TI para que as decisões aconteçam no lugar certo, com clareza de papéis, alçadas e responsabilidades. O objetivo é dar transparência e previsibilidade à gestão, conectando estratégia, execução e prestação de contas.",
+    "Na prática, desenho comitês, políticas, fluxos de decisão e indicadores que sustentam o controle sem engessar a operação. Uma boa governança reduz retrabalho, protege a organização e acelera decisões, porque todos sabem quem decide o quê, quando e com base em quais informações."
+  ],
+  "highlights_pt": [
+    "Definição de papéis, alçadas e comitês de decisão",
+    "Políticas, normas e fluxos de aprovação",
+    "Indicadores e rituais de acompanhamento (accountability)",
+    "Alinhamento entre estratégia, execução e controle"
+  ],
+  "body_en": [
+    "I structure corporate and IT governance so decisions happen in the right place, with clear roles, authority levels, and accountability. The goal is to give management transparency and predictability, connecting strategy, execution, and oversight.",
+    "In practice, I design committees, policies, decision flows, and indicators that ensure control without slowing the operation down. Good governance reduces rework, protects the organization, and speeds up decisions because everyone knows who decides what, when, and based on which information."
+  ],
+  "highlights_en": [
+    "Roles, authority levels, and decision committees",
+    "Policies, standards, and approval flows",
+    "Indicators and accountability routines",
+    "Alignment of strategy, execution, and control"
+  ],
   "order": 1,
   "icon": "governance"
 }
