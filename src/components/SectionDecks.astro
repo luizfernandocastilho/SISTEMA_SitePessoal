@@ -34,9 +34,15 @@ const base = import.meta.env.BASE_URL;
               ? c.cover
               : withBase(c.cover, base)
             : null;
+          // Com `pdf`: o card vira um link de download; senão, abre a página interna.
+          const download = c.pdf ? withBase(c.pdf, base) : null;
+          const linkProps = download
+            ? { href: download, download: true, target: '_blank', rel: 'noopener noreferrer' }
+            : { href: navChildUrl(parent, c, locale) };
+          const actionKey = download ? 'articleDownload' : 'resourceOpen';
           return (
             <li class="deck-card">
-              <a href={navChildUrl(parent, c, locale)}>
+              <a {...linkProps}>
                 <span class="deck-cover">
                   <span class={`deck-slide${cover ? ' has-cover' : ''}`}>
                     {cover && (
@@ -53,7 +59,7 @@ const base = import.meta.env.BASE_URL;
                   </span>
                 </span>
                 <span class="deck-body">
-                  <span class="deck-action">{t(strings, 'resourceOpen', fallback)} →</span>
+                  <span class="deck-action">{t(strings, actionKey, fallback)} →</span>
                 </span>
               </a>
             </li>
