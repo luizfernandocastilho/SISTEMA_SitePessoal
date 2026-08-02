@@ -3,6 +3,26 @@
   "title_en": "Risk Management",
   "description_pt": "Identificação, avaliação e tratamento de riscos com base na ISO 31000: apetite, controles e monitoramento contínuo.",
   "description_en": "Risk identification, assessment and treatment based on ISO 31000: appetite, controls and continuous monitoring.",
+  "body_pt": [
+    "Estruturo a gestão de riscos com base na ISO 31000, ajudando a organização a definir seu apetite a risco e a tratar as incertezas de forma consistente. Identifico, avalio e priorizo riscos para que a decisão seja consciente, e não reativa.",
+    "Implanto controles proporcionais e um monitoramento contínuo, conectando o risco à estratégia e ao dia a dia. Boa gestão de riscos não trava a organização: dá segurança para assumir os riscos certos e defender as escolhas feitas."
+  ],
+  "highlights_pt": [
+    "Apetite a risco e critérios de avaliação (ISO 31000)",
+    "Identificação, análise e priorização de riscos",
+    "Controles proporcionais e planos de tratamento",
+    "Monitoramento contínuo e reporte à liderança"
+  ],
+  "body_en": [
+    "I structure risk management based on ISO 31000, helping the organization define its risk appetite and treat uncertainty consistently. I identify, assess, and prioritize risks so decisions are deliberate rather than reactive.",
+    "I put proportionate controls and continuous monitoring in place, connecting risk to strategy and day-to-day operations. Good risk management doesn't paralyze the organization: it provides the confidence to take the right risks and defend the choices made."
+  ],
+  "highlights_en": [
+    "Risk appetite and assessment criteria (ISO 31000)",
+    "Risk identification, analysis, and prioritization",
+    "Proportionate controls and treatment plans",
+    "Continuous monitoring and leadership reporting"
+  ],
   "order": 4,
   "icon": "risk"
 }

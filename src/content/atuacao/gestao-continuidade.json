@@ -3,6 +3,26 @@
   "title_en": "Business Continuity Management",
   "description_pt": "Continuidade de negócios e resiliência operacional: análise de impacto (BIA), planos de recuperação e testes.",
   "description_en": "Business continuity and operational resilience: business impact analysis (BIA), recovery plans and testing.",
+  "body_pt": [
+    "Ajudo a organização a continuar operando diante de interrupções, com base na análise de impacto nos negócios (BIA) e em planos de recuperação claros. O ponto de partida é entender o que é essencial e em quanto tempo precisa voltar.",
+    "A partir daí, defino estratégias de continuidade, papéis e recursos críticos, e coloco tudo à prova com testes periódicos. Resiliência não se improvisa: constrói-se antes, para que a operação resista e se recupere rápido."
+  ],
+  "highlights_pt": [
+    "Análise de impacto nos negócios (BIA)",
+    "Estratégias e planos de recuperação",
+    "Papéis, recursos críticos e dependências",
+    "Testes periódicos e revisão dos planos"
+  ],
+  "body_en": [
+    "I help the organization keep operating through disruptions, based on business impact analysis (BIA) and clear recovery plans. The starting point is understanding what is essential and how quickly it must be restored.",
+    "From there, I define continuity strategies, roles, and critical resources, and put everything to the test with periodic exercises. Resilience isn't improvised: it's built beforehand, so the operation withstands and recovers quickly."
+  ],
+  "highlights_en": [
+    "Business impact analysis (BIA)",
+    "Continuity strategies and recovery plans",
+    "Roles, critical resources, and dependencies",
+    "Periodic testing and plan reviews"
+  ],
   "order": 6,
   "icon": "continuity"
 }

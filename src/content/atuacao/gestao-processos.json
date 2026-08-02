@@ -3,6 +3,26 @@
   "title_en": "Process Management",
   "description_pt": "Mapeamento, análise e melhoria de processos (BPM): modelagem, indicadores e automação para eficiência operacional.",
   "description_en": "Process mapping, analysis and improvement (BPM): modeling, metrics and automation for operational efficiency.",
+  "body_pt": [
+    "Mapeio, analiso e redesenho processos (BPM) para tornar a operação mais simples, previsível e eficiente. Parto do entendimento de ponta a ponta para eliminar gargalos, retrabalho e atividades que não agregam valor.",
+    "Transformo o desenho em prática com indicadores, padronização e, quando faz sentido, automação. Assim, a melhoria deixa de ser pontual e passa a ser contínua, sustentada por dados que mostram onde ganhar eficiência."
+  ],
+  "highlights_pt": [
+    "Mapeamento e análise de processos ponta a ponta",
+    "Redesenho, padronização e eliminação de gargalos",
+    "Indicadores de desempenho e melhoria contínua",
+    "Automação onde há ganho claro"
+  ],
+  "body_en": [
+    "I map, analyze, and redesign processes (BPM) to make operations simpler, more predictable, and more efficient. I start from an end-to-end understanding to remove bottlenecks, rework, and non-value-adding activities.",
+    "I turn design into practice through indicators, standardization, and — where it makes sense — automation. Improvement stops being a one-off and becomes continuous, backed by data that shows where efficiency can be gained."
+  ],
+  "highlights_en": [
+    "End-to-end process mapping and analysis",
+    "Redesign, standardization, and bottleneck removal",
+    "Performance indicators and continuous improvement",
+    "Automation where the gain is clear"
+  ],
   "order": 3,
   "icon": "process"
 }

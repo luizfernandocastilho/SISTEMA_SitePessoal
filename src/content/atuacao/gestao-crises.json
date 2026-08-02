@@ -3,6 +3,26 @@
   "title_en": "Crisis Management",
   "description_pt": "Preparação e resposta a crises: comitês, protocolos de decisão, comunicação e coordenação sob pressão.",
   "description_en": "Crisis preparedness and response: committees, decision protocols, communication and coordination under pressure.",
+  "body_pt": [
+    "Preparo organizações para responder a crises com método, do plano à simulação. Estruturo comitês, protocolos de decisão e fluxos de comunicação para que, no momento crítico, a resposta seja rápida, coordenada e coerente.",
+    "Durante o evento, ajudo a manter a cabeça fria: priorizar o que importa, decidir com a informação disponível e comunicar com clareza a públicos internos e externos. Depois, transformo o aprendizado em melhoria para a próxima vez."
+  ],
+  "highlights_pt": [
+    "Planos de crise e comitês de resposta",
+    "Protocolos de decisão e escalonamento",
+    "Comunicação de crise (interna e externa)",
+    "Simulações e lições aprendidas"
+  ],
+  "body_en": [
+    "I prepare organizations to respond to crises methodically, from plan to simulation. I set up committees, decision protocols, and communication flows so that, in the critical moment, the response is fast, coordinated, and consistent.",
+    "During the event, I help keep a cool head: prioritize what matters, decide with the information available, and communicate clearly to internal and external audiences. Afterward, I turn the learning into improvement for next time."
+  ],
+  "highlights_en": [
+    "Crisis plans and response committees",
+    "Decision and escalation protocols",
+    "Crisis communication (internal and external)",
+    "Simulations and lessons learned"
+  ],
   "order": 5,
   "icon": "crisis"
 }

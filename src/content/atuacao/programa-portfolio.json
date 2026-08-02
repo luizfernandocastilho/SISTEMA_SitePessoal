@@ -3,6 +3,26 @@
   "title_en": "Program & Portfolio Management",
   "description_pt": "Gestão de programas e portfólio: priorização, alinhamento estratégico e realização de benefícios.",
   "description_en": "Program and portfolio management: prioritization, strategic alignment and benefits realization.",
+  "body_pt": [
+    "Gerencio programas e portfólios para garantir que a organização faça os projetos certos — e não apenas os projetos bem. Priorizo iniciativas segundo a estratégia, equilibrando valor, risco e capacidade de entrega.",
+    "Coordeno interdependências, recursos e benefícios ao longo do tempo, com governança e visão de conjunto. O objetivo é conectar cada iniciativa ao resultado estratégico e assegurar que os benefícios prometidos realmente se concretizem."
+  ],
+  "highlights_pt": [
+    "Priorização de iniciativas por valor e estratégia",
+    "Gestão de interdependências e capacidade",
+    "Governança de programas e portfólio",
+    "Realização e acompanhamento de benefícios"
+  ],
+  "body_en": [
+    "I manage programs and portfolios to ensure the organization does the right projects — not just projects right. I prioritize initiatives according to strategy, balancing value, risk, and delivery capacity.",
+    "I coordinate interdependencies, resources, and benefits over time, with governance and a big-picture view. The goal is to connect each initiative to the strategic outcome and ensure the promised benefits actually materialize."
+  ],
+  "highlights_en": [
+    "Initiative prioritization by value and strategy",
+    "Interdependency and capacity management",
+    "Program and portfolio governance",
+    "Benefits realization and tracking"
+  ],
   "order": 9,
   "icon": "portfolio"
 }

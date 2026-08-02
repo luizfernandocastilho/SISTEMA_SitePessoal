@@ -12,6 +12,10 @@ interface Area {
   title_en: string;
   description_pt?: string;
   description_en?: string;
+  body_pt?: string[];
+  body_en?: string[];
+  highlights_pt?: string[];
+  highlights_en?: string[];
   url?: string;
   pdf?: string;
   cover?: string;
@@ -29,6 +33,8 @@ const profile = await getProfile();
 
 const title = locale === 'pt' ? area.title_pt : area.title_en;
 const description = locale === 'pt' ? area.description_pt : area.description_en;
+const body = locale === 'pt' ? area.body_pt : area.body_en;
+const highlights = locale === 'pt' ? area.highlights_pt : area.highlights_en;
 const sectionLabel = t(strings, 'sectionAtuacao', fallback);
 const pageTitle = `${title} · ${profile?.name ?? 'Site Pessoal'}`;
 
@@ -54,6 +60,21 @@ const gridUrl = navUrl(
       <p class="section-label">{sectionLabel}</p>
       <h1>{title}</h1>
       {description && <p class="area-lead">{description}</p>}
+
+      {body?.map((paragraph) => <p class="area-body">{paragraph}</p>)}
+
+      {
+        highlights && highlights.length > 0 && (
+          <div class="area-highlights">
+            <p class="area-highlights-label">{t(strings, 'atuacaoHighlights', fallback)}</p>
+            <ul>
+              {highlights.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
 
       {
         deckHref ? (
@@ -81,6 +102,27 @@ const gridUrl = navUrl(
     color: var(--color-muted);
     font-size: 1.05rem;
     line-height: 1.6;
+  }
+  .area-body {
+    margin-top: 1rem;
+    line-height: 1.65;
+    color: var(--color-text);
+  }
+  .area-highlights {
+    margin-top: 1.75rem;
+  }
+  .area-highlights-label {
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+  }
+  .area-highlights ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .area-highlights li {
+    line-height: 1.5;
   }
   .area-deck {
     display: inline-block;
