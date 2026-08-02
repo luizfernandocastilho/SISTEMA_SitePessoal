@@ -1,12 +1,12 @@
 {
   "title_pt": "Inteligência de Dados",
   "title_en": "Data Intelligence",
-  "description_pt": "Da governança à análise: transformo dados em inteligência para apoiar a estratégia — com estrutura, qualidade e leitura orientada à decisão.",
-  "description_en": "From governance to analysis: I turn data into intelligence that supports strategy — with structure, quality, and a decision-oriented reading.",
+  "description_pt": "Da governança à análise: transformo dados em inteligência para apoiar a estratégia, com estrutura, qualidade e leitura orientada à decisão.",
+  "description_en": "From governance to analysis: I turn data into intelligence that supports strategy, with structure, quality, and a decision-oriented reading.",
   "body_pt": [
-    "Trato o dado como ativo estratégico: começa pela governança — definição de fontes, responsabilidades, qualidade e segurança — para garantir informação confiável e rastreável. A partir daí, cuido da extração e do tratamento, integrando dados dispersos, limpando inconsistências e organizando-os para uso.",
+    "Trato o dado como ativo estratégico: começa pela governança (definição de fontes, responsabilidades, qualidade e segurança) para garantir informação confiável e rastreável. A partir daí, cuido da extração e do tratamento, integrando dados dispersos, limpando inconsistências e organizando-os para uso.",
     "Com a base sólida, faço a análise que importa: transformo grandes volumes de informação em indicadores, diagnósticos e insights acionáveis, conectando o dado à estratégia e à tomada de decisão. O objetivo não é produzir relatórios, e sim sustentar escolhas mais seguras e defensáveis.",
-    "Assim, a organização deixa de decidir por intuição e passa a decidir por evidência — com mais velocidade, consistência e capacidade de antecipar cenários."
+    "Assim, a organização deixa de decidir por intuição e passa a decidir por evidência, com mais velocidade, consistência e capacidade de antecipar cenários."
   ],
   "highlights_pt": [
     "Governança de dados: fontes, qualidade, responsabilidades e segurança",
@@ -15,9 +15,9 @@
     "Conexão do dado à estratégia e à decisão"
   ],
   "body_en": [
-    "I treat data as a strategic asset: it starts with governance — defining sources, ownership, quality, and security — to ensure reliable, traceable information. From there, I handle extraction and treatment, integrating scattered data, cleaning inconsistencies, and organizing it for use.",
+    "I treat data as a strategic asset: it starts with governance (defining sources, ownership, quality, and security) to ensure reliable, traceable information. From there, I handle extraction and treatment, integrating scattered data, cleaning inconsistencies, and organizing it for use.",
     "With a solid base, I do the analysis that matters: turning large volumes of information into indicators, diagnostics, and actionable insights, connecting data to strategy and decision-making. The goal isn't to produce reports, but to support safer, more defensible choices.",
-    "This way, the organization stops deciding by intuition and starts deciding on evidence — with more speed, consistency, and the ability to anticipate scenarios."
+    "This way, the organization stops deciding by intuition and starts deciding on evidence, with more speed, consistency, and the ability to anticipate scenarios."
   ],
   "highlights_en": [
     "Data governance: sources, quality, ownership, and security",
