@@ -81,7 +81,8 @@ const base = import.meta.env.BASE_URL;
   }
   .livro-card a,
   .livro-card div {
-    display: block;
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
     color: var(--color-text);
     border: 1px solid var(--color-border);
@@ -94,6 +95,8 @@ const base = import.meta.env.BASE_URL;
   }
   .livro-cover {
     display: block;
+    flex-shrink: 0;
+    min-height: 0;
     aspect-ratio: 3 / 4;
   }
   .livro-cover img {
@@ -119,7 +122,9 @@ const base = import.meta.env.BASE_URL;
     line-height: 1.15;
   }
   .livro-body {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
     padding: 0.85rem 1rem 1rem;
   }
   .livro-title {
@@ -142,7 +147,8 @@ const base = import.meta.env.BASE_URL;
   }
   .livro-action {
     display: block;
-    margin-top: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
     color: var(--color-accent);
     font-weight: 600;
     font-size: 0.95rem;
