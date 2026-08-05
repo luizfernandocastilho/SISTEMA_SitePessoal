@@ -17,11 +17,11 @@ const profile = await getProfile();
 // Decks do subitem "Análises e Relatórios" (coleção `relatorios`).
 const relatorios = childKey === 'analises' ? await getRelatorios() : [];
 
-const parent = NAV_ITEMS.find((i) => i.key === 'resources')!;
-const child = NAV_CHILDREN['resources'].find((c) => c.key === childKey)!;
+const parent = NAV_ITEMS.find((i) => i.key === 'publications')!;
+const child = NAV_CHILDREN['publications'].find((c) => c.key === childKey)!;
 
 const title = t(strings, child.labelKey, fallback);
-const sectionLabel = t(strings, 'sectionResources', fallback);
+const sectionLabel = t(strings, 'sectionPublicacoes', fallback);
 const pageTitle = `${title} · ${profile?.name ?? 'Site Pessoal'}`;
 const gridUrl = navUrl(parent, locale);
 const counterpartHref = navChildUrl(parent, child, otherLocale(locale));
@@ -33,7 +33,7 @@ const counterpartHref = navChildUrl(parent, child, otherLocale(locale));
   description={title}
   strings={strings}
   fallback={fallback}
-  navKey="resources"
+  navKey="publications"
   counterpartHref={counterpartHref}
 >
   <section class="section">
@@ -48,7 +48,7 @@ const counterpartHref = navChildUrl(parent, child, otherLocale(locale));
         )
       }
       <p class="page-back">
-        <a href={gridUrl}>← {t(strings, 'resourcesBack', fallback)}</a>
+        <a href={gridUrl}>← {t(strings, 'publicacoesBack', fallback)}</a>
       </p>
     </div>
   </section>
