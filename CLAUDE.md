@@ -80,7 +80,17 @@ rel="noopener noreferrer"`). Contact is links only (email/social) — no contact
   `title_pt`/`title_en`); `keynotes` require either `url` (external) or `pdf` (in `public/`).
 - Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`);
   `PUBLIC_API_URL` (build-time, embedded via `import.meta.env.PUBLIC_API_URL`) is the download-gate
-  API base used as the `action` of the request form (`DownloadGate.astro`).
+  API base used as the `action` of the request form (`DownloadGate.astro`);
+  `PUBLIC_UMAMI_SRC` + `PUBLIC_UMAMI_WEBSITE_ID` enable analytics (see below).
+- **Analytics (Umami, self-hosted):** privacy-first, cookieless visitor stats. `BaseLayout.astro`
+  injects the `<script is:inline defer …>` snippet **only when both `PUBLIC_UMAMI_*` vars are set**,
+  so `npm run dev`/preview and forks stay untracked. Pageviews cover section/route navigation
+  automatically. Named events are declarative — plain `data-umami-event="…"` (+ `data-umami-event-*`
+  data) attributes on existing elements, **no client JS**: `download-pdf`/`download-request`
+  (PDF cards & gated CTAs), `external-link` (social/keynote links), `cert-verify`, `contact-email`,
+  `lang-switch` (`LanguageToggle`), `nav` (`Header` section links). Event values carry no PII. The
+  Umami service runs on the NAS; the LGPD note lives in `PrivacyPage.astro` (no consent banner, as
+  it is cookieless/anonymized).
 - Deploy: pushing to `main` runs `.github/workflows/deploy.yml` (static build → GitHub Pages).
 - Sample content under `src/content/*` (files prefixed `exemplo-`) and `public/` PDFs is placeholder —
   replace with real data.

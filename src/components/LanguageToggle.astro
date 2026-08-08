@@ -22,7 +22,13 @@ const href =
   (atuacaoSlug ? atuacaoAreaUrl(target, atuacaoSlug) : counterpartUrl(navKey, target));
 ---
 
-<a class="lang-toggle" href={href} hreflang={target}>
+<a
+  class="lang-toggle"
+  href={href}
+  hreflang={target}
+  data-umami-event="lang-switch"
+  data-umami-event-to={target}
+>
   <span class="visually-hidden">{t(strings, 'langToggleLabel', fallback)}: </span>{
     t(strings, 'langSwitchTo', fallback)
   }

@@ -38,7 +38,14 @@ const base = import.meta.env.BASE_URL;
           // Com `pdf`: o card vira um link de download; senão, abre a página interna.
           const download = c.pdf ? withBase(c.pdf, base) : null;
           const linkProps = download
-            ? { href: download, download: true, target: '_blank', rel: 'noopener noreferrer' }
+            ? {
+                href: download,
+                download: true,
+                target: '_blank',
+                rel: 'noopener noreferrer',
+                'data-umami-event': 'download-pdf',
+                'data-umami-event-file': c.pdf,
+              }
             : { href: navChildUrl(parent, c, locale) };
           const actionKey = download ? 'articleDownload' : 'resourceOpen';
           return (

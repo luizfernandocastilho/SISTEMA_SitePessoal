@@ -63,6 +63,8 @@ const verifyLabel = t(strings, 'certVerify', fallback);
                       href={c.verifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      data-umami-event="cert-verify"
+                      data-umami-event-issuer={g.issuer}
                     >
                       {verifyLabel}
                     </a>
