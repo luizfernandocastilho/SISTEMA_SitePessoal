@@ -77,7 +77,14 @@ The `api/` service has its own package/tooling — see its section below.
 rel="noopener noreferrer"`). Contact is links only (email/social) — no contact form.
 - All owner-facing content and every UI-string key must exist in both PT and EN
   (`src/content/ui/pt.json` and `en.json`). Content schemas enforce bilingual fields (e.g.
-  `title_pt`/`title_en`); `keynotes` require either `url` (external) or `pdf` (in `public/`).
+  `title_pt`/`title_en`).
+- **Downloads — gate por padrão (see epic #185):** a content item with a **`fileId`** is
+  **gated** (email form → private file served by token from the `api/` backend); an item with a
+  **`pdf`** (in `public/`) is an **open** direct download (the opt-out); `url` is an external
+  link. There is no `gated` flag — the presence of `fileId` is what gates. Convention: the
+  private binary on the NAS is named **`<fileId>.pdf`**, and `api/src/seed.ts` derives the file
+  registry from `src/content/**` (no hardcoded list). Adding a gated download = create the JSON
+  with `fileId` + drop `<fileId>.pdf` in the NAS `storage/` + `npm run seed` (see `api/README.md`).
 - Env vars (see `.env.example`): `SITE_URL`, `BASE_PATH` (read by `astro.config.mjs`);
   `PUBLIC_API_URL` (build-time, embedded via `import.meta.env.PUBLIC_API_URL`) is the download-gate
   API base used as the `action` of the request form (`DownloadGate.astro`);
@@ -107,8 +114,12 @@ file. Each request is logged in **Postgres** (the lead list). The static site st
   build step in prod). Source in `api/src/` (`server.ts`, `routes/{downloads,admin}.ts`, `db.ts`,
   `tokens.ts`, `mailer.ts`, `migrate.ts`, `seed.ts`).
 - **Run locally:** from `api/`, `cp .env.example .env` then `docker compose up --build` (Postgres +
-  API; migrations run on boot). `docker compose exec api npm run seed` registers files placed in
-  `api/storage/`. Scripts: `npm run dev` (watch), `migrate`, `seed`, `test` (Vitest), `typecheck`.
+  API; migrations run on boot). `docker compose exec api npm run seed` registers files by **deriving
+  the registry from the site content collections** (`src/content/**`, mounted read-only at
+  `/app/site-content`) — every item with a `fileId` becomes `{ id, title, filename: <fileId>.pdf }`;
+  it warns if a `<fileId>.pdf` is missing from `storage/`. Editing `src/seed.ts` needs
+  `docker compose up -d --build` (the `src/` is baked into the image). Scripts: `npm run dev`
+  (watch), `migrate`, `seed`, `test` (Vitest), `typecheck`.
 - **Endpoints:** `GET /health`; `POST /downloads/request` (form body `file_id,name,email,consent,locale?`);
   `GET /downloads/:token` (validates token, serves the private file); `GET /admin/leads.csv` (CSV
   export, requires `Authorization: Bearer $ADMIN_TOKEN`).

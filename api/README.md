@@ -16,7 +16,7 @@ build em produção).
 ```bash
 cp .env.example .env        # ajuste segredos
 docker compose up --build   # sobe postgres + api (migrations rodam no boot)
-# registrar arquivos de exemplo (após colocar os PDFs em ./storage):
+# registrar arquivos (deriva do conteúdo do site; ver "Adicionar um arquivo"):
 docker compose exec api npm run seed
 curl localhost:3000/health  # {"status":"ok"}
 ```
@@ -31,9 +31,26 @@ curl localhost:3000/health  # {"status":"ok"}
   `Authorization: Bearer $ADMIN_TOKEN`.
 
 ## Modelo de dados
-- `files` — registro dos arquivos (`id` = fileId usado pelo site → `filename` no storage).
+- `files` — registro dos arquivos, **derivado do conteúdo do site** (`id` = `fileId`;
+  `filename` = `<fileId>.pdf` no storage). Ver "Adicionar um arquivo".
 - `download_leads` — `file_id`, `file_title`, `name`, `email`, `requested_at`,
   `token_hash` (nunca o token bruto), `token_expires_at`, `downloaded_at`, `consent_at`.
+
+## Adicionar um arquivo para download (gated)
+O registro é **derivado do conteúdo do site** (sem lista hardcoded). Fluxo:
+
+1. **Site:** criar/editar o JSON em `src/content/{articles,keynotes,livros,relatorios}/*.json`
+   com um campo **`fileId`** (slug único). A presença de `fileId` **ativa o gate**; um campo
+   `pdf` (arquivo em `public/`) seria download **aberto** (opt-out).
+2. **NAS:** colocar o binário em `storage/` com o nome **`<fileId>.pdf`** (convenção).
+3. `docker compose exec api npm run seed` — lê `src/content/**` (montado em `/app/site-content`
+   via `CONTENT_DIR`), registra cada `fileId` como `{ id, title (do conteúdo), filename:
+   <fileId>.pdf }` e **avisa** se algum binário faltar. Idempotente.
+4. Deploy do site (o `PUBLIC_API_URL` já aponta para a API).
+
+> Trocar `src/seed.ts` só é preciso para mudar a lógica de derivação — não para adicionar
+> arquivos. Se alterar o código do seed, use `docker compose up -d --build` (a `src/` é
+> baked na imagem).
 
 ## Segurança / operação
 - Token: 256 bits, opaco; no banco guardamos só o **hash SHA-256**.
@@ -48,5 +65,5 @@ curl localhost:3000/health  # {"status":"ok"}
 ## Deploy no NAS (resumo)
 1. `.env` com segredos reais e `DATABASE_URL` do Postgres do NAS.
 2. `docker compose up -d --build`.
-3. Colocar os arquivos em `storage/` e `npm run seed` (ou registrar via migration).
+3. Colocar os `<fileId>.pdf` em `storage/` e `npm run seed` (deriva do conteúdo do site).
 4. Expor a API por HTTPS (reverse proxy) e apontar `PUBLIC_API_URL` do site para ela.
