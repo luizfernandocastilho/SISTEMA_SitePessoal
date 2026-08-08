@@ -10,7 +10,6 @@ interface Article {
   venue: string;
   pdf?: string;
   order?: number;
-  gated?: boolean;
   fileId?: string;
 }
 
@@ -44,7 +43,7 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
                 {a.venue} · {dateFmt.format(a.publishedAt)}
               </p>
             </div>
-            {a.gated && a.fileId ? (
+            {a.fileId ? (
               <details class="item-gate">
                 <summary
                   class="article-download item-summary"

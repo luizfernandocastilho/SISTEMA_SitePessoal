@@ -1,6 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// Convenção de download (ver épico #185): um item com `fileId` é GATED — o arquivo
+// vive no backend (api/storage) como `<fileId>.pdf` e é servido só por token, após o
+// formulário de e-mail. Um item com `pdf` (arquivo em public/) é ABERTO (download
+// direto — o opt-out). `url` é sempre link externo. Não há mais flag `gated`: a
+// presença de `fileId` é o que ativa o gate.
+
 // Perfil — item único com campos bilíngues (ver contracts/content-collections.md).
 const profile = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/profile' }),
@@ -55,14 +61,13 @@ const articles = defineCollection({
       title_en: z.string(),
       publishedAt: z.coerce.date(),
       venue: z.string(),
+      // `fileId` = gated (download com e-mail); `pdf` = aberto (public/). Ver topo.
       pdf: z.string().optional(),
-      order: z.number().optional(),
-      // Gate de download por e-mail (arquivo no backend, servido por token).
-      gated: z.boolean().optional(),
       fileId: z.string().optional(),
+      order: z.number().optional(),
     })
-    .refine((d) => !!d.pdf || (d.gated === true && !!d.fileId), {
-      message: 'Informe pdf (arquivo em public/) ou gated + fileId (backend)',
+    .refine((d) => !!d.pdf || !!d.fileId, {
+      message: 'Informe fileId (download com e-mail) ou pdf (download aberto em public/)',
     }),
 });
 
@@ -75,17 +80,15 @@ const keynotes = defineCollection({
       title_pt: z.string(),
       title_en: z.string(),
       url: z.string().url().optional(),
+      // `fileId` = gated (download com e-mail); `pdf` = aberto (public/). Ver topo.
       pdf: z.string().optional(),
+      fileId: z.string().optional(),
       cover: z.string().optional(),
       date: z.coerce.date().optional(),
       order: z.number().optional(),
-      // Gate de download por e-mail: o arquivo vive no backend (api/storage) e é
-      // servido só por token. `fileId` casa com o id da tabela `files` do backend.
-      gated: z.boolean().optional(),
-      fileId: z.string().optional(),
     })
-    .refine((d) => !!d.url || !!d.pdf || (d.gated === true && !!d.fileId), {
-      message: 'Informe url (externo), pdf (arquivo em public/) ou gated + fileId (backend)',
+    .refine((d) => !!d.url || !!d.pdf || !!d.fileId, {
+      message: 'Informe url (externo), fileId (download com e-mail) ou pdf (download aberto)',
     }),
 });
 
@@ -105,6 +108,8 @@ const atuacao = defineCollection({
     highlights_pt: z.array(z.string()).optional(),
     highlights_en: z.array(z.string()).optional(),
     url: z.string().url().optional(),
+    // Áreas de Atuação não têm download gated (cards descritivos/link externo); `pdf`
+    // aqui, se usado, é sempre aberto. Sem `fileId` (sem suporte a gate neste componente).
     pdf: z.string().optional(),
     cover: z.string().optional(),
     order: z.number().optional(),
@@ -130,40 +135,41 @@ const atuacao = defineCollection({
 // `pdf` (arquivo em public/) opcionais. Um item por arquivo.
 const livros = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/livros' }),
+  schema: z.object({
+    title: z.string(),
+    author: z.string().optional(),
+    year: z.number().int().gte(1900).lte(2100).optional(),
+    publisher: z.string().optional(),
+    description_pt: z.string().optional(),
+    description_en: z.string().optional(),
+    cover: z.string().optional(),
+    url: z.string().url().optional(),
+    // `fileId` = gated (download com e-mail); `pdf` = aberto (public/). Ver topo.
+    // Todos opcionais: um livro pode ser só descritivo (sem download/link).
+    pdf: z.string().optional(),
+    fileId: z.string().optional(),
+    order: z.number().optional(),
+  }),
+});
+
+// Relatórios/análises — decks com download. Um item por arquivo.
+const relatorios = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/relatorios' }),
   schema: z
     .object({
       title: z.string(),
-      author: z.string().optional(),
-      year: z.number().int().gte(1900).lte(2100).optional(),
-      publisher: z.string().optional(),
       description_pt: z.string().optional(),
       description_en: z.string().optional(),
-      cover: z.string().optional(),
-      url: z.string().url().optional(),
+      // `fileId` = gated (download com e-mail); `pdf` = aberto (public/). Ver topo.
       pdf: z.string().optional(),
-      // Download com e-mail (gate): o arquivo NÃO fica em public/; é servido só por
-      // token pelo backend. `fileId` casa com o id da tabela `files` da api/.
-      gated: z.boolean().optional(),
       fileId: z.string().optional(),
+      cover: z.string().optional(),
+      date: z.coerce.date().optional(),
       order: z.number().optional(),
     })
-    .refine((d) => !d.gated || !!d.fileId, {
-      message: 'Livro gated requer fileId (id do arquivo no backend)',
+    .refine((d) => !!d.pdf || !!d.fileId, {
+      message: 'Informe fileId (download com e-mail) ou pdf (download aberto em public/)',
     }),
-});
-
-// Relatórios/análises — decks com PDF para download (em public/). Um item por arquivo.
-const relatorios = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/relatorios' }),
-  schema: z.object({
-    title: z.string(),
-    description_pt: z.string().optional(),
-    description_en: z.string().optional(),
-    pdf: z.string(),
-    cover: z.string().optional(),
-    date: z.coerce.date().optional(),
-    order: z.number().optional(),
-  }),
 });
 
 // Strings de interface — um arquivo por idioma (pt.json, en.json).

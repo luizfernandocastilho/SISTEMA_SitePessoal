@@ -11,7 +11,6 @@ interface Keynote {
   cover?: string;
   date?: Date;
   order?: number;
-  gated?: boolean;
   fileId?: string;
 }
 
@@ -57,9 +56,9 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
           );
           const dateEl = k.date && <span class="keynote-date">{dateFmt.format(k.date)}</span>;
 
-          // Item gated: card não é link; o CTA abre um <details> com o formulário
-          // de solicitação (nome/e-mail). Sem runtime JS (divulgação nativa).
-          if (k.gated && k.fileId) {
+          // Item gated (tem fileId): card não é link; o CTA abre um <details> com o
+          // formulário de solicitação (nome/e-mail). Sem runtime JS (divulgação nativa).
+          if (k.fileId) {
             return (
               <li class="keynote-card">
                 <div class="keynote-cardinner">
