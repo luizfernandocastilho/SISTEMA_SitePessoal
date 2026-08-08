@@ -130,18 +130,26 @@ const atuacao = defineCollection({
 // `pdf` (arquivo em public/) opcionais. Um item por arquivo.
 const livros = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/livros' }),
-  schema: z.object({
-    title: z.string(),
-    author: z.string().optional(),
-    year: z.number().int().gte(1900).lte(2100).optional(),
-    publisher: z.string().optional(),
-    description_pt: z.string().optional(),
-    description_en: z.string().optional(),
-    cover: z.string().optional(),
-    url: z.string().url().optional(),
-    pdf: z.string().optional(),
-    order: z.number().optional(),
-  }),
+  schema: z
+    .object({
+      title: z.string(),
+      author: z.string().optional(),
+      year: z.number().int().gte(1900).lte(2100).optional(),
+      publisher: z.string().optional(),
+      description_pt: z.string().optional(),
+      description_en: z.string().optional(),
+      cover: z.string().optional(),
+      url: z.string().url().optional(),
+      pdf: z.string().optional(),
+      // Download com e-mail (gate): o arquivo NÃO fica em public/; é servido só por
+      // token pelo backend. `fileId` casa com o id da tabela `files` da api/.
+      gated: z.boolean().optional(),
+      fileId: z.string().optional(),
+      order: z.number().optional(),
+    })
+    .refine((d) => !d.gated || !!d.fileId, {
+      message: 'Livro gated requer fileId (id do arquivo no backend)',
+    }),
 });
 
 // Relatórios/análises — decks com PDF para download (em public/). Um item por arquivo.

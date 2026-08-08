@@ -54,7 +54,9 @@ const consentId = `${id}-consent`;
     </span>
   </label>
 
-  <button type="submit">{t(strings, 'gateSubmit', fallback)}</button>
+  <button type="submit" data-umami-event="download-submit" data-umami-event-file={fileId}>
+    {t(strings, 'gateSubmit', fallback)}
+  </button>
 </form>
 
 <style>

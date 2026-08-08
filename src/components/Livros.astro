@@ -1,6 +1,7 @@
 ---
 import { withBase } from '../lib/paths';
 import { t, type Locale } from '../lib/i18n';
+import DownloadGate from './DownloadGate.astro';
 
 interface Livro {
   title: string;
@@ -12,6 +13,8 @@ interface Livro {
   cover?: string;
   url?: string;
   pdf?: string;
+  gated?: boolean;
+  fileId?: string;
   order?: number;
 }
 
@@ -40,6 +43,56 @@ const base = import.meta.env.BASE_URL;
               ? l.cover
               : withBase(l.cover, base)
             : null;
+          const coverEl = (
+            <span class="livro-cover">
+              {cover ? (
+                <img src={cover} alt={l.title} loading="lazy" width="300" height="450" />
+              ) : (
+                <span class="livro-slide">
+                  <span class="livro-slide-title">{l.title}</span>
+                </span>
+              )}
+            </span>
+          );
+          const bodyMeta = (
+            <>
+              <span class="livro-title">{l.title}</span>
+              {meta && <span class="livro-meta">{meta}</span>}
+              {description && <span class="livro-desc">{description}</span>}
+            </>
+          );
+
+          // Gated: o card não é link; o CTA abre um <details> com o formulário de
+          // solicitação (nome/e-mail). Sem runtime JS (divulgação nativa).
+          if (l.gated && l.fileId) {
+            return (
+              <li class="livro-card">
+                <div>
+                  {coverEl}
+                  <span class="livro-body">
+                    {bodyMeta}
+                    <details class="livro-gate">
+                      <summary
+                        class="livro-action"
+                        data-umami-event="download-request"
+                        data-umami-event-file={l.fileId}
+                      >
+                        {t(strings, 'livroDownload', fallback)} →
+                      </summary>
+                      <DownloadGate
+                        id={`gate-${l.fileId}`}
+                        fileId={l.fileId}
+                        locale={locale}
+                        strings={strings}
+                        fallback={fallback}
+                      />
+                    </details>
+                  </span>
+                </div>
+              </li>
+            );
+          }
+
           const href = l.pdf ? withBase(l.pdf, base) : (l.url ?? null);
           const CardTag = href ? 'a' : 'div';
           const linkProps = href
@@ -54,19 +107,9 @@ const base = import.meta.env.BASE_URL;
           return (
             <li class="livro-card">
               <CardTag {...linkProps}>
-                <span class="livro-cover">
-                  {cover ? (
-                    <img src={cover} alt={l.title} loading="lazy" width="300" height="450" />
-                  ) : (
-                    <span class="livro-slide">
-                      <span class="livro-slide-title">{l.title}</span>
-                    </span>
-                  )}
-                </span>
+                {coverEl}
                 <span class="livro-body">
-                  <span class="livro-title">{l.title}</span>
-                  {meta && <span class="livro-meta">{meta}</span>}
-                  {description && <span class="livro-desc">{description}</span>}
+                  {bodyMeta}
                   {href && <span class="livro-action">{t(strings, 'livroView', fallback)} →</span>}
                 </span>
               </CardTag>
@@ -160,5 +203,22 @@ const base = import.meta.env.BASE_URL;
     color: var(--color-accent);
     font-weight: 600;
     font-size: 0.95rem;
+  }
+  /* Card gated: empurra o bloco do CTA (<details>) para o rodapé, como nos demais. */
+  .livro-gate {
+    margin-top: auto;
+  }
+  /* Gate: CTA nativo (<summary>) que expande o formulário. */
+  summary.livro-action {
+    margin-top: 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary.livro-action::-webkit-details-marker {
+    display: none;
+  }
+  summary.livro-action:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
   }
 </style>
