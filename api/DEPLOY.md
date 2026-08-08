@@ -5,38 +5,41 @@ gate de download por e-mail. O site estático faz um `POST` de formulário nativ
 `POST /downloads/request`; a API grava o lead, envia um link tokenizado por e-mail e serve o
 arquivo por `GET /downloads/:token`.
 
+> **Arquitetura em produção (2026-08):** a API é exposta por **Tailscale Funnel** na porta **8443**
+> (`https://nas-castilho.tailb53d63.ts.net:8443`), não por um domínio próprio + reverse proxy. O NAS
+> (Synology) não tem reverse proxy e o IP residencial é dinâmico; o Funnel dá HTTPS público com
+> certificado automático, sem abrir portas nem DDNS — o mesmo caminho usado pelo analytics (Umami).
+> O SMTP é o **Brevo**, com o domínio `luizcastilho.com` autenticado (DKIM/SPF).
+
 ## Conceito-chave
 
-Três valores precisam apontar para **a mesma URL pública HTTPS da API**:
+Dois valores precisam apontar para **a mesma URL pública HTTPS da API**:
 
 - `PUBLIC_BASE_URL` (`.env` do backend) — usada para montar o link do e-mail.
 - `PUBLIC_API_URL` (build do site) — vira o `action` do formulário.
-- O destino do **reverse proxy / DNS**.
 
-Nos exemplos usamos `https://api.luizcastilho.com` (fallback já embutido no site). Pode ser outro
-subdomínio, desde que os três coincidam.
+Em produção ambos são `https://nas-castilho.tailb53d63.ts.net:8443`. O fallback embutido no site
+(`https://api.luizcastilho.com`) **não resolve** — a _Repository variable_ `PUBLIC_API_URL` é
+obrigatória (ver passo 9).
 
 ## Pré-requisitos
 
-- NAS com **Docker + Docker Compose** (Synology "Container Manager"; QNAP "Container Station"; ou
-  Portainer). Acesso **SSH** facilita.
-- Um **subdomínio** para a API (ex.: `api.luizcastilho.com`) e acesso ao DNS do domínio.
-- **Reverse proxy com HTTPS** (Synology embutido; ou Nginx Proxy Manager / Caddy / Traefik).
-- **SMTP** (relay com SPF/DKIM/DMARC do domínio — ver passo 8).
+- NAS com **Docker + Docker Compose** (aqui: Synology, acesso **SSH**; Docker exige `sudo`).
+- **Tailscale** instalado no NAS, com **Funnel habilitado** no tailnet (admin console). Já usado
+  pelo Umami — ver `analytics/README.md`.
+- **SMTP** — conta **Brevo** (grátis) com o **domínio autenticado** (SPF/DKIM) para boa entrega.
 
 ---
 
 ## 1. Levar o código para o NAS
 
-Só a pasta `api/` é necessária.
+O repositório é clonado por inteiro (o `api/` fica em `.../site-api/api`).
 
 ```bash
-mkdir -p /volume1/docker/site-api && cd /volume1/docker/site-api
-git clone https://github.com/luizfernandocastilho/site.git .
+# local atual em produção:
+cd /volume1/homes/admin_castilho/site-api        # git clone do repo `site`
 cd api
 ```
-
-(ou copie apenas `api/` via File Station / rsync.)
 
 ## 2. Configurar o `.env`
 
@@ -50,114 +53,123 @@ Edite e **troque todos os segredos**:
 - `DATABASE_URL` — mesma senha: `postgres://site:SUA_SENHA@postgres:5432/site_downloads`.
 - `APP_SECRET` — aleatório forte (`openssl rand -hex 32`).
 - `ADMIN_TOKEN` — token forte (para o CSV de leads).
-- `PUBLIC_BASE_URL=https://api.luizcastilho.com` — **URL pública da API** (não deixe localhost).
+- `PUBLIC_BASE_URL=https://nas-castilho.tailb53d63.ts.net:8443` — **URL pública da API** (a do
+  Funnel; nunca localhost — senão o link do e-mail sai quebrado).
 - `SITE_URL=https://www.luizcastilho.com`.
-- `SMTP_*` — ver passo 8 (deixe `SMTP_HOST` vazio por ora → "modo dev": link só logado).
+- `SMTP_*` — ver passo 8 (Brevo). Vazio = "modo dev": link só logado, sem enviar.
 - `API_PORT` — porta no host do NAS (3000 por padrão).
 
 ## 3. Colocar os arquivos gated em `storage/`
 
 Os binários **não** ficam no git (só no NAS). Cada PDF gated vai em `api/storage/` com o
-`filename` **exato** registrado em `src/seed.ts`:
+`filename` registrado para o `fileId` correspondente:
 
 ```bash
 cp /caminho/palestra_abilene_narrativa_clara.pdf storage/
 ls storage/
 ```
 
-> Cada arquivo gated precisa de uma entrada `{ id, title, filename }` em `src/seed.ts`
-> (o deck Abilene já está lá como `abilene-falso-consenso`).
+> Cada arquivo gated precisa de um registro na tabela `files` (ver passo 5). O `fileId` usado no
+> conteúdo do site (`src/content/**`) deve bater com o `id` registrado.
 
 ## 4. Subir os containers
 
 ```bash
-docker compose up -d --build
+sudo docker compose up -d --build
 ```
 
 Sobe **Postgres + API**; as **migrations rodam automaticamente** no boot da API.
 
 ```bash
-docker compose ps            # ambos running/healthy
-docker compose logs -f api   # "Migrations aplicadas: ..." + listen na 3000
+sudo docker compose ps            # ambos running/healthy
+sudo docker compose logs -f api   # "Migrations aplicadas: ..." + listen na 3000
 ```
 
 ## 5. Registrar os arquivos (seed)
 
 ```bash
-docker compose exec api npm run seed
+sudo docker compose exec api npm run seed
 # → "Seed concluído: N arquivo(s) registrado(s)."
 ```
 
-Idempotente; rode sempre que alterar `src/seed.ts`.
+Idempotente; rode sempre que adicionar/alterar um arquivo gated.
 
 ## 6. Healthcheck local (no NAS)
 
 ```bash
-curl http://localhost:${API_PORT:-3000}/health   # → {"status":"ok"}
+curl http://127.0.0.1:${API_PORT:-3000}/health   # → {"status":"ok"}
 ```
 
-## 7. Expor por HTTPS (reverse proxy + DNS)
+## 7. Expor por HTTPS (Tailscale Funnel)
 
-1. **DNS:** registro para `api.luizcastilho.com` → IP público (A/AAAA) ou host do NAS.
-2. **Reverse proxy:** `https://api.luizcastilho.com` → `http://<IP-do-NAS>:${API_PORT}` (container
-   na 3000), com TLS (Let's Encrypt).
-   - _Synology:_ Painel de Controle → Portal de Login → Avançado → **Proxy Reverso**.
-3. A API usa `trustProxy: true` — o rate limit (20 req/10 min) lê o IP real via `X-Forwarded-For`.
-4. Teste externo: `curl https://api.luizcastilho.com/health`.
+A API roda em `127.0.0.1:3000`; o Funnel a publica na internet na porta **8443** (o Umami usa a
+443 no mesmo nó). Pré-requisito: Funnel habilitado no tailnet.
 
-## 8. SMTP e entregabilidade
+```bash
+sudo tailscale funnel --https=8443 --bg 3000
+sudo tailscale cert nas-castilho.tailb53d63.ts.net   # pré-emite o certificado (uma vez)
+sudo tailscale funnel status                         # deve listar :8443 → 127.0.0.1:3000
+```
 
-No `.env`, use um **relay/smarthost** (não um mailserver puro no IP do NAS — cai em spam):
+- A config do Funnel é **persistente** (sobrevive a reboot/fechar terminal).
+- Desligar: `sudo tailscale funnel --https=8443 off`.
+- A API usa `trustProxy: true` — o rate limit (20 req/10 min) lê o IP via `X-Forwarded-For`.
+- Teste externo (de fora do tailnet): `curl https://nas-castilho.tailb53d63.ts.net:8443/health`.
+
+## 8. SMTP e entregabilidade (Brevo)
+
+No painel do Brevo: **SMTP & API → SMTP** (gere uma _SMTP key_) e **Senders, Domains & IPs →
+Domains** (autentique `luizcastilho.com` com os registros DKIM/SPF no DNS da GoDaddy). No `.env`:
 
 ```
-SMTP_HOST=smtp.seu-relay.com
+SMTP_HOST=smtp-relay.brevo.com
 SMTP_PORT=587
-SMTP_SECURE=false      # true se porta 465
-SMTP_USER=...
-SMTP_PASS=...
+SMTP_SECURE=false
+SMTP_USER=<login-brevo>@smtp-brevo.com
+SMTP_PASS=<sua-SMTP-key>
 SMTP_FROM=Luiz Castilho <no-reply@luizcastilho.com>
 ```
 
-Configure **SPF, DKIM e DMARC** para `@luizcastilho.com`. Recarregue com `docker compose up -d`.
-Com `SMTP_HOST` preenchido, o link passa a ser enviado por e-mail (antes só era logado).
+Com o domínio autenticado, `no-reply@luizcastilho.com` entrega na caixa de entrada. Recarregue com
+`sudo docker compose up -d`. Com `SMTP_HOST` vazio, o link é só logado (modo dev).
 
 ## 9. Apontar o site para a API
 
-O site lê `PUBLIC_API_URL` **no build** (embutido no `action` do formulário).
+O site lê `PUBLIC_API_URL` **no build** (embutido no `action` do formulário). Como o fallback
+(`api.luizcastilho.com`) está morto, a variable é **obrigatória**:
 
-- **Se a API ficar em `https://api.luizcastilho.com`:** nada a fazer — é o fallback embutido; um
-  novo deploy basta.
-- **Se usar outra URL:** crie a _Repository variable_ `PUBLIC_API_URL` no GitHub
+- _Repository variable_ `PUBLIC_API_URL=https://nas-castilho.tailb53d63.ts.net:8443` no GitHub
   (Settings → Secrets and variables → Actions → Variables). O `deploy.yml` já a injeta no build.
-  Rode um novo deploy (push em `main` ou "Run workflow").
+- Rode um novo deploy (push em `main` ou "Run workflow").
 
 ## 10. Teste ponta-a-ponta
 
 1. `https://www.luizcastilho.com/pt/keynotes` → expanda "Baixar PDF", preencha nome/e-mail, marque
    o consentimento, envie.
 2. Deve navegar para a **página de confirmação** da API.
-3. Chega o e-mail com `https://api.luizcastilho.com/downloads/<token>` → baixa o PDF.
-4. Sem SMTP (modo dev), o link aparece em `docker compose logs api`.
+3. Chega o e-mail com `https://nas-castilho.tailb53d63.ts.net:8443/downloads/<token>` → baixa o PDF.
+4. Sem SMTP (modo dev), o link aparece em `sudo docker compose logs api`.
 
 ## 11. Admin: exportar leads
 
 ```bash
 curl -H "Authorization: Bearer SEU_ADMIN_TOKEN" \
-  https://api.luizcastilho.com/admin/leads.csv
+  https://nas-castilho.tailb53d63.ts.net:8443/admin/leads.csv
 ```
 
 ## 12. Backups e atualizações
 
 - **Backup:** volume `pgdata` (banco/leads) + pasta `storage/` (PDFs).
   ```bash
-  docker compose exec postgres pg_dump -U site site_downloads > backup.sql
+  sudo docker compose exec postgres pg_dump -U site site_downloads > backup.sql
   ```
-- **Atualizar:** `git pull && docker compose up -d --build` (migrations reaplicam sozinhas).
+- **Atualizar:** `git pull && sudo docker compose up -d --build` (migrations reaplicam sozinhas).
 
 ---
 
 ### Checklist rápido
 
-`.env` com segredos reais → PDFs em `storage/` → `docker compose up -d --build` →
-`docker compose exec api npm run seed` → `/health` ok → reverse proxy HTTPS + DNS →
-SMTP + SPF/DKIM/DMARC → `PUBLIC_API_URL` do site batendo → teste ponta-a-ponta.
+`.env` com segredos reais + `PUBLIC_BASE_URL` do Funnel → PDFs em `storage/` →
+`sudo docker compose up -d --build` → `sudo docker compose exec api npm run seed` → `/health` ok →
+`sudo tailscale funnel --https=8443 --bg 3000` → SMTP Brevo (domínio autenticado) →
+`PUBLIC_API_URL` do site = URL do Funnel → teste ponta-a-ponta.
