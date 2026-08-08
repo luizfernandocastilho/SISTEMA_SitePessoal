@@ -46,7 +46,11 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
             </div>
             {a.gated && a.fileId ? (
               <details class="item-gate">
-                <summary class="article-download item-summary">
+                <summary
+                  class="article-download item-summary"
+                  data-umami-event="download-request"
+                  data-umami-event-file={a.fileId}
+                >
                   {t(strings, 'articleDownload', fallback)}
                 </summary>
                 <DownloadGate
@@ -64,6 +68,8 @@ const dateFmt = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en-US', {
                 download
                 target="_blank"
                 rel="noopener noreferrer"
+                data-umami-event="download-pdf"
+                data-umami-event-file={a.pdf}
               >
                 {t(strings, 'articleDownload', fallback)}
               </a>

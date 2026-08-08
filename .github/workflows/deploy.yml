@@ -32,6 +32,10 @@ jobs:
           # URL pública do backend de download-gate (api/). Se não definida, o
           # site usa o fallback embutido em DownloadGate.astro.
           PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
+          # Analytics Umami (self-hosted). Só injetado se AMBAS definidas; ausentes
+          # (ex.: fork sem as vars) = build sem tracking.
+          PUBLIC_UMAMI_SRC: ${{ vars.PUBLIC_UMAMI_SRC }}
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:

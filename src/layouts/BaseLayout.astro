@@ -18,6 +18,11 @@ interface Props {
 const { locale, title, description, strings, fallback, navKey, atuacaoSlug, counterpartHref } =
   Astro.props;
 const year = new Date().getFullYear();
+
+// Analytics Umami (self-hosted). O snippet só é injetado quando AMBAS as envs
+// existem (build de produção); ausentes (ex.: `npm run dev`, PRs) = sem tracking.
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC;
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
 ---
 
 <!doctype html>
@@ -39,6 +44,11 @@ const year = new Date().getFullYear();
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {
+      umamiSrc && umamiWebsiteId && (
+        <script is:inline defer src={umamiSrc} data-website-id={umamiWebsiteId} />
+      )
+    }
   </head>
   <body>
     <a class="skip-link" href="#main">{t(strings, 'skipToContent', fallback)}</a>

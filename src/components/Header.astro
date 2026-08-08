@@ -45,7 +45,12 @@ const atuacaoAreas = await getAtuacao();
 
           if (subItems.length === 0) {
             return (
-              <a href={sectionUrl} aria-current={isCurrent}>
+              <a
+                href={sectionUrl}
+                aria-current={isCurrent}
+                data-umami-event="nav"
+                data-umami-event-key={item.key}
+              >
                 {sectionLabel}
               </a>
             );
@@ -57,7 +62,12 @@ const atuacaoAreas = await getAtuacao();
               {/* Toggle só do mobile (checkbox-hack, sem JS); escondido no desktop. */}
               <input type="checkbox" id={toggleId} class="nav-subtoggle" />
               <span class="nav-item-head">
-                <a href={sectionUrl} aria-current={isCurrent}>
+                <a
+                  href={sectionUrl}
+                  aria-current={isCurrent}
+                  data-umami-event="nav"
+                  data-umami-event-key={item.key}
+                >
                   {sectionLabel}
                 </a>
                 <label
