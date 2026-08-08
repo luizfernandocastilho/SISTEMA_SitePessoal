@@ -31,12 +31,16 @@ services:
       SMTP_PASS: ${SMTP_PASS:-}
       SMTP_FROM: ${SMTP_FROM:-Luiz Castilho <no-reply@luizcastilho.com>}
       STORAGE_DIR: /app/storage
+      # Conteúdo do site (fonte da verdade dos arquivos gated), lido pelo `npm run seed`.
+      CONTENT_DIR: /app/site-content
       PORT: 3000
     ports:
       - '${API_PORT:-3000}:3000'
     volumes:
       # Arquivos privados servidos apenas via link tokenizado (nunca públicos).
       - ./storage:/app/storage
+      # Conteúdo do site (JSONs com fileId), somente-leitura — para o auto-seed.
+      - ../src/content:/app/site-content:ro
     depends_on:
       postgres:
         condition: service_healthy
