@@ -89,8 +89,9 @@ rel="noopener noreferrer"`). Contact is links only (email/social) — no contact
   data) attributes on existing elements, **no client JS**: `download-pdf`/`download-request`
   (PDF cards & gated CTAs), `external-link` (social/keynote links), `cert-verify`, `contact-email`,
   `lang-switch` (`LanguageToggle`), `nav` (`Header` section links). Event values carry no PII. The
-  Umami service runs on the NAS; the LGPD note lives in `PrivacyPage.astro` (no consent banner, as
-  it is cookieless/anonymized).
+  Umami service runs on the NAS (exposed via Tailscale Funnel) — infra versioned in `analytics/`
+  (compose + runbook); the LGPD note lives in `PrivacyPage.astro` (no consent banner, as it is
+  cookieless/anonymized).
 - Deploy: pushing to `main` runs `.github/workflows/deploy.yml` (static build → GitHub Pages).
 - Sample content under `src/content/*` (files prefixed `exemplo-`) and `public/` PDFs is placeholder —
   replace with real data.
